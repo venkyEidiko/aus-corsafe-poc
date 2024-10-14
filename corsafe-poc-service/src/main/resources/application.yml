@@ -1,7 +1,25 @@
 
 server:
   port: 8081
+
 spring:
   application:
     name: CoRSafe-poc
+  datasource:
+    url: jdbc:oracle:thin:@localhost:1521:xe
+    username: SYSTEM
+    password: root
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
+
+#  security:
+#    user:
+#      name: hello
+#      password: hello
 
