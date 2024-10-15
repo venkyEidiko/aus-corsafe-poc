@@ -26,29 +26,7 @@ public class LoginService {
 
     @Autowired
     private JwtService jwtService;
-/*
-    public String tokenGenarationMethod(Login login) {
-        log.info("tokenGenaration method in loginservice cls entered!!");
-        try {
-            Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(login.getEmail(), login.getPassword()));
 
-            if (authenticate.isAuthenticated()) {
-                log.info("checking is authenticated or not!!");
-                return jwtService.genarateJwtToken(myUserDetailasService.loadUserByUsername(login.getEmail()));
-
-            } else {
-                log.info("fails while checking authntication");
-                //throw new RuntimeException("not authenticated or invalid credintials!!");
-                throw new UnAuthorizedExceptionCls("Authenuthentication Failed !!");
-            }
-        } catch (Exception e) {
-            System.out.println("error is loginservice catch block::: " + e.toString());
-            //throw new RuntimeException("error is catch block login service: " + e.toString());
-            throw new UnAuthorizedExceptionCls("Authenuthentication Failed !!");
-
-        }
-    }
-*/
     //refresh token
     public String refreshTokenGenaration(String jwtToken) {
 
@@ -77,7 +55,7 @@ public class LoginService {
 
             } else {
                 log.info("fails while checking authntication");
-                //throw new RuntimeException("not authenticated or invalid credintials!!");
+
                 throw new UnAuthorizedExceptionCls("Authenuthentication Failed !!");
             }
         } catch (Exception e) {
