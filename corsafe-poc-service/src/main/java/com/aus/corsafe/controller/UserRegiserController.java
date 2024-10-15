@@ -59,7 +59,7 @@ public class UserRegiserController {
 
         log.info("login is executing && email is:" + login.getEmail() + " password is: " + login.getPassword());
 
-       // return new ResponseEntity<>(loginService.tokenGenarationMethod(login), HttpStatus.OK);
+
         try{
             LoginResponseCls res = loginService.tokenGenarationMethod(login);
             return commonResponse.prepareSuccessResponseObject(res,HttpStatus.OK);
@@ -86,7 +86,7 @@ public class UserRegiserController {
 
     @PostMapping("/refreshToken/{token}")
     public ResponseEntity<ResponseModel<String>> refreshTokenMethod(@PathVariable String token) {
-        //return new ResponseEntity<>(loginService.refreshTokenGenaration(token), HttpStatus.CREATED);
+
         try{
             String accessToken  = loginService.refreshTokenGenaration(token);
             return commonResponse1.prepareSuccessResponseObject(accessToken,HttpStatus.OK);

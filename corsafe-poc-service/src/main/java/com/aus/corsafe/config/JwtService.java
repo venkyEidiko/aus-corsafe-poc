@@ -54,7 +54,7 @@ public class JwtService {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    /*it extract the claims(claims means what ever there in payload in jwt token)*/
+
     public Claims getClaims(String jwtToken) {
         //log.info("getClaims token method enetered with token  ::::"+jwtToken);
         return Jwts.parser()
@@ -65,7 +65,7 @@ public class JwtService {
 
     }
 
-    /*This is for extract subject from the token ,for  token validation process*/
+
     public String getSubjectFromToken(String jwtToken) {
 
         Claims claims = getClaims(jwtToken);
@@ -73,7 +73,7 @@ public class JwtService {
 
     }
 
-    /*it is used for check token valid or not means checks expiration time of the token*/
+
     public boolean isTokenValid(String jwtToken) {
 
         Claims claims = getClaims(jwtToken);

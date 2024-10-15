@@ -34,12 +34,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         try {
             String header = request.getHeader("Authorization");
-            // if req header is null or its not start's with Bearer then ignore it
+
             if (header == null || !header.startsWith("Bearer ")) {
 
                 log.info("doFilter method if block entered...");
                 filterChain.doFilter(request, response);
-                //throw new UnAuthorizedExceptionCls("Token Missing or Not Bearer Token Check !!");
+
                 return;
 
             }
@@ -51,7 +51,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 UserDetails userInfo = myUserDetailasService.loadUserByUsername(userName);
 
                 if (userInfo != null && jwtService.isTokenValid(token)) {
-                    // Create UsernamePasswordAuthenticationToken
+
                     UsernamePasswordAuthenticationToken authenticationToken =
                             new UsernamePasswordAuthenticationToken(
                                     userInfo,
@@ -59,7 +59,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     userInfo.getAuthorities());
 
                     authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                    // Mark the context as logged in
+
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
 
