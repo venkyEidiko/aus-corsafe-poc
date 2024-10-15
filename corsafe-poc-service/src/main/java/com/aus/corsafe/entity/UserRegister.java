@@ -1,17 +1,17 @@
 package com.aus.corsafe.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @AllArgsConstructor
-
+@NoArgsConstructor
 @Data
+@Table(name="userregistration")
 public class UserRegister {
 
      @Id
@@ -23,6 +23,8 @@ public class UserRegister {
      private Long phoneNumber;
      private String password;
 
-     public UserRegister() {
-     }
+     @OneToMany(mappedBy ="userRegister",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+     private List<SecurityQuestionKey> securityQuestionList;
+
+
 }
