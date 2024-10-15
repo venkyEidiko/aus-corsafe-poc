@@ -1,26 +1,40 @@
 package com.aus.corsafe.controller;
 
 import com.aus.corsafe.dto.Login;
+
 import com.aus.corsafe.dto.LoginResponseCls;
+
+import com.aus.corsafe.entity.ResponseModel;
+import com.aus.corsafe.entity.SecurityQuestion;
+
 import com.aus.corsafe.entity.UserRegister;
+import com.aus.corsafe.response.CommonResponse;
 import com.aus.corsafe.service.LoginService;
 import com.aus.corsafe.service.UserRegisterService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.*;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+
+import java.util.List;
 
 @RestController
 @Slf4j
 public class UserRegiserController {
 
-    private final UserRegisterService userRegisterService;
+    private  UserRegisterService userRegisterService;
 
     @Autowired
     private LoginService loginService;
 
-    @Autowired
     public UserRegiserController(UserRegisterService userRegisterService) {
         this.userRegisterService = userRegisterService;
     }
@@ -51,6 +65,12 @@ public class UserRegiserController {
         return new ResponseEntity<>(loginService.tokenGenarationMethod(login), HttpStatus.OK);
 
     }
+    @GetMapping("/getAllSecurityQuestion")
+    public  ResponseEntity<ResponseModel<Object>> getAllSecurityQuestion(){
+       List<SecurityQuestion> questionList=userRegisterService.getAllSecurityQuestion();
+        return new CommonResponse<>().prepareSuccessResponseObject(questionList,HttpStatus.OK);
+    }
+
 
 
     @GetMapping("/test")

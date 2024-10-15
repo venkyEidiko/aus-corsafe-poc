@@ -5,10 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @AllArgsConstructor
-
+@NoArgsConstructor
 @Data
+@Table(name="userregistration")
 
 public class UserRegister {
 
@@ -21,6 +24,8 @@ public class UserRegister {
      private Long phoneNumber;
      private String password;
 
-     public UserRegister() {
-     }
+     @OneToMany(mappedBy ="userRegister",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+     private List<SecurityQuestionKey> securityQuestionList;
+
+
 }
