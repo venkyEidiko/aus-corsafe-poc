@@ -1,16 +1,14 @@
-import { Grid, Box, Typography, Card, CardContent, Button } from '@mui/material';
 import React, { useState } from 'react';
-import axios from 'axios'; 
-import '../assets/styles/businessprofile.css';
+import { Grid, Box, Typography, Card, CardContent, Button, Checkbox } from '@mui/material';
 import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
-import Checkbox from '@mui/material/Checkbox';
+import axios from 'axios';
 import checklistdata from '../data/checklist.json';
 import checklist2data from '../data/checklist2.json';
+import '../assets/styles/businessprofile.css';
 
 const BusinessProfile = () => {
   const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
- 
   const [selectedItems, setSelectedItems] = useState({
     checklist1: [],
     checklist2: [],
@@ -25,22 +23,18 @@ const BusinessProfile = () => {
     });
   };
 
-  
   const handleSubmit = async () => {
-    
     let payload = {
       title: "",
       description: ""
     };
 
-   
     checklistdata.forEach(item => {
       if (selectedItems.checklist1.includes(item.title)) {
         payload = { title: item.title, description: item.description };
       }
     });
-  
-    
+
     checklist2data.forEach(item => {
       if (selectedItems.checklist2.includes(item.title1)) {
         payload = { title: item.title1, description: item.description1 };
@@ -53,7 +47,6 @@ const BusinessProfile = () => {
           'Content-Type': 'application/json',
         },
       });
-    
       console.log('Successfully submitted:', response.data);
     } catch (error) {
       console.error('Error submitting form:', error);
@@ -64,7 +57,6 @@ const BusinessProfile = () => {
         console.error('Error message:', error.message);
       }
     }
-    
   };
 
   return (
@@ -73,25 +65,15 @@ const BusinessProfile = () => {
         <Grid item xs={12} md={5} lg={3} sx={{ display: 'flex', alignItems: 'center' }}>
           <Box sx={{ width: '100%', wordWrap: 'break-word', padding: 5 }}>
             <h2>Business Profile</h2>
-            <p>
-              Please complete the below steps by answering all the questions to help us onboard you.
-            </p>
-            <div className='list-items'>      
-              <div className='items'>
-                <CircleOutlinedIcon fontSize='large' />
-                <Typography className='numbers'>1</Typography>
-                <p>Supply Chain Services</p>
-              </div>
-              <div className='items'>
-                <CircleOutlinedIcon fontSize='large' />
-                <Typography className='numbers'>2</Typography>
-                <p>Carrier Business Insight</p>
-              </div>
-              <div className='items'>
-                <CircleOutlinedIcon fontSize='large' />
-                <Typography className='numbers'>3</Typography>
-                <p>Goals & Objectives</p>
-              </div>
+            <p>Please complete the below steps by answering all the questions to help us onboard you.</p>
+            <div className='list-items'>
+              {['Supply Chain Services', 'Carrier Business Insight', 'Goals & Objectives'].map((title, index) => (
+                <div className='items' key={index}>
+                  <CircleOutlinedIcon fontSize='large' />
+                  <Typography className='numbers'>{index + 1}</Typography>
+                  <p>{title}</p>
+                </div>
+              ))}
             </div>
           </Box>
         </Grid>
@@ -161,12 +143,10 @@ const BusinessProfile = () => {
               </Grid>
             </CardContent>
           </Card>
+
           <div className='btn'>
-            <Button sx={{ color: '#e0e0e0', backgroundColor: "#9e9e9e" }}>Back</Button>
-            <Button 
-              sx={{ backgroundColor: "#7cb342", color: 'white' }} 
-              onClick={handleSubmit}
-            >
+            <Button sx={{ color: '#e0e0e0', backgroundColor: '#9e9e9e' }}>Back</Button>
+            <Button sx={{ backgroundColor: '#7cb342', color: 'white' }} onClick={handleSubmit}>
               Continue
             </Button>
           </div>
@@ -174,6 +154,6 @@ const BusinessProfile = () => {
       </Grid>
     </div>
   );
-}
+};
 
 export default BusinessProfile;
