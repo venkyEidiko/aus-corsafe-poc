@@ -6,11 +6,9 @@ spring:
   application:
     name: CoRSafe-poc
   datasource:
-    url: jdbc:oracle:thin:@localhost:1521:xe
-    username: narendra
-    password: root
-    driver-class-name: oracle.jdbc.driver.OracleDriver
-
+    url: jdbc:oracle:thin:@10.0.0.56:1521:XE
+    username: secondary_user
+    password: root123
   jpa:
     hibernate:
       ddl-auto: update
@@ -18,8 +16,5 @@ spring:
     properties:
       hibernate.format_sql: true
 
-#  security:
-#    user:
-#      name: hello
-#      password: hello
+
 

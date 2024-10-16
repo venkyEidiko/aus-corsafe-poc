@@ -36,7 +36,6 @@ public class UserRegisterServiceImpl implements UserRegisterService{
 
           userRegister.setPassword(encoder.encode(userRegister.getPassword()));
 
-
         return mapperClass.userRegisterTODto( userRegisterRepo.save(userRegister));
     }
 

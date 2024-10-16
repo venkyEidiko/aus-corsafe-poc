@@ -12,6 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 @Table(name="userregistration")
+
 public class UserRegister {
 
      @Id
