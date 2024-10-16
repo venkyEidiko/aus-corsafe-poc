@@ -43,7 +43,7 @@ export const registerUser = (registrationData) => {
             })
             .then(data => {
                 if (data.result && data.result.length > 0) {
-                    const combinedData = data.result[0]; // Extracting the single object from the result array
+                    const combinedData = data.result; 
                     dispatch(registerUserSuccess(combinedData));
                     console.log("dispatched data", combinedData);
                 } else {

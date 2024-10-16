@@ -18,11 +18,10 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const resultAction = await dispatch(loginUser({ email, password }));
-    
-    // Navigate if the login was successful
+   
     if (loginUser.fulfilled.match(resultAction)) {
         toast.success('Login successful!');
-        navigate('/business-profile'); // Navigate on success
+        navigate('/business-profile'); 
       } else if (loginUser.rejected.match(resultAction)) {
         toast.error('Invalid credentials. Please try again.');
       }

@@ -1,5 +1,4 @@
-
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter,Route,Routes } from 'react-router-dom';
 import './App.css';
 import BusinessProfile from './pages/BusinessProfile';
 import RegistrationForm from './components/ParentComponent';
@@ -9,6 +8,8 @@ import { ToastContainer } from 'react-toastify';
 function App() {
   return (
     <div className="App">
+   
+
 <BrowserRouter>
 <ToastContainer />
      <Routes>
@@ -18,7 +19,7 @@ function App() {
     <Route path='/business-profile' element={<BusinessProfile/>}></Route>
      </Routes>
      </BrowserRouter>
-      
+
 
     </div>
   );
