@@ -1,17 +1,18 @@
 import { Box, Typography, Card, CardContent, TextField, Button } from '@mui/material';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginUser } from '../actions/authSlice';
+
 import Grid from '@mui/material/Grid2'; 
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { loginUser } from '../reducers/loginReducer';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { loading, error } = useSelector((state) => state.login);
+  const { loading, error } = useSelector((state) => state.auth);
 
 
   const handleSubmit = async (e) => {
