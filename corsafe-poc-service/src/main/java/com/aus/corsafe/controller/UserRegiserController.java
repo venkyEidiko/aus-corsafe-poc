@@ -66,17 +66,7 @@ public class UserRegiserController {
     public ResponseEntity<ResponseModel<Object>> getAllSecurityQuestion() {
         List<SecurityQuestion> questionList = userRegisterService.getAllSecurityQuestion();
         return new CommonResponse<>().prepareSuccessResponseObject(questionList, HttpStatus.OK);
-
-
-//@PostMapping("/addSecurityQuestionAnswerByUserId/{userId}")
-//public ResponseEntity<ResponseModel<Object>> addSecurityQuestion(@RequestBody List<SecurityQuestionKey> securityQuestionKey,@PathVariable Integer userId){
-//    userRegisterService.addSecurityQuestionAnswerByUserId( securityQuestionKey,userId);
-//        return null;
-//}
-
     }
-
-
 
     @GetMapping("/test")
     public ResponseEntity<String> testMethod() {

@@ -10,5 +10,4 @@ public interface UserRegisterService {
     public UserRegisterDto register(UserRegisterDto userRegisterDto);
     public List<SecurityQuestion> getAllSecurityQuestion();
 
-  //  public String addSecurityQuestionAnswerByUserId(List<SecurityQuestionKey> securityQuestionKey, Integer userId);
 }

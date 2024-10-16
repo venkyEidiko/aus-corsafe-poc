@@ -31,13 +31,8 @@ public class UserRegisterServiceImpl implements UserRegisterService{
 
     @Override
     public UserRegisterDto register(UserRegisterDto userRegisterDto) {
-
-      //  userRegisterDto.setPassword(encoder.encode( userRegister.getPassword()));
-
          UserRegister userRegister=mapperClass.userRegisterDtoTOUserRegister(userRegisterDto);
-
           userRegister.setPassword(encoder.encode(userRegister.getPassword()));
-
         return mapperClass.userRegisterTODto( userRegisterRepo.save(userRegister));
     }
 
@@ -48,18 +43,5 @@ public class UserRegisterServiceImpl implements UserRegisterService{
        return securityQuestionRepository.findAll();
     }
 
-//    @Override
-//    public String addSecurityQuestionAnswerByUserId(List<SecurityQuestionKey> securityQuestionKey, Integer userId) {
-//      UserRegister userRegister = userRegisterRepo.findById(userId).orElseThrow(()->new RuntimeException("User does not exist !"));
-//      List<SecurityQuestionKey> list=userRegister.getSecurityQuestionList();
-//
-//      if(list==null){
-//          List<SecurityQuestionKey> newList= new ArrayList<>();
-//          newList.addAll(securityQuestionKey);
-//      }else{
-//          list.addAll(securityQuestionKey);
-//      }
-//        return "Added successfully !";
-//    }
 
 }
