@@ -4,6 +4,8 @@ import com.aus.corsafe.dto.MapperClass;
 import com.aus.corsafe.dto.UserRegisterDto;
 import com.aus.corsafe.entity.SecurityQuestion;
 import com.aus.corsafe.entity.UserRegister;
+import com.aus.corsafe.exceptions.BadCrediantialsCls;
+import com.aus.corsafe.exceptions.UserNotFoundExceptionCls;
 import com.aus.corsafe.repository.SecurityQuestionRepository;
 import com.aus.corsafe.repository.UserRegisterRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserRegisterServiceImpl implements UserRegisterService{
@@ -46,4 +49,21 @@ public class UserRegisterServiceImpl implements UserRegisterService{
        return securityQuestionRepository.findAll();
     }
 
+
+    @Override
+    public String findEmailByEmail(String email) {
+        Optional<UserRegister> user = userRegisterRepo.findByEmail(email);
+        if (user.isPresent()) {
+            return user.get().getEmail();
+        } else {
+            throw new BadCrediantialsCls("Email not registered with : " + email);
+        }
+    }
+
+
+
 }
+
+
+
+
