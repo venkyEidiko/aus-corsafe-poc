@@ -4,7 +4,7 @@ import '../assets/styles/businessprofile.css';
 import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
 import Checkbox from '@mui/material/Checkbox';
 import checklistdata from '../data/checklist.json';
-import checklist2data from '../data/checklist2.json'
+import checklist2data from '../data/checklist2.json';
 
 const BusinessProfile = () => {
   const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
