@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1oijv2f" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Web Modeler" exporterVersion="e9cadfa" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.5.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1oijv2f" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.27.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.5.0">
   <bpmn:process id="Audit" isExecutable="true">
     <bpmn:extensionElements>
       <zeebe:userTaskForm id="UserTaskForm_1bt1kkj">{
@@ -22,7 +22,7 @@
         "columns": null
       },
       "id": "Field_0vslsap",
-      "key": "radio_1e13rr",
+      "key": "auditRequest",
       "defaultValue": "continue"
     }
   ],
@@ -157,8 +157,8 @@
           <zeebe:property name="inbound.shouldValidateHmac" value="disabled" />
           <zeebe:property name="inbound.auth.type" value="NONE" />
           <zeebe:property name="inbound.responseBodyExpression" value="={&#10;  &#34;status&#34;: 200,&#10;  &#34;message&#34;: &#34;process started sucessfully&#34;&#10;}" />
-          <zeebe:property name="resultVariable" value="userName" />
-          <zeebe:property name="resultExpression" value="={&#34;userName&#34;: request.body.userName}" />
+          <zeebe:property name="resultVariable" value="userEmail" />
+          <zeebe:property name="resultExpression" value="={&#34;userEmail&#34;: request.body.userEmail}" />
         </zeebe:properties>
       </bpmn:extensionElements>
       <bpmn:outgoing>Flow_1463sug</bpmn:outgoing>
@@ -198,10 +198,10 @@
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="Flow_0eul9c0" sourceRef="Activity_1a049i3" targetRef="Gateway_1om3wgx" />
     <bpmn:sequenceFlow id="Flow_05v2wml" sourceRef="Gateway_1om3wgx" targetRef="Gateway_0d49ggv">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=auditRequest=continue</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=auditRequest="continue"</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_0n85b9t" sourceRef="Gateway_1om3wgx" targetRef="Activity_1k5v39s">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=auditRequest=cancel</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=auditRequest="cancel"</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:userTask id="Activity_1a049i3" name="Continue / Cancel">
       <bpmn:extensionElements>
@@ -220,7 +220,7 @@
     </bpmn:userTask>
     <bpmn:serviceTask id="Activity_1k5v39s" name="calculate charges">
       <bpmn:extensionElements>
-        <zeebe:taskDefinition type="jobWorker" />
+        <zeebe:taskDefinition type="auditChargeCalculation" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0n85b9t</bpmn:incoming>
       <bpmn:outgoing>Flow_0rppqps</bpmn:outgoing>
@@ -275,7 +275,7 @@
     <bpmn:sequenceFlow id="Flow_0lmbaxh" sourceRef="Activity_0oezzza" targetRef="Event_05d6y14" />
     <bpmn:serviceTask id="knowMe" name="Get User Status">
       <bpmn:extensionElements>
-        <zeebe:taskDefinition type="userDetails" />
+        <zeebe:taskDefinition type="userDetailsVerifier" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1463sug</bpmn:incoming>
       <bpmn:outgoing>Flow_0pmxrsy</bpmn:outgoing>
