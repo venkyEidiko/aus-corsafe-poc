@@ -1,8 +1,4 @@
 
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-
-
-
 import './App.css';
 import BusinessProfile from './pages/BusinessProfile';
 
@@ -11,12 +7,8 @@ import RegistrationForm from './components/ParentComponent';
 
 function App() {
   return (
-
- 
-
     <div className="App">
-
-<BrowserRouter>
+  <BrowserRouter>
      <Routes>
     <Route path="/" element={<RegistrationForm/>}></Route>
     <Route path="/company" element={<RegistrationForm/>}></Route>
