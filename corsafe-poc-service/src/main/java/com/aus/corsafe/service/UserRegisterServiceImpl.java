@@ -1,5 +1,7 @@
 package com.aus.corsafe.service;
 
+import com.aus.corsafe.dto.MapperClass;
+import com.aus.corsafe.dto.UserRegisterDto;
 import com.aus.corsafe.entity.SecurityQuestion;
 import com.aus.corsafe.entity.SecurityQuestionKey;
 import com.aus.corsafe.entity.UserRegister;
@@ -14,7 +16,8 @@ import java.util.List;
 
 @Service
 public class UserRegisterServiceImpl implements UserRegisterService{
-
+    @Autowired
+    public MapperClass mapperClass;
     public PasswordEncoder encoder;
     public UserRegisterRepo userRegisterRepo;
     private SecurityQuestionRepository securityQuestionRepository;
@@ -27,10 +30,18 @@ public class UserRegisterServiceImpl implements UserRegisterService{
     }
 
     @Override
-    public UserRegister register(UserRegister userRegister) {
-        userRegister.setPassword(encoder.encode( userRegister.getPassword()));
-      return  userRegisterRepo.save(userRegister);
+    public UserRegisterDto register(UserRegisterDto userRegisterDto) {
+
+      //  userRegisterDto.setPassword(encoder.encode( userRegister.getPassword()));
+
+         UserRegister userRegister=mapperClass.userRegisterDtoTOUserRegister(userRegisterDto);
+
+          userRegister.setPassword(encoder.encode(userRegister.getPassword()));
+
+        return mapperClass.userRegisterTODto( userRegisterRepo.save(userRegister));
     }
+
+
 
     @Override
     public List<SecurityQuestion> getAllSecurityQuestion() {
