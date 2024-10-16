@@ -30,7 +30,6 @@ public class UserRegisterServiceImpl implements UserRegisterService{
     @Override
     public UserRegisterDto register(UserRegisterDto userRegisterDto) {
 
-      //  userRegisterDto.setPassword(encoder.encode( userRegister.getPassword()));
 
          UserRegister userRegister=mapperClass.userRegisterDtoTOUserRegister(userRegisterDto);
 
