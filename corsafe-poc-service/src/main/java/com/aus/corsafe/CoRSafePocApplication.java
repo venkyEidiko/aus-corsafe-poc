@@ -2,7 +2,10 @@ package com.aus.corsafe;
 
 import com.aus.corsafe.entity.SecurityQuestion;
 import com.aus.corsafe.repository.SecurityQuestionRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+
+
+import io.camunda.zeebe.spring.client.EnableZeebeClient;
+import io.camunda.zeebe.spring.client.annotation.Deployment;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -10,6 +13,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import java.util.List;
 
 @SpringBootApplication
+@Deployment(resources = "classpath*:*.bpmn")
+@EnableZeebeClient
 public class CoRSafePocApplication implements CommandLineRunner {
 
 	private SecurityQuestionRepository securityQuestionRepository;

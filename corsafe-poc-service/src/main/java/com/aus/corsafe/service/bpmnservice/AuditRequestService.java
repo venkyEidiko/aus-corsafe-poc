@@ -5,7 +5,10 @@ import com.aus.corsafe.entity.UserRegister;
 import com.aus.corsafe.repository.UserRegisterRepo;
 import io.camunda.zeebe.client.ZeebeClient;
 import io.camunda.zeebe.client.api.response.ActivatedJob;
+import io.camunda.zeebe.client.api.worker.JobClient;
+import io.camunda.zeebe.spring.client.annotation.ZeebeWorker;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import io.camunda.zeebe.spring.client.annotation.JobWorker;
 
@@ -13,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-@Service
+@Component
 public class AuditRequestService {
 
     @Autowired
@@ -22,18 +25,18 @@ public class AuditRequestService {
     @Autowired
     UserRegisterRepo userRegisterRepo;
 
-    @JobWorker(type = "userDetailsVerifier", autoComplete = true)
-    public void GettingVariableAndSettingVariable(final ActivatedJob job){
+    @ZeebeWorker(type = "userDetailsVerifier", autoComplete = true)
+    public void GettingVariableAndSettingVariable(final JobClient jobClient, final ActivatedJob activatedJob){
         boolean knowMe=true;
 
-        String userEmail = (String)job.getVariable("userEmail");
+        String userEmail = (String)activatedJob.getVariable("userEmail");
         Optional<UserRegister> user = userRegisterRepo.findByEmail(userEmail);
 
         knowMe = user.isPresent()?true:false;
         Map<String, Object> variables = new HashMap<>();
         variables.put("knowMe", knowMe);
 
-        long elementInstanceKey = job.getElementInstanceKey();
+        long elementInstanceKey = activatedJob.getElementInstanceKey();
 
         client.newSetVariablesCommand(elementInstanceKey)
                 .variables(variables)
@@ -42,12 +45,10 @@ public class AuditRequestService {
 
     }
 
-    @JobWorker(type = "auditChargeCalculation", autoComplete = true)
-    public void chargeCalculation(ActivatedJob job){
+    @ZeebeWorker(type = "auditChargeCalculation", autoComplete = true)
+    public void chargeCalculation(final JobClient jobClient, final ActivatedJob activatedJob){
         System.out.println("Calculating charges");
     }
-
-
     public String completeTask(CompleteTaskModel completeTask){
 
         client.newCompleteCommand(completeTask.getTaskId())
