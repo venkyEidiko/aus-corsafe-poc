@@ -1,6 +1,6 @@
 
 server:
-  port: 8081
+  port: 8086
 
 spring:
   application:
@@ -17,6 +17,3 @@ spring:
     show-sql: true
     properties:
       hibernate.format_sql: true
-
-
-

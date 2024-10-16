@@ -7,6 +7,7 @@ import com.aus.corsafe.dto.LoginResponseCls;
 import com.aus.corsafe.entity.ResponseModel;
 import com.aus.corsafe.entity.SecurityQuestion;
 
+import com.aus.corsafe.entity.SecurityQuestionKey;
 import com.aus.corsafe.entity.UserRegister;
 import com.aus.corsafe.exceptions.BadCrediantialsCls;
 import com.aus.corsafe.response.CommonResponse;
@@ -59,7 +60,6 @@ public class UserRegiserController {
 
         log.info("login is executing && email is:" + login.getEmail() + " password is: " + login.getPassword());
 
-
         try{
             LoginResponseCls res = loginService.tokenGenarationMethod(login);
             return commonResponse.prepareSuccessResponseObject(res,HttpStatus.OK);
@@ -76,7 +76,11 @@ public class UserRegiserController {
         return new CommonResponse<>().prepareSuccessResponseObject(questionList,HttpStatus.OK);
     }
 
-
+//@PostMapping("/addSecurityQuestionAnswerByUserId/{userId}")
+//public ResponseEntity<ResponseModel<Object>> addSecurityQuestion(@RequestBody List<SecurityQuestionKey> securityQuestionKey,@PathVariable Integer userId){
+//    userRegisterService.addSecurityQuestionAnswerByUserId( securityQuestionKey,userId);
+//        return null;
+//}
 
     @GetMapping("/test")
     public ResponseEntity<String> testMethod() {
