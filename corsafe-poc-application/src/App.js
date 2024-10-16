@@ -9,7 +9,6 @@ import { ToastContainer } from 'react-toastify';
 function App() {
   return (
     <div className="App">
-
 <BrowserRouter>
 <ToastContainer />
      <Routes>
@@ -20,8 +19,8 @@ function App() {
      </Routes>
      </BrowserRouter>
       
-    </div>
 
+    </div>
   );
 }
 
