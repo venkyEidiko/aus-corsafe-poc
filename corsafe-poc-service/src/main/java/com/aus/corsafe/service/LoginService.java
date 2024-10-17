@@ -56,12 +56,12 @@ public class LoginService {
             } else {
                 log.info("fails while checking authntication");
 
-                throw new UnAuthorizedExceptionCls("Authenuthentication Failed !!");
+                throw new UnAuthorizedExceptionCls("Authenuthentication Failed !! Invalid Credentials!!");
             }
         } catch (Exception e) {
             System.out.println("error is loginservice catch block::: " + e.toString());
             //throw new RuntimeException("error is catch block login service: " + e.toString());
-            throw new UnAuthorizedExceptionCls("Authenuthentication Failed !!");
+            throw new UnAuthorizedExceptionCls("Authenuthentication Failed !! Invalid Credentials !!");
 
         }
 
