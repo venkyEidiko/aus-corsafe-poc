@@ -1,5 +1,5 @@
 .container{
-    background-color: #e0e0e0;
+    background-color: #ffffff;
     height: 100%; 
     display: flex; 
 }
@@ -8,14 +8,14 @@
 .list-items{
     margin-top: 10px;
     display: flex;
-    gap: 30px;
+    gap: 10px;
     flex-direction: column;
 }
 .items{
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 6px;
+    gap: 3px;
     position: relative;
 }
 .numbers{
@@ -26,7 +26,7 @@
 .details{
     display: flex;
     flex-direction: column;
-    gap: 0;
+    /* gap: 0; */
    
 }
 .checklist{

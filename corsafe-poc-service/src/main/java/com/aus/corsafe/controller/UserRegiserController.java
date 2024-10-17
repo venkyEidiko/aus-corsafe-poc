@@ -1,5 +1,4 @@
 package com.aus.corsafe.controller;
-
 import com.aus.corsafe.dto.Login;
 import com.aus.corsafe.dto.UserRegisterDto;
 import com.aus.corsafe.dto.LoginResponseCls;
@@ -54,7 +53,9 @@ private SecurityQuestionKeyRepository securityQuestionKeyRepository;
     public ResponseEntity<ResponseModel<LoginResponseCls>> login(@RequestBody Login login) {
 
         log.info("login is executing && email is:" + login.getEmail() + " password is: " + login.getPassword());
+
         try {
+
             LoginResponseCls res = loginService.tokenGenarationMethod(login);
             return commonResponse.prepareSuccessResponseObject(res, HttpStatus.OK);
         } catch (Exception e) {
@@ -68,9 +69,7 @@ private SecurityQuestionKeyRepository securityQuestionKeyRepository;
     public ResponseEntity<ResponseModel<Object>> getAllSecurityQuestion() {
         List<SecurityQuestion> questionList = userRegisterService.getAllSecurityQuestion();
         return new CommonResponse<>().prepareSuccessResponseObject(questionList, HttpStatus.OK);
-
     }
-
 
     @GetMapping("/test")
     public ResponseEntity<String> testMethod() {

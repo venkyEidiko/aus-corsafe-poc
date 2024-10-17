@@ -42,6 +42,7 @@ public class UserRegisterServiceImpl implements UserRegisterService {
             userRegister.setSecurityQuestionList(newList);
         }
         return mapperClass.userRegisterTODto(userRegisterRepo.save(userRegister));
+
     }
 
 
@@ -49,5 +50,6 @@ public class UserRegisterServiceImpl implements UserRegisterService {
     public List<SecurityQuestion> getAllSecurityQuestion() {
         return securityQuestionRepository.findAll();
     }
+
 
 }
