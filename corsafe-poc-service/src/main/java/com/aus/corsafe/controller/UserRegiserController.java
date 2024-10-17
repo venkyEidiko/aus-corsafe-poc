@@ -98,8 +98,8 @@ public class UserRegiserController {
 
             return new CommonResponse<>().prepareSuccessResponseObject(foundEmail, HttpStatus.OK);
         } catch (BadCrediantialsCls e) {
-            log.info("ERROR IS:::"+e.toString());
-            return new CommonResponse<>().prepareFailedResponse(e.toString());
+            log.info("Error is:"+e.toString());
+            return new CommonResponse<>().prepareFailedResponse("Email not registered: "+ email);
         }
     }
 
