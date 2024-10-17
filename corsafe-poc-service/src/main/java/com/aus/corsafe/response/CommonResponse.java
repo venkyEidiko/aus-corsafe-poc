@@ -39,7 +39,6 @@ public class CommonResponse<T> {
         response.setStatusCode(HttpStatus.BAD_REQUEST.value());
         response.setStatus("FAILURE");
         response.setError(error);
-
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 }
