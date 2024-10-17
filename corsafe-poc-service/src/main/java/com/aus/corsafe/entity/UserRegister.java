@@ -23,6 +23,11 @@ public class UserRegister {
      private String email;
      private Long phoneNumber;
      private String password;
+     private String abn;
+     private String companyName;
+     private String companyAddress;
+     private String state;
+     private Long postalCode;
 
      @OneToMany(mappedBy ="userRegister",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
      private List<SecurityQuestionKey> securityQuestionList;

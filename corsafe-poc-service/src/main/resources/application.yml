@@ -1,6 +1,6 @@
 
 server:
-  port: 8081
+  port: 8086
 
 spring:
   application:
@@ -9,14 +9,9 @@ spring:
     url: jdbc:oracle:thin:@10.0.0.56:1521:XE
     username: secondary_user
     password: root123
-    driver-class-name: oracle.jdbc.driver.OracleDriver
-
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
     properties:
       hibernate.format_sql: true
-
-
-
