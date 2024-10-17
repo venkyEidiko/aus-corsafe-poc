@@ -5,7 +5,9 @@ import com.aus.corsafe.dto.UserRegisterDto;
 import com.aus.corsafe.dto.LoginResponseCls;
 import com.aus.corsafe.entity.ResponseModel;
 import com.aus.corsafe.entity.SecurityQuestion;
+import com.aus.corsafe.entity.SecurityQuestionKey;
 import com.aus.corsafe.exceptions.BadCrediantialsCls;
+import com.aus.corsafe.repository.SecurityQuestionKeyRepository;
 import com.aus.corsafe.response.CommonResponse;
 import com.aus.corsafe.service.LoginService;
 import com.aus.corsafe.service.UserRegisterService;
@@ -31,7 +33,8 @@ public class UserRegiserController {
     private CommonResponse<LoginResponseCls> commonResponse;
 
     private UserRegisterService userRegisterService;
-
+@Autowired
+private SecurityQuestionKeyRepository securityQuestionKeyRepository;
     @Autowired
     private LoginService loginService;
 
@@ -89,6 +92,14 @@ public class UserRegiserController {
         }
 
     }
+  /*  @GetMapping("getquestionByUserId/{userId}")
+    public ResponseEntity<ResponseModel<Object>> getquestionByUserId(@PathVariable("userId") Integer userId){
+       log.info("useid { }",userId);
 
+        List<SecurityQuestionKey> allByUserId = securityQuestionKeyRepository.findAllByUserId(userId);
+      log.info("allByUserId { }",allByUserId);
+
+        return new CommonResponse<>().prepareSuccessResponseObject(allByUserId,HttpStatus.OK);
+    }*/
 
 }
