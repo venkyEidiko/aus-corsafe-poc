@@ -21,7 +21,7 @@ public class CommonResponse<T> {
         } else {
             response.setResult(List.of(result));
         }
-        return new ResponseEntity<>(response, status);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
 
@@ -42,7 +42,6 @@ public class CommonResponse<T> {
             response.setError(error);
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
-
 
 
 }
