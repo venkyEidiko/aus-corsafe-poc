@@ -4,6 +4,7 @@ import './App.css';
 import { BrowserRouter,Route,Routes } from 'react-router-dom';
 import RegistrationForm from './components/ParentComponent';
 
+
 function App() {
   return (
     <div className="App">
@@ -12,6 +13,7 @@ function App() {
      <Routes>
     <Route path="/" element={<RegistrationForm/>}></Route>
     <Route path="/company" element={<RegistrationForm/>}></Route>
+    <Route path="/security" element={<RegistrationForm/>}/>
      </Routes>
      </BrowserRouter>
       

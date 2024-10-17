@@ -1,14 +1,44 @@
-import React from 'react';
+import {React,useState} from 'react';
 import { Box, Typography, Card, CardContent, TextField, Button } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
-import { registerUser } from '../actions/registerActions';
 import Grid from '@mui/material/Grid2';
+import { useNavigate } from 'react-router-dom';
 
-const Company = ({companyData,onCompanyChange}) => {
-    
+const Company = ({companyData,onCompanyChange,onValidate}) => {
+    const navigate=useNavigate();
+    const [errors, setErrors] = useState({}); 
+    const [touched, setTouched] = useState({}); 
+    const navigateSecurity=()=>
+    {
+        navigate("/security")
+    }
+  const validateForm=()=>
+  {
+     const newErrors={};
+     if(!companyData.abn)
+     {
+        newErrors.abn="Abn is required";
+     }
+     if(!companyData.companyName)
+     {
+        newErrors.companyName="CompanyName is required";
+     }
+     if(!companyData.companyAddress)
+     {
+        newErrors.companyAddress="Company Address is required";
+     }
+     if(!companyData.state)
+     {
+        newErrors.state="State is required";
+     }
+     if(!companyData.postalCode)
+     {
+        newErrors.postalCode="Postal code is required";
+     }
+     setErrors(newErrors); 
+    return Object.keys(newErrors).length === 0; 
 
-    
-
+  }
+  onValidate.current = validateForm;
     return (
         <Box sx={{ flexGrow: 1, p: 2 }}>
             <Grid container spacing={4} justifyContent="center">
@@ -43,7 +73,7 @@ const Company = ({companyData,onCompanyChange}) => {
                                 <span style={{ marginLeft: '25px' }}><b>Compliance For You</b></span>
                             </Typography>
                             <div>
-                                <img src="/truck_coresafe.jpg" style={{ width: '70%', marginTop: '20px', borderRadius: '20px' }} alt="Truck" />
+                                <img src="/truck_coresafe.jpg" style={{ width: '70%', marginTop: '70px', borderRadius: '20px' }} alt="Truck" />
                             </div>
                         </CardContent>
                     </Card>
@@ -66,8 +96,14 @@ const Company = ({companyData,onCompanyChange}) => {
                                     placeholder="Enter ABN number"
                                     fullWidth
                                     value={companyData.abn}
-                                    onChange={(e) => onCompanyChange('abn', e.target.value)}
+                                    onChange={(e) => {
+                                        onCompanyChange('abn', e.target.value);
+                                        setTouched({ ...touched, abn: true }); 
+                                      }}
+                                     
                                     required
+                                    error={touched.abn && !!errors.abn} 
+                                    helperText={touched.abn && errors.abn}
                                 />
                             </Grid>
                         </Grid>
@@ -82,7 +118,11 @@ const Company = ({companyData,onCompanyChange}) => {
                                 placeholder="Enter Company Name"
                                 fullWidth
                                 value={companyData.companyName}
-                                onChange={(e) => onCompanyChange('companyName', e.target.value)}
+                                onChange={(e) => {onCompanyChange('companyName', e.target.value);
+                                    setTouched({...touched,companyName:true})}}
+                                required
+                                error={touched.companyName && !!errors.companyName} 
+                                helperText={touched.companyName && errors.companyName}
                             />
                         </Box>
 
@@ -96,7 +136,12 @@ const Company = ({companyData,onCompanyChange}) => {
                                 placeholder="Enter Company Address"
                                 fullWidth
                                 value={companyData.companyAddress}
-                                onChange={(e) => onCompanyChange('companyAddress', e.target.value)}
+                                onChange={(e) => {onCompanyChange('companyAddress', e.target.value);
+                                    setTouched({...touched,companyAddress:true})}
+                                }
+                                required
+                                error={touched.companyAddress && !!errors.companyAddress} 
+                                helperText={touched.companyAddress && errors.companyAddress}
                             />
                         </Box>
 
@@ -111,8 +156,12 @@ const Company = ({companyData,onCompanyChange}) => {
                                     placeholder="Enter State"
                                     fullWidth
                                     value={companyData.state}
-                                    onChange={(e) => onCompanyChange('state', e.target.value)}
+                                    onChange={(e) =>{ onCompanyChange('state', e.target.value)
+                                        setTouched({...touched,state:true})
+                                    }}
                                     required
+                                    error={touched.state && !!errors.state} 
+                                    helperText={touched.state && errors.state}
                                 />
                             </Grid>
 
@@ -126,12 +175,15 @@ const Company = ({companyData,onCompanyChange}) => {
                                     placeholder="Postal Code"
                                     fullWidth
                                     value={companyData.postalCode}
-                                    onChange={(e) => onCompanyChange('postalCode', e.target.value)}
+                                    onChange={(e) =>{ onCompanyChange('postalCode', e.target.value);
+                                    setTouched({...touched,postalCode:true})}}
                                     required
+                                    error={touched.postalCode && !!errors.postalCode} 
+                                    helperText={touched.postalCode && errors.postalCode}
                                 />
                             </Grid>
                         </Grid>
-
+                     <Button variant="contained" onClick={navigateSecurity} style={{marginTop:'40px'}}>Continue</Button>
                        
 
                         
