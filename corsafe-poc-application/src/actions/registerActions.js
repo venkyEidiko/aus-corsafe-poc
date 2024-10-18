@@ -43,7 +43,13 @@ export const registerUser = (registrationData) => {
             })
             .then(data => {
                 if (data.result && data.result.length > 0) {
-                    const combinedData = data.result; 
+                    const combinedData = {
+                        ...data.result,
+                        questionId: registrationData.questionId,
+                        answer: registrationData.answer,
+                    };
+                    console.log("RESPONSE DATA",data);
+                    // const combinedData = data.result; 
                     dispatch(registerUserSuccess(combinedData));
                     console.log("dispatched data", combinedData);
                 } else {
@@ -56,7 +62,5 @@ export const registerUser = (registrationData) => {
             });
     };
 };
-
-
 
 
