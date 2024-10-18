@@ -32,7 +32,7 @@ private MyUserDetailasService myUserDetailasService;
     public SecurityFilterChain config(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity.csrf(csrf -> csrf.disable())
 
-                .authorizeHttpRequests(req->req.requestMatchers("/register","/login","/getAllSecurityQuestion","/refreshToken/**","getquestionByUserId/{userId}").permitAll()
+                .authorizeHttpRequests(req->req.requestMatchers("/register","/login","/getAllSecurityQuestion","/refreshToken/**","getquestionByUserId/{userId}","/getAllproducts").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

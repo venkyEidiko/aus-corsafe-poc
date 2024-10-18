@@ -91,14 +91,4 @@ private SecurityQuestionKeyRepository securityQuestionKeyRepository;
         }
 
     }
-  /*  @GetMapping("getquestionByUserId/{userId}")
-    public ResponseEntity<ResponseModel<Object>> getquestionByUserId(@PathVariable("userId") Integer userId){
-       log.info("useid { }",userId);
-
-        List<SecurityQuestionKey> allByUserId = securityQuestionKeyRepository.findAllByUserId(userId);
-      log.info("allByUserId { }",allByUserId);
-
-        return new CommonResponse<>().prepareSuccessResponseObject(allByUserId,HttpStatus.OK);
-    }*/
-
 }
