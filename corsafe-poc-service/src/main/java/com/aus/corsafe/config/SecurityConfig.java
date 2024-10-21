@@ -14,11 +14,15 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-@Autowired
-private MyUserDetailasService myUserDetailasService;
+
+    @Autowired
+    private MyUserDetailasService myUserDetailasService;
+    @Autowired
+    RequestIntercept requestIntercept;
 
     @Autowired
     private JwtAuthenticationFilter jwtAuthenticationFilter;
@@ -32,9 +36,15 @@ private MyUserDetailasService myUserDetailasService;
     public SecurityFilterChain config(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity.csrf(csrf -> csrf.disable())
 
-                .authorizeHttpRequests(req->req.requestMatchers("/register","/login","/getAllSecurityQuestion","/refreshToken/**").permitAll()
+                .authorizeHttpRequests(req -> req.requestMatchers("/register", "/login", "/getAllSecurityQuestion", "/refreshToken/**").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+
+
+                .oauth2Login(oauth2 -> oauth2
+                        .userInfoEndpoint(userInfo -> userInfo.userService(requestIntercept)) // OAuth2 user service
+                )
+
                 .build();
 
     }
@@ -54,7 +64,7 @@ private MyUserDetailasService myUserDetailasService;
     }
 
     @Bean
-    public ModelMapper modelMapper(){
+    public ModelMapper modelMapper() {
         return new ModelMapper();
     }
 

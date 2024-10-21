@@ -102,6 +102,22 @@ public class UserRegiserController {
         }
 
     }
+    @GetMapping("/loghere")
+    public ResponseEntity<ResponseModel<LoginResponseCls>> login1(@RequestBody Login login) {
+
+        log.info("login is executing && email is:" + login.getEmail() + " password is: " + login.getPassword());
+        System.out.println("working fine!!!");
+
+        try{
+            LoginResponseCls res = loginService.tokenGenarationMethod(login);
+            return commonResponse.prepareSuccessResponseObject(res,HttpStatus.OK);
+        }
+        catch(Exception e) {
+            log.info("error:  "+e.toString());
+            return commonResponse.prepareFailedResponse("Invalid !!");
+        }
+
+    }
 
 
 }
