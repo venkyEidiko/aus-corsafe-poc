@@ -1,5 +1,6 @@
 package com.aus.corsafe.service;
 
+import com.aus.corsafe.config.ApplicationConfig;
 import com.aus.corsafe.dto.MapperClass;
 import com.aus.corsafe.dto.UserRegisterDto;
 import com.aus.corsafe.entity.SecurityQuestion;
@@ -53,7 +54,7 @@ public class UserRegisterServiceImpl implements UserRegisterService{
         if (user.isPresent()) {
             return user.get().getEmail();
         } else {
-            throw new BadCrediantialsCls("Email not registered with : " + email);
+            throw new BadCrediantialsCls(ApplicationConfig.EMAIL_NOT_REGISTERED_MESSAGE + email);
         }
     }
 

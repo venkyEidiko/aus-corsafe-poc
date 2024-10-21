@@ -15,10 +15,8 @@ public class AuthController {
     private AuthService authService;
 
     @GetMapping("/get-token")
-    public Mono<ResponseEntity<String>> getToken(
-            @RequestParam String clientId,
-            @RequestParam String clientSecret) {
-        return authService.getAuthToken(clientId, clientSecret)
+    public Mono<ResponseEntity<String>> getToken() {
+        return authService.getAuthToken()
                 .map(token -> ResponseEntity.ok(token))
                 .defaultIfEmpty(ResponseEntity.badRequest().build());
     }

@@ -11,11 +11,17 @@ public class AuthService {
 
     private final WebClient webClient;
 
+    @Value("${zeebe.client.cloud.clientId}")
+    private String clientId;
+
+    @Value("${zeebe.client.cloud.clientSecret}")
+    private String clientSecret;
+
     public AuthService(WebClient webClient) {
         this.webClient = webClient;
     }
 
-    public Mono<String> getAuthToken(String clientId, String clientSecret) {
+    public Mono<String> getAuthToken() {
         String body = "grant_type=client_credentials" +
                 "&audience=tasklist.camunda.io" +
                 "&client_id=" + clientId +

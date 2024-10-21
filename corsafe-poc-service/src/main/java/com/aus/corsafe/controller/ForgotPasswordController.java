@@ -1,5 +1,6 @@
 package com.aus.corsafe.controller;
 
+import com.aus.corsafe.config.ApplicationConfig;
 import com.aus.corsafe.entity.ForgotPassword;
 import com.aus.corsafe.exceptions.PasswordMismatchException;
 import com.aus.corsafe.response.CommonResponse;
@@ -24,7 +25,7 @@ public class ForgotPasswordController {
     public ResponseEntity<?> forgotPassword(@RequestBody ForgotPassword forgotPassword) {
         try {
             String newPassword = forgotPasswordService.updatePassword(forgotPassword);
-            return new CommonResponse<>().prepareSuccessResponseObject("Password updated successfully",  HttpStatus.CREATED);
+            return new CommonResponse<>().prepareSuccessResponseObject(ApplicationConfig.PASSWORD_UPDATE_SUCCESS,  HttpStatus.CREATED);
         } catch (BadRequestException | PasswordMismatchException e) {
             return new CommonResponse<>().prepareErrorResponseObject(e.getMessage(), HttpStatus.BAD_REQUEST);
         }

@@ -8,11 +8,13 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Configuration
 public class WebClientConfig {
 
+    @Value("${webclient.base-url}")
+    private String baseUrl;
 
     @Bean
     public WebClient webClient() {
         return WebClient.builder()
-                .baseUrl("https://login.cloud.camunda.io")
+                .baseUrl(baseUrl)
                 .build();
     }
 

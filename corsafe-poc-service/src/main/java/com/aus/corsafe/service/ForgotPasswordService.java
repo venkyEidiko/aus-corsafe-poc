@@ -1,5 +1,6 @@
 package com.aus.corsafe.service;
 
+import com.aus.corsafe.config.ApplicationConfig;
 import com.aus.corsafe.entity.ForgotPassword;
 import com.aus.corsafe.entity.UserRegister;
 import com.aus.corsafe.exceptions.PasswordMismatchException;
@@ -22,7 +23,7 @@ public class ForgotPasswordService {
 
     public String updatePassword(ForgotPassword forgotPassword) throws BadRequestException {
         if (!forgotPassword.getNewPassword().equals(forgotPassword.getConfirmPassword())) {
-            throw new PasswordMismatchException("Passwords do not match");
+            throw new PasswordMismatchException(ApplicationConfig.PASSWORD_MISMATCH_MESSAGE);
         }
 
         Optional<UserRegister> userOptional = userRegisterRepo.findByEmail(forgotPassword.getEmail());
@@ -35,7 +36,7 @@ public class ForgotPasswordService {
             userRegisterRepo.save(userRegister);
             return forgotPassword.getNewPassword();
         } else {
-            throw new BadRequestException("User not found with this emailID");
+            throw new BadRequestException(ApplicationConfig.USER_NOT_FOUND_MESSAGE);
         }
     }
 
