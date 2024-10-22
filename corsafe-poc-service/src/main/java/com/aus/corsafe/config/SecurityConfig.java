@@ -45,6 +45,7 @@ public class SecurityConfig {
                         .userInfoEndpoint(userInfo -> userInfo.userService(requestIntercept)) // OAuth2 user service
                 )
 
+
                 .build();
 
     }
