@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @Slf4j
@@ -118,6 +119,20 @@ public class UserRegiserController {
         }
 
     }
+
+
+    @GetMapping("/findEmail/{email}")
+    public ResponseEntity<ResponseModel<Object>> findEmailByEmail(@PathVariable String email) {
+        try {
+            String foundEmail = userRegisterService.findEmailByEmail(email);
+
+            return new CommonResponse<>().prepareSuccessResponseObject(foundEmail, HttpStatus.OK);
+        } catch (BadCrediantialsCls e) {
+            log.info("Error is:"+e.toString());
+            return new CommonResponse<>().prepareFailedResponse("Email not registered: "+ email);
+        }
+    }
+
 
 
 }

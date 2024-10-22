@@ -36,7 +36,9 @@ public class SecurityConfig {
     public SecurityFilterChain config(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity.csrf(csrf -> csrf.disable())
 
+
                 .authorizeHttpRequests(req -> req.requestMatchers("/register", "/login", "/getAllSecurityQuestion", "/refreshToken/**").permitAll()
+
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 
