@@ -11,16 +11,13 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Products {
     @Id
-   // @GeneratedValue(strategy = GenerationType.AUTO)  // Use IDENTITY for Oracle
+   // @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer productId;
-
     private String name;
     private String description;
-
-    private Double price;  // Use Double to accommodate precision
+    private Double price;
     private Integer stockQuantity;
-
     @Lob
-    @Column(name = "productImage")  // No need for columnDefinition
-    private byte[] productImage;  // BLOB is implied for byte[] with @Lob
+    @Column(name = "productImage")
+    private byte[] productImage;
 }

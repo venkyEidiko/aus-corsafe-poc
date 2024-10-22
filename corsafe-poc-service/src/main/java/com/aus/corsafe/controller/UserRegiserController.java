@@ -1,4 +1,5 @@
 package com.aus.corsafe.controller;
+
 import com.aus.corsafe.dto.Login;
 import com.aus.corsafe.dto.UserRegisterDto;
 import com.aus.corsafe.dto.LoginResponseCls;
@@ -32,8 +33,8 @@ public class UserRegiserController {
     private CommonResponse<LoginResponseCls> commonResponse;
 
     private UserRegisterService userRegisterService;
-@Autowired
-private SecurityQuestionKeyRepository securityQuestionKeyRepository;
+    @Autowired
+    private SecurityQuestionKeyRepository securityQuestionKeyRepository;
     @Autowired
     private LoginService loginService;
 
@@ -82,7 +83,7 @@ private SecurityQuestionKeyRepository securityQuestionKeyRepository;
 
         try {
             String accessToken = loginService.refreshTokenGenaration(token);
-            return  new CommonResponse<>().prepareSuccessResponseObject(accessToken, HttpStatus.OK);
+            return new CommonResponse<>().prepareSuccessResponseObject(accessToken, HttpStatus.OK);
 
         } catch (BadCrediantialsCls e) {
             return new CommonResponse<>().prepareFailedResponse(e.getMessage());
