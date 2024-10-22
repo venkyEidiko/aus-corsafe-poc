@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @Slf4j
@@ -91,5 +92,16 @@ public class UserRegiserController {
             return new CommonResponse<>().prepareFailedResponse("bad credentials or token");
         }
 
+    }
+    @GetMapping("/findEmail/{email}")
+    public ResponseEntity<ResponseModel<Object>> findEmailByEmail(@PathVariable String email) {
+        try {
+            String foundEmail = userRegisterService.findEmailByEmail(email);
+
+            return new CommonResponse<>().prepareSuccessResponseObject(foundEmail, HttpStatus.OK);
+        } catch (BadCrediantialsCls e) {
+            log.info("Error is:"+e.toString());
+            return new CommonResponse<>().prepareFailedResponse("Email not registered: "+ email);
+        }
     }
 }

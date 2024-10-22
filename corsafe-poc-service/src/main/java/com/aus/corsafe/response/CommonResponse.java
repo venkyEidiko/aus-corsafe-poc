@@ -21,7 +21,7 @@ public class CommonResponse<T> {
         } else {
             response.setResult(List.of(result));
         }
-        return new ResponseEntity<>(response, status);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
 
@@ -34,11 +34,14 @@ public class CommonResponse<T> {
         return new ResponseEntity<>(response, status);
     }
 
-    public ResponseEntity<ResponseModel<T>> prepareFailedResponse(String error) {
-        ResponseModel<T> response = new ResponseModel<>();
-        response.setStatusCode(HttpStatus.BAD_REQUEST.value());
-        response.setStatus("FAILURE");
-        response.setError(error);
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-    }
+
+        public ResponseEntity<ResponseModel<T>> prepareFailedResponse(String error) {
+            ResponseModel<T> response = new ResponseModel<>();
+            response.setStatusCode(HttpStatus.BAD_REQUEST.value());
+            response.setStatus("FAILURE");
+            response.setError(error);
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
+
+
 }
