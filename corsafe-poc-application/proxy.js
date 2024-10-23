@@ -18,7 +18,7 @@ app.use((req, res, next) => {
 app.use(
   '/api', 
   createProxyMiddleware({
-    target: 'https://syd-1.connectors.camunda.io', 
+    target: 'https://jfk-1.connectors.camunda.io/', 
     changeOrigin: true,
     pathRewrite: {
       '^/api': '',
