@@ -37,7 +37,13 @@ public class SecurityConfig {
         return httpSecurity.csrf(csrf -> csrf.disable())
 
 
-                .authorizeHttpRequests(req -> req.requestMatchers("/register", "/login", "/getAllSecurityQuestion", "/refreshToken/**").permitAll()
+                //.authorizeHttpRequests(req -> req.requestMatchers("/register", "/login", "/getAllSecurityQuestion", "/refreshToken/**").permitAll()
+
+
+                .authorizeHttpRequests(req -> req.requestMatchers("/register", "/login",
+                                "/getAllSecurityQuestion", "/refreshToken/**", "getquestionByUserId/{userId}",
+                                "/getAllproducts", "/password/**", "findEmail/**",
+                                "/get-token/**").permitAll()
 
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
@@ -49,9 +55,9 @@ public class SecurityConfig {
 
 
                 .build();
-
     }
 
+    /** authentication provider*/
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();

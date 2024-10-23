@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Grid, Box, Typography, Card, CardContent, Button, Checkbox } from '@mui/material';
 import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
 import axios from 'axios';
@@ -13,6 +13,12 @@ const BusinessProfile = () => {
     checklist1: [],
     checklist2: [],
   });
+
+useEffect(()=>{
+  axios.get("http://10.0.0.2:8081/sample",{withCredentials: true}).then(response=>{
+    console.log(" google credentials : ",response.data);
+  })
+},[]);
 
   const handleCheckboxChange = (list, title) => {
     setSelectedItems(prevState => {
@@ -33,6 +39,8 @@ const BusinessProfile = () => {
       if (selectedItems.checklist1.includes(item.title)) {
         payload = { title: item.title, description: item.description };
       }
+      console.log("paylod",payload);
+      
     });
 
     checklist2data.forEach(item => {
@@ -42,7 +50,8 @@ const BusinessProfile = () => {
     });
 
     try {
-      const response = await axios.post('http://localhost:5000/api/e94af90e-b94e-4218-ab73-fc2ce8a60957/inbound/4445', payload, {
+      const response = await axios.post('http://localhost:5000/api/c4765f54-b30c-4eba-b09f-2914741db450/inbound/audit-request',
+         payload, {
         headers: {
           'Content-Type': 'application/json',
         },

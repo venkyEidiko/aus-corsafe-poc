@@ -7,9 +7,10 @@ import com.aus.corsafe.dto.LoginResponseCls;
 import com.aus.corsafe.dto.UserRegisterDto;
 import com.aus.corsafe.entity.ResponseModel;
 import com.aus.corsafe.entity.SecurityQuestion;
-
 import com.aus.corsafe.entity.UserRegister;
+import com.aus.corsafe.entity.SecurityQuestionKey;
 import com.aus.corsafe.exceptions.BadCrediantialsCls;
+import com.aus.corsafe.repository.SecurityQuestionKeyRepository;
 import com.aus.corsafe.response.CommonResponse;
 import com.aus.corsafe.service.LoginService;
 import com.aus.corsafe.service.UserRegisterService;
@@ -17,17 +18,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.web.bind.annotation.*;
-
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-
 import java.util.List;
-import java.util.Optional;
+
 
 @RestController
 @Slf4j
@@ -35,12 +33,13 @@ public class UserRegiserController {
 
     @Autowired
     private CommonResponse<LoginResponseCls> commonResponse;
-
     @Autowired
-    private   CommonResponse<String> commonResponse1;
-
-    private  UserRegisterService userRegisterService;
-
+    private CommonResponse<String> commonResponse1;
+    //@Autowired
+    private UserRegisterService userRegisterService;
+    //private UserRegisterService userRegisterService;
+    @Autowired
+    private SecurityQuestionKeyRepository securityQuestionKeyRepository;
     @Autowired
     private LoginService loginService;
 
@@ -50,7 +49,7 @@ public class UserRegiserController {
 
 
     @PostMapping("/register")
-    public  ResponseEntity<ResponseModel<Object>> register(@RequestBody UserRegisterDto userRegister) {
+    public ResponseEntity<ResponseModel<Object>> register(@RequestBody UserRegisterDto userRegister) {
         log.info("user dto {}", userRegister);
         UserRegisterDto register = userRegisterService.register(userRegister);
         return new CommonResponse<>().prepareSuccessResponseObject(register, HttpStatus.CREATED);
@@ -63,22 +62,21 @@ public class UserRegiserController {
         log.info("login is executing && email is:" + login.getEmail() + " password is: " + login.getPassword());
 
 
-        try{
+        try {
             LoginResponseCls res = loginService.tokenGenarationMethod(login);
-            return commonResponse.prepareSuccessResponseObject(res,HttpStatus.OK);
-        }
-        catch(Exception e) {
-            log.info("error:  "+e.toString());
+            return commonResponse.prepareSuccessResponseObject(res, HttpStatus.OK);
+        } catch (Exception e) {
+            log.info("error:  " + e.toString());
             return commonResponse.prepareFailedResponse("Invalid !!");
         }
 
     }
-    @GetMapping("/getAllSecurityQuestion")
-    public  ResponseEntity<ResponseModel<Object>> getAllSecurityQuestion(){
-       List<SecurityQuestion> questionList=userRegisterService.getAllSecurityQuestion();
-        return new CommonResponse<>().prepareSuccessResponseObject(questionList,HttpStatus.OK);
-    }
 
+    @GetMapping("/getAllSecurityQuestion")
+    public ResponseEntity<ResponseModel<Object>> getAllSecurityQuestion() {
+        List<SecurityQuestion> questionList = userRegisterService.getAllSecurityQuestion();
+        return new CommonResponse<>().prepareSuccessResponseObject(questionList, HttpStatus.OK);
+    }
 
 
     @GetMapping("/test")
@@ -90,36 +88,33 @@ public class UserRegiserController {
     @PostMapping("/refreshToken/{token}")
     public ResponseEntity<ResponseModel<String>> refreshTokenMethod(@PathVariable String token) {
 
-        try{
-            String accessToken  = loginService.refreshTokenGenaration(token);
-            return commonResponse1.prepareSuccessResponseObject(accessToken,HttpStatus.OK);
 
-        }
-        catch (BadCrediantialsCls e) {
+        try {
+            String accessToken = loginService.refreshTokenGenaration(token);
+            return commonResponse1.prepareSuccessResponseObject(accessToken, HttpStatus.OK);
+        } catch (BadCrediantialsCls e) {
             return commonResponse1.prepareFailedResponse(e.getMessage());
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             return commonResponse1.prepareFailedResponse("bad credintials or token");
         }
 
     }
+
     @GetMapping("/loghere")
     public ResponseEntity<ResponseModel<LoginResponseCls>> login1(@RequestBody Login login) {
 
         log.info("login is executing && email is:" + login.getEmail() + " password is: " + login.getPassword());
         System.out.println("working fine!!!");
 
-        try{
+        try {
             LoginResponseCls res = loginService.tokenGenarationMethod(login);
-            return commonResponse.prepareSuccessResponseObject(res,HttpStatus.OK);
-        }
-        catch(Exception e) {
-            log.info("error:  "+e.toString());
+            return commonResponse.prepareSuccessResponseObject(res, HttpStatus.OK);
+        } catch (Exception e) {
+            log.info("error:  " + e.toString());
             return commonResponse.prepareFailedResponse("Invalid !!");
         }
 
     }
-
 
     @GetMapping("/findEmail/{email}")
     public ResponseEntity<ResponseModel<Object>> findEmailByEmail(@PathVariable String email) {
@@ -128,11 +123,8 @@ public class UserRegiserController {
 
             return new CommonResponse<>().prepareSuccessResponseObject(foundEmail, HttpStatus.OK);
         } catch (BadCrediantialsCls e) {
-            log.info("Error is:"+e.toString());
-            return new CommonResponse<>().prepareFailedResponse("Email not registered: "+ email);
+            log.info("Error is:" + e.toString());
+            return new CommonResponse<>().prepareFailedResponse("Email not registered: " + email);
         }
     }
-
-
-
 }

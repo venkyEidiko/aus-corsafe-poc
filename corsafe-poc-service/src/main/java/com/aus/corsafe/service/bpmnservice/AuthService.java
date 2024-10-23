@@ -9,17 +9,21 @@ import reactor.core.publisher.Mono;
 @Service
 public class AuthService {
 
-    private final WebClient webClient;
+    private final WebClient.Builder webClient;
 
     @Value("${zeebe.client.cloud.clientId}")
     private String clientId;
 
+    @Value("${webclient.base-url}")
+    private String baseUrl;
     @Value("${zeebe.client.cloud.clientSecret}")
     private String clientSecret;
 
-    public AuthService(WebClient webClient) {
+    public AuthService(WebClient.Builder webClient) {
         this.webClient = webClient;
     }
+
+
 
     public Mono<String> getAuthToken() {
         String body = "grant_type=client_credentials" +
@@ -29,7 +33,8 @@ public class AuthService {
                 "&scope=tasklist.read";
 
 
-        return webClient.post()
+        return webClient.baseUrl(baseUrl)
+                .build().post()
                 .uri("/oauth/token")
                 .header("Content-Type", "application/x-www-form-urlencoded")
                 .bodyValue(body)

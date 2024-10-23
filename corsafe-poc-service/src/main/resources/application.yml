@@ -1,5 +1,3 @@
-
-
 server:
   port: 8081
 
@@ -16,6 +14,7 @@ spring:
     show-sql: true
     properties:
       hibernate.format_sql: true
+  
 
 zeebe.client:
   cloud:
@@ -23,6 +22,9 @@ zeebe.client:
     clusterId: c4765f54-b30c-4eba-b09f-2914741db450
     clientId: 7JkeeCp4l93e8M.Imb1Ega0UsZg1Ylpw
     clientSecret: SU4090ik7ZphDfrIL3pO8dyOLWpSAts2M3jN0ENC_YnA3Iatjc0YV1ZwijT6T6hj
+
+
+    # WebClient properties
 
 webclient:
   base-url: https://login.cloud.camunda.io
