@@ -1,9 +1,11 @@
 package com.aus.corsafe.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -30,6 +32,7 @@ public class UserRegister {
      private Long postalCode;
 
      @OneToMany(mappedBy ="userRegister",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+     @JsonManagedReference
      private List<SecurityQuestionKey> securityQuestionList;
 
 
