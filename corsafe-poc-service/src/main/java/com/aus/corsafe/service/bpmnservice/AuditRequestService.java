@@ -115,7 +115,9 @@ public class AuditRequestService {
 
     }
 
-
+    /**
+     * for assign the task
+     */
     public Object getAssignTask(AssignTask assignTask) {
         Object claimed = webClient.patch()
 
@@ -127,6 +129,9 @@ public class AuditRequestService {
         return claimed;
     }
 
+    /**
+     * get get-assigned tasks and get-unassigned tasks based on body (true ,false
+     */
     public List<Object> getSearchTask(SearchTask searchTask) {
         List<Object> list = new ArrayList<>();
 

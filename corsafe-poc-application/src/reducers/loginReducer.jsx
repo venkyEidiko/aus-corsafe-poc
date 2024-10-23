@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-// Async thunk for logging in
+
 export const loginUser = createAsyncThunk(
   'auth/loginUser',
   async (loginData, { rejectWithValue }) => {
@@ -9,11 +9,12 @@ export const loginUser = createAsyncThunk(
       const response = await axios.post('http://10.0.0.16:8086/login', loginData);
       console.log("login response: ", response);
 
-      const { jwtToken, refreshToken } = response.data.result[0];
       
-      // Store tokens in local storage
+      const { jwtToken, refreshToken, firstName, lastName, email, phoneNumber, abn, companyName, companyAddress, state, postalCode } = response.data.result[0];
+    
       localStorage.setItem('jwtToken', jwtToken);
       localStorage.setItem('refreshToken', refreshToken);
+      localStorage.setItem('userDetails', JSON.stringify({ firstName, lastName, email, phoneNumber, abn, companyName, companyAddress, state, postalCode }));
       
       return { jwtToken, refreshToken }; 
     } catch (error) {
