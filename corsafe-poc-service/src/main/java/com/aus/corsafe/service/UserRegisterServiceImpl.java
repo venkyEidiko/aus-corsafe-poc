@@ -19,32 +19,40 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserRegisterServiceImpl implements UserRegisterService{
+public class UserRegisterServiceImpl implements UserRegisterService {
     @Autowired
     public MapperClass mapperClass;
     public PasswordEncoder encoder;
     public UserRegisterRepo userRegisterRepo;
     private SecurityQuestionRepository securityQuestionRepository;
 
-    public UserRegisterServiceImpl(UserRegisterRepo userRegisterRepo,PasswordEncoder encoder, SecurityQuestionRepository securityQuestionRepository)
-    {
+    public UserRegisterServiceImpl(UserRegisterRepo userRegisterRepo, PasswordEncoder encoder, SecurityQuestionRepository securityQuestionRepository) {
         this.userRegisterRepo = userRegisterRepo;
-        this.securityQuestionRepository= securityQuestionRepository;
-        this.encoder=encoder;
+        this.securityQuestionRepository = securityQuestionRepository;
+        this.encoder = encoder;
     }
 
     @Override
     public UserRegisterDto register(UserRegisterDto userRegisterDto) {
-         UserRegister userRegister=mapperClass.userRegisterDtoTOUserRegister(userRegisterDto);
-          userRegister.setPassword(encoder.encode(userRegister.getPassword()));
-        return mapperClass.userRegisterTODto( userRegisterRepo.save(userRegister));
-    }
+        UserRegister userRegister = mapperClass.userRegisterDtoTOUserRegister(userRegisterDto);
+        userRegister.setPassword(encoder.encode(userRegister.getPassword()));
+        List<SecurityQuestionKey> list = userRegisterDto.getSecurityQuestionList();
+        if (list != null) {
+            List<SecurityQuestionKey> newList = new ArrayList<>();
+            for (SecurityQuestionKey question : list) {
+                question.setUserRegister(userRegister);
+            newList.add(question);
+            }
+            userRegister.setSecurityQuestionList(newList);
+        }
+        return mapperClass.userRegisterTODto(userRegisterRepo.save(userRegister));
 
+    }
 
 
     @Override
     public List<SecurityQuestion> getAllSecurityQuestion() {
-       return securityQuestionRepository.findAll();
+        return securityQuestionRepository.findAll();
     }
 
 

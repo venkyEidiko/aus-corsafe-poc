@@ -1,10 +1,13 @@
 package com.aus.corsafe.controller;
+
 import com.aus.corsafe.dto.Login;
 import com.aus.corsafe.dto.UserRegisterDto;
 import com.aus.corsafe.dto.LoginResponseCls;
 import com.aus.corsafe.entity.ResponseModel;
 import com.aus.corsafe.entity.SecurityQuestion;
+import com.aus.corsafe.entity.SecurityQuestionKey;
 import com.aus.corsafe.exceptions.BadCrediantialsCls;
+import com.aus.corsafe.repository.SecurityQuestionKeyRepository;
 import com.aus.corsafe.response.CommonResponse;
 import com.aus.corsafe.service.LoginService;
 import com.aus.corsafe.service.UserRegisterService;
@@ -19,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Optional;
+
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -31,7 +34,8 @@ public class UserRegiserController {
     private CommonResponse<LoginResponseCls> commonResponse;
 
     private UserRegisterService userRegisterService;
-
+    @Autowired
+    private SecurityQuestionKeyRepository securityQuestionKeyRepository;
     @Autowired
     private LoginService loginService;
 
@@ -80,7 +84,7 @@ public class UserRegiserController {
 
         try {
             String accessToken = loginService.refreshTokenGenaration(token);
-            return  new CommonResponse<>().prepareSuccessResponseObject(accessToken, HttpStatus.OK);
+            return new CommonResponse<>().prepareSuccessResponseObject(accessToken, HttpStatus.OK);
 
         } catch (BadCrediantialsCls e) {
             return new CommonResponse<>().prepareFailedResponse(e.getMessage());
@@ -89,8 +93,6 @@ public class UserRegiserController {
         }
 
     }
-
-
     @GetMapping("/findEmail/{email}")
     public ResponseEntity<ResponseModel<Object>> findEmailByEmail(@PathVariable String email) {
         try {
@@ -102,7 +104,4 @@ public class UserRegiserController {
             return new CommonResponse<>().prepareFailedResponse("Email not registered: "+ email);
         }
     }
-
-
-
 }
