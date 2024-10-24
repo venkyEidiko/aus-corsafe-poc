@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Grid, Box, Typography, Card, CardContent, Button, Checkbox } from '@mui/material';
 import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
 import axios from 'axios';
@@ -9,7 +9,30 @@ import '../assets/styles/businessprofile.css';
 
 const BusinessProfile = () => {
   const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
+
+
+  const [selectedItems, setSelectedItems] = useState({
+    checklist1: [],
+    checklist2: [],
+  });
+
+useEffect(()=>{
+  axios.get("http://10.0.0.2:8081/sample",{withCredentials: true}).then(response=>{
+    console.log(" google credentials : ",response.data);
+  })
+},[]);
+
+  const handleCheckboxChange = (list, title) => {
+    setSelectedItems(prevState => {
+      const newList = prevState[list].includes(title)
+        ? prevState[list].filter(item => item !== title)
+        : [...prevState[list], title];
+      return { ...prevState, [list]: newList };
+    });
+  };
+
   const loginResponse = useSelector(state => state.auth); 
+
 
   const handleSubmit = async () => {
    
@@ -46,10 +69,30 @@ const BusinessProfile = () => {
       postalCode
     };
 
-    console.log("Payload to be sent:", payload); 
+
+    checklistdata.forEach(item => {
+      if (selectedItems.checklist1.includes(item.title)) {
+        payload = { title: item.title, description: item.description };
+      }
+      console.log("paylod",payload);
+      
+    });
+
+    checklist2data.forEach(item => {
+      if (selectedItems.checklist2.includes(item.title1)) {
+        payload = { title: item.title1, description: item.description1 };
+      }
+    });
 
     try {
-      const response = await axios.post('http://localhost:5000/api/c4765f54-b30c-4eba-b09f-2914741db450/inbound/audit-request', payload, {
+      const response = await axios.post('http://localhost:5000/api/c4765f54-b30c-4eba-b09f-2914741db450/inbound/audit-request',
+         payload, {
+
+    // console.log("Payload to be sent:", payload); 
+
+    // try {
+    //   const response = await axios.post('http://localhost:5000/api/c4765f54-b30c-4eba-b09f-2914741db450/inbound/audit-request', payload, {
+
         headers: {
           'Content-Type': 'application/json',
         },
