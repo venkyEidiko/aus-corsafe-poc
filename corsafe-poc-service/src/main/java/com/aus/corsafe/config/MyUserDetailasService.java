@@ -1,7 +1,9 @@
 package com.aus.corsafe.config;
 
 import com.aus.corsafe.entity.UserRegister;
+import com.aus.corsafe.exceptions.UserNotFoundExceptionCls;
 import com.aus.corsafe.repository.UserRegisterRepo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,6 +15,7 @@ import com.aus.corsafe.repository.UserRegisterRepo;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class MyUserDetailasService implements UserDetailsService {
 
     @Autowired
@@ -30,7 +33,8 @@ public class MyUserDetailasService implements UserDetailsService {
 
         }
         else{
-            throw new UsernameNotFoundException("user not found!!");
+            log.info("else block -> credentials wrong !! ");
+            throw new UserNotFoundExceptionCls("user not found!!");
         }
 
 

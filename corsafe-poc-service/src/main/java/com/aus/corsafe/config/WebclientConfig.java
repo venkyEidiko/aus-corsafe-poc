@@ -9,8 +9,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Configuration
 public class WebclientConfig {
 
-
-    //api tokenSaaS
     @Bean
     public WebClient webClient() {
         return WebClient
