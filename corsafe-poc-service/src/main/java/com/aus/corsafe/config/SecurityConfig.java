@@ -34,8 +34,8 @@ private MyUserDetailasService myUserDetailasService;
 
                 .authorizeHttpRequests(req->req.requestMatchers("/register","/login",
                         "/getAllSecurityQuestion","/refreshToken/**","getquestionByUserId/{userId}",
-                        "/getAllproducts","/password/**","findEmail/**",
-                        "/get-token/**").permitAll()
+                        "/getAllproducts","/password/**","findEmail/**","/cart/**",
+                        "/cart/updateQuantity/{cartId}","/get-token/**").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
