@@ -15,7 +15,6 @@ spring:
     properties:
       hibernate.format_sql: true
 
-
 zeebe.client:
   cloud:
     region: jfk-1

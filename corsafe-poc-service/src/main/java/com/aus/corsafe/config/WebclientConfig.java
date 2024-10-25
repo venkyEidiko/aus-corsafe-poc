@@ -27,10 +27,10 @@ public class WebclientConfig {
      * this is for camunda token generation webclient
      */
     @Bean
-    public WebClient webClientTokenGeneration(){
+    public WebClient webClientTokenGeneration() {
         return WebClient.builder()
                 .baseUrl(ApplicationConfig.BASE_URL_CAMUNDA_TOKEN)
-                .defaultHeader(HttpHeaders.CONTENT_TYPE,MediaType.APPLICATION_JSON_VALUE)
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .build();
     }
 
@@ -55,10 +55,12 @@ public class WebclientConfig {
                 .build();
     }
 
+    /**
+     * used for to add authorization header with token
+     */
+    private ExchangeFilterFunction addAutharizationFilter() {
 
-    private ExchangeFilterFunction addAutharizationFilter(){
-
-        return (request,next)-> {
+        return (request, next) -> {
             String token = getToken();
             return next.exchange(
                     ClientRequest.from(request)
@@ -68,8 +70,10 @@ public class WebclientConfig {
         };
     }
 
-    /**this  call camunda authentication token genarataion api */
-    public String getToken(){
+    /**
+     * this  call camunda authentication token genarataion api
+     */
+    public String getToken() {
 
         log.info("inside getToken method");
         String body = "grant_type=client_credentials" +
@@ -78,7 +82,7 @@ public class WebclientConfig {
                 "&client_secret=" + clientSecret +
                 "&scope=tasklist.read";
 
-        AccessTokenModel token =  webClientTokenGeneration()
+        AccessTokenModel token = webClientTokenGeneration()
                 .post()
                 .uri("/oauth/token")
                 .header("Content-Type", "application/x-www-form-urlencoded")
@@ -88,7 +92,7 @@ public class WebclientConfig {
                 .block();
         System.out.println(token);
 
-        return "Bearer "+token.getAccess_token();
+        return "Bearer " + token.getAccess_token();
     }
 
 }

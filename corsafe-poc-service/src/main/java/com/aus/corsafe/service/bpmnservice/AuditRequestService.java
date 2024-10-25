@@ -133,7 +133,9 @@ public class AuditRequestService {
         System.out.println("Calculating charges");
     }
 
-
+    /**
+     * for complete the task
+     */
     public String completeTask(CompleteTaskModel completeTask) {
 
         client.newCompleteCommand(completeTask.getTaskId())
@@ -149,7 +151,7 @@ public class AuditRequestService {
      * for assign the task
      */
     public Object getAssignTask(AssignTask assignTask) {
-        String url = "tasks/"+assignTask.getTaskId()+"/assign";
+        String url = "tasks/" + assignTask.getTaskId() + "/assign";
         Object claimed = webClient.patch()
                 .uri(url)
                 .body(Mono.just(assignTask), assignTask.getClass())
