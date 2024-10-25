@@ -12,6 +12,7 @@ import com.aus.corsafe.entity.SecurityQuestionKey;
 import com.aus.corsafe.exceptions.BadCrediantialsCls;
 import com.aus.corsafe.repository.SecurityQuestionKeyRepository;
 import com.aus.corsafe.response.CommonResponse;
+//import com.aus.corsafe.service.CamundAuthentication;
 import com.aus.corsafe.service.LoginService;
 import com.aus.corsafe.service.UserRegisterService;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +30,7 @@ import java.util.List;
 
 @RestController
 @Slf4j
+@CrossOrigin(origins = "*")
 public class UserRegiserController {
 
     @Autowired
@@ -42,6 +44,8 @@ public class UserRegiserController {
     private SecurityQuestionKeyRepository securityQuestionKeyRepository;
     @Autowired
     private LoginService loginService;
+
+
 
     public UserRegiserController(UserRegisterService userRegisterService) {
         this.userRegisterService = userRegisterService;
@@ -127,4 +131,5 @@ public class UserRegiserController {
             return new CommonResponse<>().prepareFailedResponse("Email not registered: " + email);
         }
     }
+
 }

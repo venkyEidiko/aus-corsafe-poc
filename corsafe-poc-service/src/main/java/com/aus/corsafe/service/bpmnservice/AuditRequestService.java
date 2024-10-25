@@ -50,7 +50,7 @@ public class AuditRequestService {
     ProcessDetailsRepository processDetailsRepository;
 
     @JobWorker(type = "userDetailsVerifier", autoComplete = true)
-    public void GettingVariableAndSettingVariable( ActivatedJob job) {
+    public void GettingVariableAndSettingVariable(ActivatedJob job) {
 
         log.info("strted userDetailsVerifier");
         System.out.println("strted userDetailsVerifier");
@@ -98,55 +98,35 @@ public class AuditRequestService {
         System.out.println("exits from userDetailsVerifier");
     }
 
-/*
-    @JobWorker(type = "userDetailsVerifier", autoComplete = true)
-    public void GettingVariableAndSettingVariable(ActivatedJob job) {
+    /**
+     * it call getuserststus camunds task for save detials
+     */
+    @JobWorker(type = "saveDataInDb", autoComplete = true)
+    public void handleGetUserStatusCamundaTask(ActivatedJob job) {
+        log.info("entered handejob", job.getVariable("email"));
 
-        CompletableFuture.runAsync(() -> {
-            log.info("Started async userDetailsVerifier");
+        ProcessDetails processDetails = ProcessDetails.builder()
+                .firstName((String) job.getVariable("firstName"))
+                .lastName((String) job.getVariable("lastName"))
+                .abn((String) job.getVariable("abn"))
+                .email((String) job.getVariable("email"))
+                .companyName((String) job.getVariable("companyName"))
+                .companyAddress((String) job.getVariable("companyAddress"))
+                .state((String) job.getVariable("state"))
+                .postalCode((String) job.getVariable("postalCode"))
+                .phoneNumber((Long) job.getVariable("phoneNumber"))
+                .processInstanceKey(job.getProcessInstanceKey())
+                .taskId(job.getKey())
+                .createdAt(new Date())
+                .assignee(job.getCustomHeaders().get("assignee"))
+                .implementation(job.getType())
+                .build();
+        log.info("All value setted ");
+        processDetailsRepository.save(processDetails);
+        log.info("saved");
 
-            boolean knowMe = true;
-            String userEmail = (String) job.getVariable("email");
 
-            Optional<UserRegister> user = userRegisterRepo.findByEmail(userEmail);
-            knowMe = user.isPresent();
-
-            ProcessDetails processDetails = ProcessDetails.builder()
-                    .firstName((String) job.getVariable("firstName"))
-                    .lastName((String) job.getVariable("lastName"))
-                    .abn((String) job.getVariable("abn"))
-                    .email((String) job.getVariable("email"))
-                    .companyName((String) job.getVariable("companyName"))
-                    .companyAddress((String) job.getVariable("companyAddress"))
-                    .state((String) job.getVariable("state"))
-                    .postalCode((String) job.getVariable("postalCode"))
-                    .phoneNumber((Long) job.getVariable("phoneNumber"))
-                    .processInstanceKey(job.getProcessInstanceKey())
-                    .taskId(job.getKey())
-                    .createdAt(new Date())
-                    .assignee(job.getCustomHeaders().get("assignee"))
-                    .implementation(job.getType())
-                    .build();
-
-            processDetailsRepository.save(processDetails);
-
-            // complete job
-            Map<String, Object> variables = new HashMap<>();
-            variables.put("knowMe", knowMe);
-
-            client.newSetVariablesCommand(job.getElementInstanceKey())
-                    .variables(variables)
-                    .send()
-                    .join();
-
-            client.newCompleteCommand(job.getKey())
-                    .send()
-                    .join();
-
-            log.info("Completed async userDetailsVerifier");
-        });
     }
-*/
 
     @JobWorker(type = "auditChargeCalculation", autoComplete = true)
     public void chargeCalculation(ActivatedJob job) {
@@ -169,9 +149,9 @@ public class AuditRequestService {
      * for assign the task
      */
     public Object getAssignTask(AssignTask assignTask) {
+        String url = "tasks/"+assignTask.getTaskId()+"/assign";
         Object claimed = webClient.patch()
-
-                .uri("/tasks/6755399441234580/assign")
+                .uri(url)
                 .body(Mono.just(assignTask), assignTask.getClass())
                 .retrieve()
                 .bodyToMono(Object.class)

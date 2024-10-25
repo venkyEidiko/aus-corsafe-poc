@@ -4,6 +4,7 @@ import com.aus.corsafe.entity.Auditor;
 import com.aus.corsafe.entity.ResponseModel;
 import com.aus.corsafe.response.CommonResponse;
 import com.aus.corsafe.service.AuditorService;
+import io.camunda.zeebe.spring.client.annotation.JobWorker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,7 @@ public class AuditorController {
      * based on area give auditor's list
      */
     @GetMapping("/getAuditor/{area}")
+
     public ResponseEntity<ResponseModel<Object>> getAuditorBYArea(@PathVariable("area") String area) {
         List<Auditor> nearsetAuditor = auditorService.getNearsetAuditor(area);
         List<Auditor> allAuditor = auditorService.getAllAuditor();
@@ -40,9 +42,10 @@ public class AuditorController {
      * all auditor's list
      */
     @GetMapping("/getAllAuditors")
+    @JobWorker(type = "ok", autoComplete = true)
     public ResponseEntity<ResponseModel<Object>> getAllAuditor() {
         List<Auditor> allAuditor = auditorService.getAllAuditor();
-
+        allAuditor.stream().forEach(System.out::println);
         return new CommonResponse<>().prepareSuccessResponseObject(allAuditor, HttpStatus.valueOf(200));
     }
 

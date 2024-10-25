@@ -43,15 +43,15 @@ public class SecurityConfig {
                 .authorizeHttpRequests(req -> req.requestMatchers("/register", "/login",
                                 "/getAllSecurityQuestion", "/refreshToken/**", "getquestionByUserId/{userId}",
                                 "/getAllproducts", "/password/**", "findEmail/**",
-                                "/get-token/**").permitAll()
+                                "/get-token/**", "/refreshToken/getToken","/assignTask").permitAll()
 
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 
 
-                .oauth2Login(oauth2 -> oauth2
-                        .userInfoEndpoint(userInfo -> userInfo.userService(requestIntercept)) // OAuth2 user service
-                )
+//                .oauth2Login(oauth2 -> oauth2
+//                        .userInfoEndpoint(userInfo -> userInfo.userService(requestIntercept)) // OAuth2 user service
+//                )
 
 
                 .build();

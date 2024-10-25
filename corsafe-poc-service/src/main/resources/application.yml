@@ -14,7 +14,8 @@ spring:
     show-sql: true
     properties:
       hibernate.format_sql: true
- 
+
+
 zeebe.client:
   cloud:
     region: jfk-1
@@ -26,5 +27,5 @@ zeebe.client:
     # WebClient properties
 
 webclient:
-  base-url: https://login.cloud.camunda.io
+    base-url: https://login.cloud.camunda.io
 

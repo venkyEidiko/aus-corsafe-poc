@@ -32,7 +32,7 @@ public class AuditorServiceImpl implements  AuditorService{
 
 
     }
-    @JobWorker(type = "ok", autoComplete = true)
+
     public void ok(){
         System.out.println("Ok method executed");
     }

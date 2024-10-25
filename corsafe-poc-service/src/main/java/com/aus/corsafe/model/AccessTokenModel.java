@@ -4,13 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
-public class AssignTask {
+public class AccessTokenModel {
 
-     long taskId;
-     public String assignee;
-     public Boolean allowOverrideAssignment;
-
+    String access_token;
 }
