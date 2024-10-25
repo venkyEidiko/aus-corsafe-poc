@@ -1,6 +1,6 @@
 
-import React, { useState } from 'react';
 
+import React, { useState } from 'react';
 import { Grid, Box, Typography, Card, CardContent, Button, Checkbox } from '@mui/material';
 import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
 import axios from 'axios';
@@ -70,7 +70,6 @@ const BusinessProfile = () => {
       if (selectedItems.checklist1.includes(item.title)) {
         payload = { title: item.title, description: item.description };
       }
-
     });
 
     checklist2data.forEach(item => {
@@ -80,6 +79,7 @@ const BusinessProfile = () => {
     });
 
     try {
+
       const response = await axios.post('http://localhost:5000/api/e94af90e-b94e-4218-ab73-fc2ce8a60957/inbound/4445', payload, {
 
         headers: {

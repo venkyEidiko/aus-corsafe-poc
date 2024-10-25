@@ -3,7 +3,10 @@
   <bpmn:process id="Audit" isExecutable="true">
     <bpmn:extensionElements>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 2b5b62dabd3750227f4e6d62f4365297ad24b860
       <zeebe:userTaskForm id="UserTaskForm_1bt1kkj">{
   "components": [
     {
@@ -38,6 +41,9 @@
   },
   "schemaVersion": 16
 }</zeebe:userTaskForm>
+<<<<<<< HEAD
+>>>>>>> 2b5b62dabd3750227f4e6d62f4365297ad24b860
+=======
 >>>>>>> 2b5b62dabd3750227f4e6d62f4365297ad24b860
       <zeebe:userTaskForm id="UserTaskForm_224qg60">{
   "components": [
@@ -83,7 +89,10 @@
   "schemaVersion": 16
 }</zeebe:userTaskForm>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 2b5b62dabd3750227f4e6d62f4365297ad24b860
       <zeebe:userTaskForm id="UserTaskForm_1fr1k2a">{
   "components": [
     {
@@ -150,6 +159,9 @@
   "schemaVersion": 16
 }</zeebe:userTaskForm>
       <zeebe:userTaskForm id="UserTaskForm_23n7oi1">{}</zeebe:userTaskForm>
+<<<<<<< HEAD
+>>>>>>> 2b5b62dabd3750227f4e6d62f4365297ad24b860
+=======
 >>>>>>> 2b5b62dabd3750227f4e6d62f4365297ad24b860
       <zeebe:userTaskForm id="UserTaskForm_3qdjr6v">{}</zeebe:userTaskForm>
       <zeebe:userTaskForm id="UserTaskForm_30c7l98">{}</zeebe:userTaskForm>
@@ -160,6 +172,7 @@
           <zeebe:property name="inbound.type" value="io.camunda:webhook:1" />
           <zeebe:property name="inbound.method" value="post" />
 <<<<<<< HEAD
+<<<<<<< HEAD
           <zeebe:property name="inbound.context" value="audit-request" />
           <zeebe:property name="inbound.shouldValidateHmac" value="disabled" />
           <zeebe:property name="inbound.auth.type" value="NONE" />
@@ -167,12 +180,17 @@
           <zeebe:property name="resultVariable" value="email,firstName,lastName,phoneNumber,abn,companyName,companyAddress,state,postalCode" />
           <zeebe:property name="resultExpression" value="={&#10;  &#34;email&#34;: request.body.email,&#10;  &#34;firstName&#34;: request.body.firstName,&#10;  &#34;lastName&#34;: request.body.lastName,&#10;  &#34;phoneNumber&#34;: request.body.phoneNumber,&#10;  &#34;abn&#34;: request.body.abn,&#10;  &#34;companyName&#34;: request.body.companyName,&#10;  &#34;companyAddress&#34;:request.body.companyAddress,&#10;  &#34;state&#34;: request.body.state,&#10;  &#34;postalCode&#34;: request.body.postalCode&#10;}" />
 =======
+=======
+>>>>>>> 2b5b62dabd3750227f4e6d62f4365297ad24b860
           <zeebe:property name="inbound.context" value="4445" />
           <zeebe:property name="inbound.shouldValidateHmac" value="disabled" />
           <zeebe:property name="inbound.auth.type" value="NONE" />
           <zeebe:property name="inbound.responseBodyExpression" value="={&#10;  &#34;status&#34;: 200,&#10;  &#34;message&#34;: &#34;process started sucessfully&#34;&#10;}" />
           <zeebe:property name="resultVariable" value="userEmail" />
           <zeebe:property name="resultExpression" value="={&#34;userEmail&#34;: request.body.userEmail}" />
+<<<<<<< HEAD
+>>>>>>> 2b5b62dabd3750227f4e6d62f4365297ad24b860
+=======
 >>>>>>> 2b5b62dabd3750227f4e6d62f4365297ad24b860
         </zeebe:properties>
       </bpmn:extensionElements>
@@ -180,8 +198,11 @@
     </bpmn:startEvent>
     <bpmn:sequenceFlow id="Flow_1463sug" sourceRef="StartEvent_1" targetRef="knowMe" />
 <<<<<<< HEAD
+<<<<<<< HEAD
     <bpmn:sequenceFlow id="Flow_01fyv6b" sourceRef="Activity_0q1m9sc" targetRef="Activity_1gviof8" />
 =======
+=======
+>>>>>>> 2b5b62dabd3750227f4e6d62f4365297ad24b860
     <bpmn:exclusiveGateway id="Gateway_0d49ggv">
       <bpmn:incoming>Flow_05v2wml</bpmn:incoming>
       <bpmn:outgoing>Flow_18alncb</bpmn:outgoing>
@@ -228,16 +249,22 @@
       <bpmn:incoming>Flow_0pmxrsy</bpmn:incoming>
       <bpmn:outgoing>Flow_0eul9c0</bpmn:outgoing>
     </bpmn:userTask>
+<<<<<<< HEAD
+>>>>>>> 2b5b62dabd3750227f4e6d62f4365297ad24b860
+=======
 >>>>>>> 2b5b62dabd3750227f4e6d62f4365297ad24b860
     <bpmn:userTask id="Activity_0q1m9sc" name="Review Audit">
       <bpmn:extensionElements>
         <zeebe:formDefinition formKey="camunda-forms:bpmn:UserTaskForm_224qg60" />
       </bpmn:extensionElements>
 <<<<<<< HEAD
+<<<<<<< HEAD
       <bpmn:incoming>Flow_06x53m1</bpmn:incoming>
       <bpmn:outgoing>Flow_01fyv6b</bpmn:outgoing>
     </bpmn:userTask>
 =======
+=======
+>>>>>>> 2b5b62dabd3750227f4e6d62f4365297ad24b860
       <bpmn:incoming>Flow_0nz35ub</bpmn:incoming>
       <bpmn:incoming>Flow_1mkb4qs</bpmn:incoming>
       <bpmn:outgoing>Flow_01fyv6b</bpmn:outgoing>
@@ -270,14 +297,22 @@
       <bpmn:incoming>Flow_0beqi0l</bpmn:incoming>
       <bpmn:outgoing>Flow_0so445q</bpmn:outgoing>
     </bpmn:userTask>
+<<<<<<< HEAD
+>>>>>>> 2b5b62dabd3750227f4e6d62f4365297ad24b860
+=======
 >>>>>>> 2b5b62dabd3750227f4e6d62f4365297ad24b860
     <bpmn:userTask id="Activity_13mrqed" name="Select Auditor">
       <bpmn:extensionElements>
         <zeebe:formDefinition formKey="camunda-forms:bpmn:UserTaskForm_3qdjr6v" />
       </bpmn:extensionElements>
 <<<<<<< HEAD
+<<<<<<< HEAD
       <bpmn:incoming>Flow_12qw1og</bpmn:incoming>
       <bpmn:outgoing>Flow_0nju4lc</bpmn:outgoing>
+=======
+      <bpmn:incoming>Flow_0so445q</bpmn:incoming>
+      <bpmn:outgoing>Flow_15j049l</bpmn:outgoing>
+>>>>>>> 2b5b62dabd3750227f4e6d62f4365297ad24b860
 =======
       <bpmn:incoming>Flow_0so445q</bpmn:incoming>
       <bpmn:outgoing>Flow_15j049l</bpmn:outgoing>
@@ -289,7 +324,11 @@
         <zeebe:formDefinition formKey="camunda-forms:bpmn:UserTaskForm_30c7l98" />
       </bpmn:extensionElements>
 <<<<<<< HEAD
+<<<<<<< HEAD
       <bpmn:incoming>Flow_0v0xmzp</bpmn:incoming>
+=======
+      <bpmn:incoming>Flow_15j049l</bpmn:incoming>
+>>>>>>> 2b5b62dabd3750227f4e6d62f4365297ad24b860
 =======
       <bpmn:incoming>Flow_15j049l</bpmn:incoming>
 >>>>>>> 2b5b62dabd3750227f4e6d62f4365297ad24b860
@@ -300,16 +339,23 @@
       <bpmn:outgoing>Flow_0lmbaxh</bpmn:outgoing>
     </bpmn:userTask>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 2b5b62dabd3750227f4e6d62f4365297ad24b860
     <bpmn:userTask id="Activity_0acvqwu" name="Select Audit Template">
       <bpmn:incoming>Flow_18alncb</bpmn:incoming>
       <bpmn:outgoing>Flow_1mkb4qs</bpmn:outgoing>
     </bpmn:userTask>
+<<<<<<< HEAD
+>>>>>>> 2b5b62dabd3750227f4e6d62f4365297ad24b860
+=======
 >>>>>>> 2b5b62dabd3750227f4e6d62f4365297ad24b860
     <bpmn:endEvent id="Event_05d6y14">
       <bpmn:incoming>Flow_0lmbaxh</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_0lmbaxh" sourceRef="Activity_0oezzza" targetRef="Event_05d6y14" />
+<<<<<<< HEAD
 <<<<<<< HEAD
     <bpmn:sequenceFlow id="Flow_06x53m1" sourceRef="knowMe" targetRef="Activity_0q1m9sc" />
     <bpmn:sequenceFlow id="Flow_12qw1og" sourceRef="Activity_1gviof8" targetRef="Activity_13mrqed" />
@@ -331,13 +377,19 @@
     <bpmn:sequenceFlow id="Flow_0nju4lc" sourceRef="Activity_13mrqed" targetRef="Activity_1xkzlzp" />
 =======
 >>>>>>> 2b5b62dabd3750227f4e6d62f4365297ad24b860
+=======
+>>>>>>> 2b5b62dabd3750227f4e6d62f4365297ad24b860
     <bpmn:serviceTask id="knowMe" name="Get User Status">
       <bpmn:extensionElements>
         <zeebe:taskDefinition type="userDetailsVerifier" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_1463sug</bpmn:incoming>
 <<<<<<< HEAD
+<<<<<<< HEAD
       <bpmn:outgoing>Flow_06x53m1</bpmn:outgoing>
+=======
+      <bpmn:outgoing>Flow_0pmxrsy</bpmn:outgoing>
+>>>>>>> 2b5b62dabd3750227f4e6d62f4365297ad24b860
 =======
       <bpmn:outgoing>Flow_0pmxrsy</bpmn:outgoing>
 >>>>>>> 2b5b62dabd3750227f4e6d62f4365297ad24b860
@@ -347,6 +399,7 @@
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Audit">
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+<<<<<<< HEAD
 <<<<<<< HEAD
         <dc:Bounds x="152" y="102" width="36" height="36" />
       </bpmndi:BPMNShape>
@@ -408,6 +461,8 @@
         <di:waypoint x="860" y="120" />
         <di:waypoint x="930" y="120" />
 =======
+=======
+>>>>>>> 2b5b62dabd3750227f4e6d62f4365297ad24b860
         <dc:Bounds x="158" y="242" width="36" height="36" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_0d49ggv_di" bpmnElement="Gateway_0d49ggv" isMarkerVisible="true">
@@ -527,6 +582,9 @@
       <bpmndi:BPMNEdge id="Flow_0lmbaxh_di" bpmnElement="Flow_0lmbaxh">
         <di:waypoint x="1840" y="260" />
         <di:waypoint x="1892" y="260" />
+<<<<<<< HEAD
+>>>>>>> 2b5b62dabd3750227f4e6d62f4365297ad24b860
+=======
 >>>>>>> 2b5b62dabd3750227f4e6d62f4365297ad24b860
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>

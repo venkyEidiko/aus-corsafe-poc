@@ -1,9 +1,7 @@
 import { Box, Typography, Card, CardContent, TextField, Button } from '@mui/material';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
 import './googlelogin.css';
-
 import Grid from '@mui/material/Grid2'; 
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -34,6 +32,7 @@ const Login = () => {
   const handleRegister=()=>{
     navigate("/");
   }
+
 
   return (
     <Box sx={{ flexGrow: 1, p: 2 }}>
@@ -123,6 +122,7 @@ const Login = () => {
               {loading ? 'Logging in...' : 'Login'}
             </Button>
 
+
             {/* Google Login Button with custom CSS */}
               <Button
   
@@ -134,6 +134,7 @@ const Login = () => {
               </Button>
               
 
+
             {error && (
               <Typography color="error" align="center">
                 {error.message || 'Login failed. Please try again.'}
@@ -144,6 +145,7 @@ const Login = () => {
               Register account here?{' '}
               <span style={{ color: '#141069', fontWeight: 'bold', cursor:"pointer"}} onClick={handleRegister} >Register</span>
             </Typography>
+
 
           </Box>
         </Grid>

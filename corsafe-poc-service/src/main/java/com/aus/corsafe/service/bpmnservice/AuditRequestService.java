@@ -99,6 +99,7 @@ public class AuditRequestService {
         System.out.println("exits from userDetailsVerifier");
     }
 
+
     @JobWorker(type = "auditChargeCalculation", autoComplete = true)
     public void chargeCalculation(ActivatedJob job) {
         System.out.println("Calculating charges");

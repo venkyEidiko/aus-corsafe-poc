@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchProducts } from '../slice/ProductSlice';
+
 import { Card, CardContent, Tooltip } from '@mui/material';
 import '../assets/styles/getproducts.css';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
@@ -19,8 +20,8 @@ const GetProducts = () => {
     }, [dispatch, status]);
 
     const handleAddToCart = (product) => {
-
         dispatch(addToCart(product));
+
     };
     if (status === 'loading') {
         return <p>Loading...</p>;
@@ -35,7 +36,6 @@ const GetProducts = () => {
             <Grid container spacing={2}>
                 <Grid item xs={12} lg={8} className='grid-scroll'>
                     <p className='title'>List of Products</p>
-
                     <Grid container spacing={2} sx={{ padding: 5 }}>
                         {products.map((product, index) => (
                             <Grid item xs={12} sm={6} md={4} key={index}>

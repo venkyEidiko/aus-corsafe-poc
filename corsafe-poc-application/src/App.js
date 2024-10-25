@@ -1,4 +1,3 @@
-
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 import BusinessProfile from './pages/BusinessProfile';
@@ -12,6 +11,7 @@ import GetProducts from './pages/GetProducts';
 import AddToCart from './pages/AddToCart';
 import CustomerAddress from './pages/CustomerAddress';
 import Payment from './pages/Payment';
+
 
 
 

@@ -46,10 +46,10 @@ const Register = ({ userData, onUserChange }) => {
     setErrors(newErrors); 
     return Object.keys(newErrors).length === 0; 
   };
-
   const handleLogin=()=>{
     navigate('/login');
   }
+
   return (
     <Box sx={{ flexGrow: 1, p: 2 }}>
       <Grid container spacing={4} justifyContent="center">
@@ -179,6 +179,7 @@ const Register = ({ userData, onUserChange }) => {
               <span style={{ color: '#141069', fontWeight: 'bold', cursor:"pointer"}} onClick={handleLogin} >Log In</span>
             </Typography>
             
+
           </Box>
         </Grid>
       </Grid>

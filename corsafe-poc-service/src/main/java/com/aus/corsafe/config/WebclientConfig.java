@@ -25,6 +25,7 @@ public class WebclientConfig {
     private String baseUrl;
 
   
+
     @Bean
     public WebClient webClient() {
         return WebClient.builder()

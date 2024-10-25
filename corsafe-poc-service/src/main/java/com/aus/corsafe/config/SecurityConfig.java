@@ -18,7 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-
+	
 	@Autowired
     private MyUserDetailasService myUserDetailasService;
 
@@ -36,7 +36,6 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain config(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity.csrf(csrf -> csrf.disable())
-
                 .authorizeHttpRequests(req -> req.requestMatchers("/register","/login","/googlelogin", "/getAllSecurityQuestion", "/refreshToken/**").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
@@ -50,6 +49,7 @@ public class SecurityConfig {
     }
 
 //     Authentication provider
+
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
@@ -65,8 +65,8 @@ public class SecurityConfig {
     }
 
     @Bean
-    public ModelMapper modelMapper(){
 
+    public ModelMapper modelMapper(){
         return new ModelMapper();
     }
 

@@ -3,11 +3,7 @@ package com.aus.corsafe.service.bpmnservice;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-
 import reactor.core.publisher.Mono;
-
-
-
 
 @Service
 public class AuthService {
@@ -26,7 +22,6 @@ public class AuthService {
     @Value("${webclient.base-url}")
     private String baseUrl;
 
-
     public Mono<String> getAuthToken() {
         String body = "grant_type=client_credentials" +
                 "&audience=tasklist.camunda.io" +
@@ -42,6 +37,5 @@ public class AuthService {
                 .retrieve()
                 .bodyToMono(String.class);
     }
-
 
 }

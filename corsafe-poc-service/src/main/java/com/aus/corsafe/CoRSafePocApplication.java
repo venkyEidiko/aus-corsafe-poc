@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import java.util.List;
 
 @SpringBootApplication
+
 public class CoRSafePocApplication implements CommandLineRunner {
 
 	private SecurityQuestionRepository securityQuestionRepository;

@@ -12,6 +12,7 @@ import com.aus.corsafe.repository.AuditorRepository;
 
 import lombok.RequiredArgsConstructor;
 
+
 @Component
 @RequiredArgsConstructor
 public class AuditorCommandLineRunner implements CommandLineRunner {

@@ -9,7 +9,6 @@ import lombok.ToString;
 @Data
 @Entity
 @ToString
-
 public class SecurityQuestionKey {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

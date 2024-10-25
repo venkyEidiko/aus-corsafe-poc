@@ -27,6 +27,7 @@ export const registerUser = (registrationData) => {
     return (dispatch) => {
         dispatch(registerUserRequest());
         fetch('http://localhost:8086/register', {
+
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

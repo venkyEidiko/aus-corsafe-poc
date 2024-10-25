@@ -5,7 +5,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-
 import com.aus.corsafe.config.JwtService;
 import com.aus.corsafe.config.MyUserDetailasService;
 import com.aus.corsafe.dto.Login;
@@ -14,9 +13,7 @@ import com.aus.corsafe.entity.UserRegister;
 import com.aus.corsafe.exceptions.BadCrediantialsCls;
 import com.aus.corsafe.exceptions.UnAuthorizedExceptionCls;
 import com.aus.corsafe.repository.UserRegisterRepo;
-
 import lombok.extern.slf4j.Slf4j;
-
 
 @Service
 @Slf4j
@@ -34,7 +31,6 @@ public class LoginService {
     @Autowired
     private JwtService jwtService;
 
-
     //refresh token
     public String refreshTokenGenaration(String jwtToken) {
 
@@ -42,10 +38,8 @@ public class LoginService {
 
         if (jwtService.isTokenValid(jwtToken)) {
             return jwtService.genarateRefreshToken(myUserDetailasService.loadUserByUsername(subject));
-
         } else {
             throw new BadCrediantialsCls("BadRequest!! ");
-
         }
 
     }
@@ -57,9 +51,7 @@ public class LoginService {
         String jwtToken = "";
         UserRegister userRegister;
         try {
-
              userRegister = userRegisterRepo.findByEmail(userName).get();
-        
             Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(login.getEmail(), login.getPassword()));
 
             if (authenticate.isAuthenticated()) {
@@ -70,7 +62,6 @@ public class LoginService {
                 log.info("fails while checking authntication");
 
                 throw new UnAuthorizedExceptionCls("Authenuthentication Failed !! Invalid Credentials!!");
-
             }
         } catch (Exception e) {
             System.out.println("error is loginservice catch block::: " + e.toString());
@@ -84,6 +75,7 @@ public class LoginService {
                 .userRegister(userRegister)
                 .build();
     }
+
 
 
 
@@ -105,5 +97,6 @@ public class LoginService {
             return null;
         }
     }
+
 
 }

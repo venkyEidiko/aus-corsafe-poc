@@ -12,7 +12,6 @@ const RegistrationForm = () => {
   const dispatch = useDispatch();
 
   const {data, error } = useSelector((state) => state.register);
-
   const location = useLocation();
   const validateCompanyRef = useRef(null);
 
@@ -53,6 +52,7 @@ const RegistrationForm = () => {
     };
     fetchSecurityQuestions();
   }, [0]);
+
 
   const handleChange = (section, field, value) => {
     setFormData((prevState) => ({
