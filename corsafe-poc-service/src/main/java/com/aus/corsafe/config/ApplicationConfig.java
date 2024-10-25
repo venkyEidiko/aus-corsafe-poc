@@ -28,6 +28,10 @@ public class ApplicationConfig {
     public static final String USER_NOT_FOUND_MESSAGE = "User not found with this email ID";
     public static final String EMAIL_NOT_REGISTERED_MESSAGE = "Email not registered with : ";
     public static final String PASSWORD_UPDATE_SUCCESS = "Password updated successfully";
+    public static final String USER_NOT_FOUND="User not found with ID: ";
+    public static final String PRODUCT_NOT_FOUND="Product not found with ID: ";
+    public static final String CART_ITEM_NOT_FOUND="Cart item not found with ID: ";
+    public static final String CART_ITEM_REMOVED="Item removed from cart ";
 
 
 }

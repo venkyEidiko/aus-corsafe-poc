@@ -21,8 +21,8 @@ public class SecurityConfig {
 
     @Autowired
     private MyUserDetailasService myUserDetailasService;
-    @Autowired
-    RequestIntercept requestIntercept;
+//    @Autowired
+//    RequestIntercept requestIntercept;
 
     @Autowired
     private JwtAuthenticationFilter jwtAuthenticationFilter;
@@ -47,9 +47,9 @@ public class SecurityConfig {
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 
 
-                .oauth2Login(oauth2 -> oauth2
-                        .userInfoEndpoint(userInfo -> userInfo.userService(requestIntercept)) // OAuth2 user service
-                )
+//                .oauth2Login(oauth2 -> oauth2
+//                        .userInfoEndpoint(userInfo -> userInfo.userService(requestIntercept)) // OAuth2 user service
+//                )
 
 
                 .build();

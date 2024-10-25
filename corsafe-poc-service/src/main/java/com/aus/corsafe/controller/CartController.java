@@ -1,5 +1,6 @@
 package com.aus.corsafe.controller;
 
+import com.aus.corsafe.config.ApplicationConfig;
 import com.aus.corsafe.entity.Cart;
 import com.aus.corsafe.entity.Products;
 import com.aus.corsafe.entity.ResponseModel;
@@ -78,7 +79,7 @@ public class CartController {
     @GetMapping("/items")
     public ResponseEntity<ResponseModel<Object>> getCartItems(@RequestParam Integer userId) {
         if (!cartService.userExists(userId)) {
-            return new CommonResponse<>().prepareErrorResponseObject("User not found with ID: " + userId, HttpStatus.NOT_FOUND);
+            return new CommonResponse<>().prepareErrorResponseObject(ApplicationConfig.USER_NOT_FOUND + userId, HttpStatus.NOT_FOUND);
         }
 
         List<Cart> cartItems = cartService.getCartItems(userId);
@@ -91,16 +92,16 @@ public class CartController {
     public ResponseEntity<ResponseModel<Object>> removeCartItem(@PathVariable Long cartId, @RequestParam Integer userId) {
         // Check if the user exists
         if (!cartService.userExists(userId)) {
-            return new CommonResponse<>().prepareErrorResponseObject("User not found with ID: " + userId, HttpStatus.NOT_FOUND);
+            return new CommonResponse<>().prepareErrorResponseObject(ApplicationConfig.USER_NOT_FOUND + userId, HttpStatus.NOT_FOUND);
         }
 
         // Check if the cart item exists
         if (!cartService.cartItemExists(cartId)) {
-            return new CommonResponse<>().prepareErrorResponseObject("Cart item not found with ID: " + cartId, HttpStatus.NOT_FOUND);
+            return new CommonResponse<>().prepareErrorResponseObject(ApplicationConfig.CART_ITEM_NOT_FOUND + cartId, HttpStatus.NOT_FOUND);
         }
 
         cartService.removeCartItem(cartId);
-        return new CommonResponse<>().prepareSuccessResponseObject("Item removed from cart", HttpStatus.OK);
+        return new CommonResponse<>().prepareSuccessResponseObject(ApplicationConfig.CART_ITEM_REMOVED, HttpStatus.OK);
     }
 
 

@@ -1,5 +1,6 @@
 package com.aus.corsafe.service;
 
+import com.aus.corsafe.config.ApplicationConfig;
 import com.aus.corsafe.entity.Cart;
 import com.aus.corsafe.entity.Products;
 import com.aus.corsafe.entity.UserRegister;
@@ -34,13 +35,13 @@ public class CartService {
         // Check if the user exists
         Optional<UserRegister> userOptional = userRegisterRepo.findById(userId);
         if (!userOptional.isPresent()) {
-            throw new RuntimeException("User not found with ID: " + userId);
+            throw new RuntimeException(ApplicationConfig.USER_NOT_FOUND + userId);
         }
 
         for (Integer productId : productIds) {
             Optional<Products> productOptional = productRepository.findById(productId);
             if (!productOptional.isPresent()) {
-                throw new RuntimeException("Product not found with ID: " + productId);
+                throw new RuntimeException(ApplicationConfig.PRODUCT_NOT_FOUND + productId);
             }
 
             Products product = productOptional.get();
