@@ -26,6 +26,9 @@ function App() {
         <Route path="/" element={<RegistrationForm />} />
         <Route path="/login" element={<Login />} />
         <Route path="/business-profile" element={<BusinessProfile />} />
+        <Route path="/company" element={<RegistrationForm />} />
+        <Route path="/security" element={<RegistrationForm />} />
+
         
       
         <Route path="/allProducts" element={<GetProducts />}> 
@@ -38,17 +41,6 @@ function App() {
     </BrowserRouter>
    
 
-<BrowserRouter>
-<ToastContainer />
-     <Routes>
-    <Route path="/" element={<RegistrationForm/>}></Route>
-    <Route path="/login" element={<Login/>}></Route>
-    <Route path="/company" element={<RegistrationForm/>}></Route>
-    <Route path="/security" element={<RegistrationForm/>}/>
-     <Route path='/business-profile' element={<BusinessProfile/>}></Route>
-
-     </Routes>
-     </BrowserRouter>
 
 
 

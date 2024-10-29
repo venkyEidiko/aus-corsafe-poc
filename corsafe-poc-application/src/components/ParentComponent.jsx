@@ -38,7 +38,7 @@ const RegistrationForm = () => {
   useEffect(() => {
     const fetchSecurityQuestions = async () => {
       try {
-        const response = await fetch('http://10.0.0.16:8086/getAllSecurityQuestion');
+        const response = await fetch('http://localhost:8081/getAllSecurityQuestion');
         const data = await response.json();
         if (data.status === 'SUCCESS' && Array.isArray(data.result)) {
           setSecurityQuestions(data.result);

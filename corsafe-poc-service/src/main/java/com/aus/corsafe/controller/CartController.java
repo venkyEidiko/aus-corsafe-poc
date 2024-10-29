@@ -10,6 +10,7 @@ import com.aus.corsafe.repository.ProductRepository;
 import com.aus.corsafe.repository.UserRegisterRepo;
 import com.aus.corsafe.response.CommonResponse;
 import com.aus.corsafe.service.CartService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
+@Slf4j
 @RestController
 @RequestMapping("/cart")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -44,6 +45,7 @@ public class CartController {
     public ResponseEntity<ResponseModel<Object>> addToCart(@RequestParam List<Integer> productIds,
                                                            @RequestParam Integer userId) {
         List<Cart> cartItems;
+        log.info("---------{}",userId);
         try {
             cartItems = cartService.addToCart(productIds, userId);
         } catch (RuntimeException e) {

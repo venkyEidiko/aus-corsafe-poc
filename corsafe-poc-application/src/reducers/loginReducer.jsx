@@ -6,7 +6,7 @@ export const loginUser = createAsyncThunk(
   'auth/loginUser',
   async (loginData, { rejectWithValue }) => {
     try {
-      const response = await axios.post('http://10.0.0.16:8086/login', loginData);
+      const response = await axios.post('http://localhost:8081/login', loginData);
       console.log("login response: ", response);
 
       

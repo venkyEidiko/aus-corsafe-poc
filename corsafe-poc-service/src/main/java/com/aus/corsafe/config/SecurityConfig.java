@@ -39,7 +39,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(req->req.requestMatchers("/register","/login",
                         "/getAllSecurityQuestion","/refreshToken/**","getquestionByUserId/{userId}",
                         "/getAllproducts","/password/**","findEmail/**","/cart/**",
-                        "/cart/updateQuantity/{cartId}","/get-token/**").permitAll()
+                        "/cart/updateQuantity/{cartId}","/get-token/**", "/orderdetails/createOrder").permitAll()
 
                 //.authorizeHttpRequests(req -> req.requestMatchers("/register", "/login", "/getAllSecurityQuestion", "/refreshToken/**").permitAll()
 

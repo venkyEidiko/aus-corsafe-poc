@@ -26,4 +26,9 @@ public class Cart {
     private Long price;
 
     private Long totalPrice;
+
+
+    @ManyToOne
+    @JoinColumn(name = "order_id", referencedColumnName = "orderId")
+    private Orders order;
 }

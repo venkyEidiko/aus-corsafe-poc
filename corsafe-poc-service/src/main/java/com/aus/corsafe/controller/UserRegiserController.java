@@ -29,6 +29,7 @@ import java.util.List;
 
 @RestController
 @Slf4j
+@CrossOrigin(origins = "http://localhost:3000/**" , allowCredentials = "true")
 public class UserRegiserController {
 
     @Autowired

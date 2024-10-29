@@ -1,4 +1,4 @@
-package com.aus.corsafe.commandLineRunner;
+package com.aus.corsafe.commandlinerunner;
 
 import com.aus.corsafe.entity.Auditor;
 import com.aus.corsafe.repository.AuditorRepository;
