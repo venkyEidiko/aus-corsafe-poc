@@ -1,41 +1,26 @@
 package com.aus.corsafe.service;
 
-
-
 import com.aus.corsafe.entity.Cart;
-import com.aus.corsafe.entity.Orders;
+import com.aus.corsafe.entity.CartItem;
+import com.aus.corsafe.entity.Order;
 import com.aus.corsafe.entity.UserRegister;
-import com.aus.corsafe.repository.CartRepository;
-import com.aus.corsafe.repository.OrdersRepository;
-import com.aus.corsafe.repository.UserRegisterRepo;
-import com.razorpay.Order;
-import com.razorpay.Payment;
+import com.aus.corsafe.repository.OrderRepo;
 import com.razorpay.RazorpayClient;
+import com.razorpay.RazorpayException;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.codec.binary.Hex;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
-@Slf4j
 @Service
+@Slf4j
 public class OrderService {
 
-    @Autowired
-    OrdersRepository orderRepo;
-
-    @Autowired
-    CartRepository cartRepo;
-
-    @Autowired
-    UserRegisterRepo userRegisterRepo;
 
     @Value("${razorpay.key.id}")
     private String razorPayKey;
@@ -45,115 +30,62 @@ public class OrderService {
 
     private RazorpayClient client;
 
+//    @Autowired
+//    Order order;
 
+    @Autowired
+    OrderRepo orderRepo;
 
-//    private static final String HMAC_SHA256 = "HmacSHA256";
+    //create order
+    public Order placeOrder(Cart cart, UserRegister user, String address, String city, String postalcode, String area) throws RazorpayException {
+        log.info("Entering placeOrder service method");
 
-
-//    public OrderService() throws Exception {
-//        this.client = new RazorpayClient(razorPayKey, razorPaySecret);
-//    }
-
-//    public boolean verifyWebhookSignature(String payload, String razorpaySignature, String secret) throws Exception {
-//        Mac sha256Hmac = Mac.getInstance(HMAC_SHA256);
-//        SecretKeySpec secretKey = new SecretKeySpec(secret.getBytes(), HMAC_SHA256);
-//        sha256Hmac.init(secretKey);
-//
-//        byte[] hash = sha256Hmac.doFinal(payload.getBytes());
-//        String expectedSignature = Hex.encodeHexString(hash);
-//
-//        return expectedSignature.equals(razorpaySignature);
-//    }
-
-
-
-    public Orders createOrder(Orders order) throws Exception {
-
-        Optional<UserRegister> userOptional = userRegisterRepo.findById(Integer.parseInt(order.getUserId()));
-        if (userOptional.isEmpty()) {
-            throw new Exception("User ID not found");
-        }
-
-        UserRegister user = userOptional.get();
-        validateOrderDetails(order, user);
-
-        order.setAttempts(0);
-        // Fetch cart items for the user
-        List<Cart> cartItems = cartRepo.findByUserId(Integer.valueOf(order.getUserId())); // Assuming you have a Cart repository
-
-        if (cartItems.isEmpty()) {
-            throw new Exception("Cart is empty for user: " + order.getUserId());
-        }
-
-        // Calculate total amount based on cart items
-        int totalAmount = 0;
-        for (Cart cart : cartItems) {
-            totalAmount += cart.getTotalPrice(); // Or any other logic to calculate total
-        }
-        order.setAmount(totalAmount);
-        System.out.println("Total Amount in paise: " + (totalAmount * 100));
-
-
-        // Create Razorpay order request
-        JSONObject orderReq = new JSONObject();
-        orderReq.put("amount", totalAmount * 100); // Razorpay expects amount in paise
-        orderReq.put("currency", "INR");
-        orderReq.put("receipt", order.getEmail());
-
-        this.client = new RazorpayClient(razorPayKey, razorPaySecret);
-        Order razorPayOrders = client.orders.create(orderReq);
-        order.setRazorPayOrderId(razorPayOrders.get("id"));
-        order.setOrderStatus(razorPayOrders.get("status"));
+        Order order = new Order();
+        order.setName(user.getFirstName() + " " + user.getLastName());
+        order.setEmail(user.getEmail());
+        order.setPhoneNumber(String.valueOf(user.getPhoneNumber()));
+        order.setAddress(address);
+        order.setCity(city);
+        order.setPostalCode(postalcode);
+        order.setArea(area);
+        order.setAmount(cart.getTotalPrice());
         order.setOrderDate(new Date());
+        order.setUserId(user.getUserId());
+        order.setOrderStatus("Pending");
 
-        order.setCartItems(cartItems); // Set the cart items in the order
-        orderRepo.save(order); // Save the order along with cart items
-        return order;
+        // Add CartItems to the Order and assign the order reference in each CartItem
+        List<CartItem> orderItems = new ArrayList<>();
+        for (CartItem item : cart.getItems()) {
+            CartItem orderItem = new CartItem();
+            orderItem.setProduct(item.getProduct());
+            orderItem.setQuantity(item.getQuantity());
+            orderItem.setPrice(item.getPrice());
+            orderItem.setOrder(order); // Set the order reference
+            orderItem.setCart(cart);   // Set the cart reference to avoid null constraint violation
+            orderItems.add(orderItem);
+        }
+        order.setCartItems(orderItems);
+
+        String razorPayOrderId = generateRazorpayOrder(cart.getTotalPrice(), user.getEmail());
+        order.setRazorPayOrderId(razorPayOrderId);
+
+        log.info("Order successfully generated with Razorpay ID: " + razorPayOrderId);
+        return orderRepo.save(order);  // Saving order will cascade to CartItems if CascadeType.ALL
     }
 
-
-    private void validateOrderDetails(Orders order, UserRegister user) throws Exception {
-        if (!order.getName().equals(user.getFirstName())) {
-            throw new Exception("Invalid name provided for user ID: " + order.getUserId());
-        }
-        if (!order.getEmail().equals(user.getEmail())) {
-            throw new Exception("Invalid email provided for user ID: " + order.getUserId());
-        }
-        if (!order.getPhoneNumber().equals(String.valueOf(user.getPhoneNumber()))) {
-            throw new Exception("Invalid phone number provided for user ID: " + order.getUserId());
-        }
+    // Razorpay order generation method
+    private String generateRazorpayOrder(Double totalPrice, String email) throws RazorpayException {
+        log.info(" order genareteRazorPayOrder method eneterd");
+        RazorpayClient razorpay = new RazorpayClient(razorPayKey, razorPaySecret);
+        JSONObject orderRequest = new JSONObject();
+        orderRequest.put("amount", totalPrice * 100);  // Amount in paise
+        orderRequest.put("currency", "INR");
+        orderRequest.put("receipt", email);
+        this.client = new RazorpayClient(razorPayKey, razorPaySecret);
+        com.razorpay.Order razorpayOrder = razorpay.orders.create(orderRequest);
+        log.info("end of the generateRazorpayOrder");
+        return razorpayOrder.get("id");
     }
-
-
-
-
-    public Payment getPaymentDetails(String razorPayPaymentId) throws Exception {
-        Payment payment = client.payments.fetch(razorPayPaymentId);
-        return payment;
-    }
-
-
-//    public Orders createOrder(Orders order) throws Exception {
-//        JSONObject orderReq = new JSONObject();
-//        //orderReq.put("Payment ID", order.getRazorPayPaymentId());
-//        orderReq.put("Bank RRN", order.getBank());
-//        orderReq.put("Customer detail", order.getPhoneNumber());
-//        order.setOrderDate(new Date());
-//        orderReq.put("Amount", order.getAmount());
-//        orderReq.put("Status", order.getOrderStatus());
-//
-//        this.client = new RazorpayClient(razorPayKey, razorPaySecret);
-//        Payment razorPayOrders= client.payments.createJsonPayment(orderReq);
-//        log.info("razorPay payment {}",razorPayOrders);
-////        order.setRazorPayOrderId(razorPayOrders("id"));
-////        order.setOrderStatus(razorPayOrders.get("status"));
-//        order.setOrderDate(new Date());
-//
-//        orderRepo.save(order);
-//        return order;
-//    }
 
 
 }
-
-

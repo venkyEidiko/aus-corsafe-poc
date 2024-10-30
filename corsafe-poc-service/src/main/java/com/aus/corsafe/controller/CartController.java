@@ -1,14 +1,13 @@
 package com.aus.corsafe.controller;
 
 import com.aus.corsafe.config.ApplicationConfig;
-import com.aus.corsafe.entity.Cart;
-import com.aus.corsafe.entity.Products;
-import com.aus.corsafe.entity.ResponseModel;
-import com.aus.corsafe.entity.UserRegister;
+import com.aus.corsafe.dto.CartAddDto;
+import com.aus.corsafe.entity.*;
+import com.aus.corsafe.exceptions.ProductNotFoundException;
 import com.aus.corsafe.repository.CartRepository;
 import com.aus.corsafe.repository.ProductRepository;
 import com.aus.corsafe.repository.UserRegisterRepo;
-import com.aus.corsafe.response.CommonResponse;
+//import com.aus.corsafe.response.CommonResponse;
 import com.aus.corsafe.service.CartService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +18,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 @Slf4j
 @RestController
 @RequestMapping("/cart")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+//@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class CartController {
 
 
@@ -38,8 +38,100 @@ public class CartController {
     @Autowired
     private CartService cartService;
 
+    @PostMapping("/cartadd")
+    public ResponseEntity<Cart> addProductToCart(@RequestBody CartAddDto cartAddDto) {
+        try {
+            log.info("userId: {}, ProductId: {}, quantity: {} - completed",
+                    cartAddDto.getUserId(), cartAddDto.getProductId(), cartAddDto.getQuantity());
+
+            Cart updatedCart = cartService.addProductToUserCart(cartAddDto.getUserId(), cartAddDto.getProductId(), cartAddDto.getQuantity());
+            return new ResponseEntity<>(updatedCart, HttpStatus.OK);
+        } catch (ProductNotFoundException e) {
+            log.info("catch block ProductNotFound ", e.toString());
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); // Product not found
+        } catch (Exception e) {
+            log.info("catch block Exception ", e.toString());
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR); // Handle other exceptions
+        }
+
+    }
 
 
+    @PostMapping("/removeItem")
+    public ResponseEntity<Cart> removeItemFromCart(@RequestBody CartAddDto cartAddDto) {
+        try {
+            log.info("Removing ProductId: {} for userId: {}, quantity: {}", cartAddDto.getProductId(), cartAddDto.getUserId(), cartAddDto.getQuantity());
+
+            Cart updatedCart = cartService.removeItemFromUserCart(cartAddDto.getUserId(), cartAddDto.getProductId(), cartAddDto.getQuantity());
+            return new ResponseEntity<>(updatedCart, HttpStatus.OK);
+        } catch (ProductNotFoundException e) {
+            log.info("ProductNotFoundException: {}", e.getMessage());
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); // Product not found
+        } catch (Exception e) {
+            log.info("Exception: {}", e.toString());
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR); // Handle other exceptions
+        }
+    }
+
+
+    @PostMapping("/addQuantity")
+    public ResponseEntity<Cart> addQuantityToItem(@RequestBody CartAddDto cartAddDto) {
+        try {
+            log.info("Adding quantity for ProductId: {} in userId: {}", cartAddDto.getProductId(), cartAddDto.getUserId());
+
+            // Call the service method with a quantity of 1
+            Cart updatedCart = cartService.addQuantityToUserCart(cartAddDto.getUserId(), cartAddDto.getProductId(), 1);
+            return new ResponseEntity<>(updatedCart, HttpStatus.OK);
+        } catch (ProductNotFoundException e) {
+            log.info("ProductNotFoundException: {}", e.getMessage());
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); // Product not found
+        } catch (Exception e) {
+            log.info("Exception: {}", e.toString());
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR); // Handle other exceptions
+        }
+    }
+
+    @PostMapping("/removeQuantity")
+    public ResponseEntity<Cart> removeQuantityFromItem(@RequestBody CartAddDto cartAddDto) {
+        try {
+            log.info("Removing quantity for ProductId: {} in userId: {}", cartAddDto.getProductId(), cartAddDto.getUserId());
+
+            // Call the service method with a quantity of 1
+            Cart updatedCart = cartService.removeQuantityFromUserCart(cartAddDto.getUserId(), cartAddDto.getProductId(), 1);
+            return new ResponseEntity<>(updatedCart, HttpStatus.OK);
+        } catch (ProductNotFoundException e) {
+            log.info("ProductNotFoundException: {}", e.getMessage());
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); // Product not found
+        } catch (Exception e) {
+            log.info("Exception: {}", e.toString());
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR); // Handle other exceptions
+        }
+    }
+
+
+
+    @GetMapping("/cartitems/{cartId}")
+    public ResponseEntity<List<CartItem>> getCartItems(@PathVariable Long cartId) {
+        try {
+            List<CartItem> cartItems = cartService.getCartItemsByCartId(cartId);
+            if (cartItems.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT); // No items found in the cart
+            }
+            return new ResponseEntity<>(cartItems, HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Error retrieving cart items for cartId {}: {}", cartId, e.getMessage());
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+
+
+
+
+
+
+/*
     // API to add product to cart
     @PostMapping("/add")
     public ResponseEntity<ResponseModel<Object>> addToCart(@RequestParam List<Integer> productIds,
@@ -106,5 +198,5 @@ public class CartController {
         return new CommonResponse<>().prepareSuccessResponseObject(ApplicationConfig.CART_ITEM_REMOVED, HttpStatus.OK);
     }
 
-
+*/
 }
