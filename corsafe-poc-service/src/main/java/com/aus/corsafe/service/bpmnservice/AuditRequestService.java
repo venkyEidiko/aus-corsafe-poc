@@ -50,7 +50,8 @@ public class AuditRequestService {
     ProcessDetailsRepository processDetailsRepository;
 
     @JobWorker(type = "userDetailsVerifier", autoComplete = true)
-    public void GettingVariableAndSettingVariable( ActivatedJob job) {
+    public void GettingVariableAndSettingVariable(ActivatedJob job) {
+
 
         log.info("strted userDetailsVerifier");
         System.out.println("strted userDetailsVerifier");
@@ -98,55 +99,6 @@ public class AuditRequestService {
         System.out.println("exits from userDetailsVerifier");
     }
 
-/*
-    @JobWorker(type = "userDetailsVerifier", autoComplete = true)
-    public void GettingVariableAndSettingVariable(ActivatedJob job) {
-
-        CompletableFuture.runAsync(() -> {
-            log.info("Started async userDetailsVerifier");
-
-            boolean knowMe = true;
-            String userEmail = (String) job.getVariable("email");
-
-            Optional<UserRegister> user = userRegisterRepo.findByEmail(userEmail);
-            knowMe = user.isPresent();
-
-            ProcessDetails processDetails = ProcessDetails.builder()
-                    .firstName((String) job.getVariable("firstName"))
-                    .lastName((String) job.getVariable("lastName"))
-                    .abn((String) job.getVariable("abn"))
-                    .email((String) job.getVariable("email"))
-                    .companyName((String) job.getVariable("companyName"))
-                    .companyAddress((String) job.getVariable("companyAddress"))
-                    .state((String) job.getVariable("state"))
-                    .postalCode((String) job.getVariable("postalCode"))
-                    .phoneNumber((Long) job.getVariable("phoneNumber"))
-                    .processInstanceKey(job.getProcessInstanceKey())
-                    .taskId(job.getKey())
-                    .createdAt(new Date())
-                    .assignee(job.getCustomHeaders().get("assignee"))
-                    .implementation(job.getType())
-                    .build();
-
-            processDetailsRepository.save(processDetails);
-
-            // complete job
-            Map<String, Object> variables = new HashMap<>();
-            variables.put("knowMe", knowMe);
-
-            client.newSetVariablesCommand(job.getElementInstanceKey())
-                    .variables(variables)
-                    .send()
-                    .join();
-
-            client.newCompleteCommand(job.getKey())
-                    .send()
-                    .join();
-
-            log.info("Completed async userDetailsVerifier");
-        });
-    }
-*/
 
     @JobWorker(type = "auditChargeCalculation", autoComplete = true)
     public void chargeCalculation(ActivatedJob job) {

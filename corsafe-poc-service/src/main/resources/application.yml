@@ -1,12 +1,13 @@
 server:
-  port: 8081
+  port: 8086
 
 spring:
   application:
     name: CoRSafe-poc
   datasource:
     url: jdbc:oracle:thin:@localhost:1521:XE
-    username: SYSTEM
+
+    username: system
     password: root
   jpa:
     hibernate:
@@ -14,7 +15,11 @@ spring:
     show-sql: true
     properties:
       hibernate.format_sql: true
- 
+
+
+# oauth2 client configuration
+#google configuration
+
 zeebe.client:
   cloud:
     region: jfk-1
@@ -24,7 +29,6 @@ zeebe.client:
 
 
     # WebClient properties
-
 webclient:
   base-url: https://login.cloud.camunda.io
 

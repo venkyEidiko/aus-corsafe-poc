@@ -1,7 +1,7 @@
 import { Box, Typography, Card, CardContent, TextField, Button } from '@mui/material';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
+import './googlelogin.css';
 import Grid from '@mui/material/Grid2'; 
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -18,14 +18,21 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const resultAction = await dispatch(loginUser({ email, password }));
-   
     if (loginUser.fulfilled.match(resultAction)) {
-        toast.success('Login successful!');
-        navigate('/business-profile'); 
-      } else if (loginUser.rejected.match(resultAction)) {
-        toast.error('Invalid credentials. Please try again.');
-      }
-};
+      toast.success('Login successful!');
+      navigate('/business-profile');
+    } else if (loginUser.rejected.match(resultAction)) {
+      toast.error('Invalid credentials. Please try again.');
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    window.location.href = 'http://localhost:8086/user';
+  };
+  const handleRegister=()=>{
+    navigate("/");
+  }
+
 
   return (
     <Box sx={{ flexGrow: 1, p: 2 }}>
@@ -115,11 +122,31 @@ const Login = () => {
               {loading ? 'Logging in...' : 'Login'}
             </Button>
 
+
+            {/* Google Login Button with custom CSS */}
+              <Button
+  
+                className="login-with-google-btn"
+                onClick={handleGoogleLogin}
+                sx={{ marginTop: 2 }} // Add some margin for spacing
+              >
+                Login with Google
+              </Button>
+              
+
+
             {error && (
               <Typography color="error" align="center">
                 {error.message || 'Login failed. Please try again.'}
               </Typography>
             )}
+
+            <Typography variant="body2" align="center">
+              Register account here?{' '}
+              <span style={{ color: '#141069', fontWeight: 'bold', cursor:"pointer"}} onClick={handleRegister} >Register</span>
+            </Typography>
+
+
           </Box>
         </Grid>
       </Grid>

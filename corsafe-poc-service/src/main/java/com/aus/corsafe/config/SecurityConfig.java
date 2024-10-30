@@ -18,16 +18,17 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-
-    @Autowired
+	
+	@Autowired
     private MyUserDetailasService myUserDetailasService;
-    @Autowired
-    RequestIntercept requestIntercept;
 
     @Autowired
     private JwtAuthenticationFilter jwtAuthenticationFilter;
-
-    @Bean
+    
+    @Autowired
+    private OAuthAuthenticationSuccessHandler handler;
+    
+   @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
@@ -35,29 +36,21 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain config(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity.csrf(csrf -> csrf.disable())
-
-
-                //.authorizeHttpRequests(req -> req.requestMatchers("/register", "/login", "/getAllSecurityQuestion", "/refreshToken/**").permitAll()
-
-
-                .authorizeHttpRequests(req -> req.requestMatchers("/register", "/login",
-                                "/getAllSecurityQuestion", "/refreshToken/**", "getquestionByUserId/{userId}",
-                                "/getAllproducts", "/password/**", "findEmail/**",
-                                "/get-token/**").permitAll()
-
+                .authorizeHttpRequests(req -> req.requestMatchers("/register","/login","/googlelogin", "/getAllSecurityQuestion", "/refreshToken/**").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 
+                .oauth2Login(oauth2 -> { 
+                    oauth2.successHandler(handler);
+                })
 
-                .oauth2Login(oauth2 -> oauth2
-                        .userInfoEndpoint(userInfo -> userInfo.userService(requestIntercept)) // OAuth2 user service
-                )
-
-
+               
                 .build();
     }
 
-    /** authentication provider*/
+//     Authentication provider
+
+
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
@@ -66,14 +59,14 @@ public class SecurityConfig {
         return provider;
     }
 
-    /*AuthenticationManager help to authenticate user by username & password*/
     @Bean
     public AuthenticationManager authenticationManager() {
         return new ProviderManager(authenticationProvider());
     }
 
     @Bean
-    public ModelMapper modelMapper() {
+
+    public ModelMapper modelMapper(){
         return new ModelMapper();
     }
 

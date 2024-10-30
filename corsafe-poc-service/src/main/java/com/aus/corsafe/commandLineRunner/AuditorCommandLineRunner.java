@@ -1,14 +1,17 @@
 package com.aus.corsafe.commandLineRunner;
 
-import com.aus.corsafe.entity.Auditor;
-import com.aus.corsafe.repository.AuditorRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
+
+import com.aus.corsafe.entity.Auditor;
+import com.aus.corsafe.repository.AuditorRepository;
+
+import lombok.RequiredArgsConstructor;
+
 
 @Component
 @RequiredArgsConstructor
