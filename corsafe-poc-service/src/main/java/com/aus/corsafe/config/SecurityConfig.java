@@ -48,6 +48,7 @@ public class SecurityConfig {
                                 "/getAllproducts", "/password/**", "findEmail/**",
                                 "/get-token/**", "/refreshToken/getToken", "/assignTask").permitAll()
 
+
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 
@@ -60,9 +61,7 @@ public class SecurityConfig {
                 .build();
     }
 
-    /**
-     * authentication provider
-     */
+
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
@@ -82,6 +81,7 @@ public class SecurityConfig {
         return new ModelMapper();
     }
 
+
     //central cors configuration's
     UrlBasedCorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
@@ -93,5 +93,4 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
-
 }

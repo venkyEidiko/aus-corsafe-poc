@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @Data
 public class ProductResponse {
 
-
     private Integer productId;
     private String name;
     private String description;

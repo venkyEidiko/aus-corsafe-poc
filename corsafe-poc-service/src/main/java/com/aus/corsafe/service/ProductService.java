@@ -29,7 +29,9 @@ public class ProductService {
         	return	all.stream()
             .map(products -> {
                 ProductResponse productResponse = new ProductResponse();
+
                 productResponse.setProductId(products.getProductId());
+
                 productResponse.setName(products.getName());
                 productResponse.setDescription(products.getDescription());
                 productResponse.setPrice(products.getPrice());

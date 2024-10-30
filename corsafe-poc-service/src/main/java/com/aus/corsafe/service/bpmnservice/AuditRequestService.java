@@ -1,5 +1,6 @@
 package com.aus.corsafe.service.bpmnservice;
 
+
 import com.aus.corsafe.dto.CompleteTaskDto;
 
 import com.aus.corsafe.dto.CompleteTaskModel;
@@ -26,7 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
+
 
 
 @Slf4j
@@ -150,8 +151,6 @@ public class AuditRequestService {
     }
 
 
-
-
     /**
      * complete the task with rest api
      */
@@ -166,13 +165,12 @@ public class AuditRequestService {
                 .block();
     }
 
+
     /**
      * for assign the task
      */
     public Object getAssignTask(AssignTask assignTask) {
-
         String url = "/tasks/" + assignTask.getTaskId() + "/assign";
-
         Object claimed = webClient.patch()
                 .uri(url)
                 .body(Mono.just(assignTask), assignTask.getClass())

@@ -26,10 +26,8 @@ public class WebclientConfig {
     @Value("${zeebe.client.cloud.clientSecret}")
     String clientSecret;
 
-
     private static String token;
     private static Date tokenExpireAt;
-
 
     /**
      * this is for camunda token generation webclient

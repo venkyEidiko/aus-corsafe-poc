@@ -11,4 +11,5 @@ public class AccessTokenModel {
 
     String access_token;
     long expires_in;
+
 }
