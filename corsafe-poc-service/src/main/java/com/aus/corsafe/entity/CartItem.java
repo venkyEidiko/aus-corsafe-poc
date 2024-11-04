@@ -30,6 +30,8 @@ public class CartItem {
 
     private Double price;
 
+    private Integer userId;
+
 
     @ManyToOne
     @JoinColumn(name = "order_id")

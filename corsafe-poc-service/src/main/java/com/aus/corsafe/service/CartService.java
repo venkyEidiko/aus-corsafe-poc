@@ -32,39 +32,6 @@ public class CartService {
     @Autowired
     private ProductRepository productRepository;
 
-
-    /**
-     * public List<Cart> addToCart(List<Integer> productIds, Integer userId) {
-     * List<Cart> cartItems = new ArrayList<>();
-     * <p>
-     * // Check if the user exists
-     * Optional<UserRegister> userOptional = userRegisterRepo.findById(userId);
-     * if (!userOptional.isPresent()) {
-     * throw new RuntimeException(ApplicationConfig.USER_NOT_FOUND + userId);
-     * }
-     * <p>
-     * for (Integer productId : productIds) {
-     * Optional<Products> productOptional = productRepository.findById(productId);
-     * if (!productOptional.isPresent()) {
-     * throw new RuntimeException(ApplicationConfig.PRODUCT_NOT_FOUND + productId);
-     * }
-     * <p>
-     * Products product = productOptional.get();
-     * <p>
-     * // Create a new cart item for each product with quantity set to 1
-     * Cart cart = new Cart();
-     * cart.setProduct(product);
-     * cart.setQuantity(1);
-     * cart.setUserId(userId);
-     * cart.setPrice(product.getPrice().longValue());  // Set individual product price
-     * cart.setTotalPrice(cart.getPrice());
-     * cartItems.add(cartRepository.save(cart));
-     * }
-     * <p>
-     * return cartItems;
-     * }
-     */
-
     /*adding product to the cart */
     public Cart addProductToUserCart(Integer userId, Integer productId, Integer quantity) throws ProductNotFoundException {
 
@@ -102,6 +69,7 @@ public class CartService {
             newItem.setProduct(product);
             newItem.setQuantity(quantity);
             newItem.setPrice((double) product.getPrice());
+            newItem.setUserId(userId);
 
             cart.getItems().add(newItem);
         }
