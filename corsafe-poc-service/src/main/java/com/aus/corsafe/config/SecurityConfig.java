@@ -14,16 +14,21 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-@Autowired
-private MyUserDetailasService myUserDetailasService;
+	
+	@Autowired
+    private MyUserDetailasService myUserDetailasService;
 
     @Autowired
     private JwtAuthenticationFilter jwtAuthenticationFilter;
-
-    @Bean
+    
+    @Autowired
+    private OAuthAuthenticationSuccessHandler handler;
+    
+   @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
@@ -31,15 +36,20 @@ private MyUserDetailasService myUserDetailasService;
     @Bean
     public SecurityFilterChain config(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity.csrf(csrf -> csrf.disable())
-
-                .authorizeHttpRequests(req->req.requestMatchers("/register","/login",
-                        "/getAllSecurityQuestion","/refreshToken/**","getquestionByUserId/{userId}",
-                        "/getAllproducts","/password/**","findEmail/**",
-                        "/get-token/**").permitAll()
+                .authorizeHttpRequests(req -> req.requestMatchers("/register","/login","/googlelogin", "/getAllSecurityQuestion", "/refreshToken/**").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+
+                .oauth2Login(oauth2 -> { 
+                    oauth2.successHandler(handler);
+                })
+
+               
                 .build();
     }
+
+//     Authentication provider
+
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
@@ -49,13 +59,13 @@ private MyUserDetailasService myUserDetailasService;
         return provider;
     }
 
-    /*AuthenticationManager help to authenticate user by username & password*/
     @Bean
     public AuthenticationManager authenticationManager() {
         return new ProviderManager(authenticationProvider());
     }
 
     @Bean
+
     public ModelMapper modelMapper(){
         return new ModelMapper();
     }

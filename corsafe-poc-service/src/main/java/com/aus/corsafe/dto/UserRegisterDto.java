@@ -1,11 +1,13 @@
 package com.aus.corsafe.dto;
 
+
+import java.util.List;
+
 import com.aus.corsafe.entity.SecurityQuestionKey;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor

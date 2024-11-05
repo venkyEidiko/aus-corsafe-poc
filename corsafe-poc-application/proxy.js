@@ -26,6 +26,23 @@
 //   })
 // );
 
+app.use(
+  '/api', 
+  createProxyMiddleware({
+
+
+    target: 'https://jfk-1.connectors.camunda.io/', 
+
+
+
+    changeOrigin: true,
+    pathRewrite: {
+      '^/api': '',
+    },
+  })
+);
+
+
 // app.listen(5000, () => {
 //   console.log('Proxy server is running on http://localhost:5000');
 // });

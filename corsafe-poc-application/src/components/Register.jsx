@@ -47,6 +47,9 @@ const Register = ({ userData, onUserChange }) => {
     setErrors(newErrors); 
     return Object.keys(newErrors).length === 0; 
   };
+  const handleLogin=()=>{
+    navigate('/login');
+  }
 
   return (
     <Box sx={{ flexGrow: 1, p: 2 }}>
@@ -176,6 +179,8 @@ const Register = ({ userData, onUserChange }) => {
               Already have an account?{' '}
               <Link to='/login' style={{ color: '#141069', fontWeight: 'bold' }}>Log In</Link>
             </Typography>
+            
+
           </Box>
         </Grid>
       </Grid>

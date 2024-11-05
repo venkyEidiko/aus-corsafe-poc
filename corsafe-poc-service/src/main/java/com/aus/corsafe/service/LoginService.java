@@ -1,5 +1,10 @@
 package com.aus.corsafe.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Service;
 import com.aus.corsafe.config.JwtService;
 import com.aus.corsafe.config.MyUserDetailasService;
 import com.aus.corsafe.dto.Login;
@@ -9,13 +14,6 @@ import com.aus.corsafe.exceptions.BadCrediantialsCls;
 import com.aus.corsafe.exceptions.UnAuthorizedExceptionCls;
 import com.aus.corsafe.repository.UserRegisterRepo;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -40,10 +38,8 @@ public class LoginService {
 
         if (jwtService.isTokenValid(jwtToken)) {
             return jwtService.genarateRefreshToken(myUserDetailasService.loadUserByUsername(subject));
-
         } else {
             throw new BadCrediantialsCls("BadRequest!! ");
-
         }
 
     }
@@ -55,10 +51,7 @@ public class LoginService {
         String jwtToken = "";
         UserRegister userRegister;
         try {
-            Optional<UserRegister> byEmail = userRegisterRepo.findByEmail(userName);
-
-            userRegister = byEmail.get();
-
+             userRegister = userRegisterRepo.findByEmail(userName).get();
             Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(login.getEmail(), login.getPassword()));
 
             if (authenticate.isAuthenticated()) {
@@ -68,13 +61,11 @@ public class LoginService {
             } else {
                 log.info("fails while checking authntication");
 
-                throw new UnAuthorizedExceptionCls("Authenuthentication Failed !!");
+                throw new UnAuthorizedExceptionCls("Authenuthentication Failed !! Invalid Credentials!!");
             }
         } catch (Exception e) {
             System.out.println("error is loginservice catch block::: " + e.toString());
-
             throw new UnAuthorizedExceptionCls("Authenuthentication Failed !!");
-
         }
 
         return LoginResponseCls
@@ -83,6 +74,28 @@ public class LoginService {
                 .refreshToken(refreshTokenGenaration(jwtToken))
                 .userRegister(userRegister)
                 .build();
+    }
+
+
+
+
+    //return jwt+refresh token after login success using google
+    public LoginResponseCls tokenGenarationMethodUsingGoogle(String email) {
+    	email=email.trim();
+    	log.info("user email : {}",email);
+        UserRegister user = userRegisterRepo.findByEmail(email).get();
+       // log.info("User Details in tokenGenaration method in loginservice: {}",user);
+        if(user!=null) {
+            log.info("tokenGenaration method in loginservice cls entered!!");
+            String jwtToken = jwtService.genarateJwtToken(myUserDetailasService.loadUserByUsername(email));
+            return LoginResponseCls.builder()
+                    .jwtToken(jwtToken)
+                    .refreshToken(refreshTokenGenaration(jwtToken))
+                    .userRegister(user)
+                    .build();
+        }else{
+            return null;
+        }
     }
 
 

@@ -49,7 +49,6 @@ export const registerUser = (registrationData) => {
                         answer: registrationData.answer,
                     };
                     console.log("RESPONSE DATA",data);
-                    // const combinedData = data.result; 
                     dispatch(registerUserSuccess(combinedData));
                     console.log("dispatched data", combinedData);
                 } else {

@@ -11,7 +11,10 @@ import SecurityQuestions from './securityQuestions';
 const RegistrationForm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { data, error } = useSelector((state) => state.register);
+
+
+  const {data, error } = useSelector((state) => state.register);
+
   const location = useLocation();
   const validateCompanyRef = useRef(null);
 
@@ -51,7 +54,8 @@ const RegistrationForm = () => {
       }
     };
     fetchSecurityQuestions();
-  }, []);
+  }, [0]);
+
 
   const handleChange = (section, field, value) => {
     setFormData((prevState) => ({
