@@ -63,7 +63,7 @@ public class PaymentController {
 
 
     @PutMapping("/update/{paymentId}")
-    public ResponseEntity<?> updatePaymentDetails( 
+    public ResponseEntity<?> updatePaymentDetails(
             @PathVariable Integer paymentId,
             @RequestBody Payment updatedPayment) {
         try {

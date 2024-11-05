@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 public class ApplicationConfig {
 
       public static  String BASE_URL="https://jfk-1.tasklist.camunda.io/c4765f54-b30c-4eba-b09f-2914741db450/v1";
+
       public   static  String TASKLIST_ACCESS_TOKEN="eyJhbGciOiJSUzI1NiIsIn" +
               "R5cCI6IkpXVCIsImtpZCI6IlFVVXdPVFpDUTBVM01qZEVRME0wTkRFelJrUkJORFk0T0RZeE1FRT" +
               "BSa1pFUlVWRVF6bERNZyJ9.eyJodHRwczovL2NhbXVuZGEuY29tL2NsdXN0ZXJJZCI6ImM0NzY1Zj" +

@@ -46,6 +46,9 @@ const Register = ({ userData, onUserChange }) => {
     setErrors(newErrors); 
     return Object.keys(newErrors).length === 0; 
   };
+  const handleLogin=()=>{
+    navigate('/login');
+  }
 
   return (
     <Box sx={{ flexGrow: 1, p: 2 }}>
@@ -173,8 +176,10 @@ const Register = ({ userData, onUserChange }) => {
 
             <Typography variant="body2" align="center">
               Already have an account?{' '}
-              <span style={{ color: '#141069', fontWeight: 'bold' }}>Log In</span>
+              <span style={{ color: '#141069', fontWeight: 'bold', cursor:"pointer"}} onClick={handleLogin} >Log In</span>
             </Typography>
+            
+
           </Box>
         </Grid>
       </Grid>

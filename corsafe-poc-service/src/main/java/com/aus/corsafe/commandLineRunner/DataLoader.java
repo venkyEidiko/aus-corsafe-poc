@@ -28,9 +28,9 @@ public class DataLoader {
 
             List<Products> productsList = new ArrayList<>();
             Products product1 = new Products(1, "Canon R100 Mirrorless", "This Canon R100 Mirrorless Camera features a RF-S 18-45 mm lens"
-                    , 40.00, 1, loadImage("camera.jpeg"));
-            Products product2 = new Products(2, "DELL SE-Series 68.58 cm", "Stylish and Portable Design", 12.99, 1, loadImage("dellLaptop.jfif"));
-            Products product3 = new Products(3, "Apple iPhone 15", "Experience the iPhone 15 – your dynamic companion.", 59.00, 1, loadImage("iphone15pro.jfif"));
+                    , 49500.00, 1, loadImage("camera.jpeg"));
+            Products product2 = new Products(2, "DELL SE-Series 68.58 cm", "Stylish and Portable Design", 12568.99, 1, loadImage("dellLaptop.jfif"));
+            Products product3 = new Products(3, "Apple iPhone 15", "Experience the iPhone 15 – your dynamic companion.", 59500.00, 1, loadImage("iphone15pro.jfif"));
             Products product4 = new Products(4, "LG 32LMBPTC 80 cm", "You can conveniently browse, stream, and watch content on the LG Smart LED TV.", 29500.00, 1, loadImage("LgTv.jfif"));
             Products product5 = new Products(5, "Apple MacBook AIR Apple M2", "Charged in a blazing-fast speed with the next-level M2 chip", 84500.00, 1, loadImage("mackBook.webp"));
             Products product6 = new Products(6, "HexaGear Collar Microphone", "Collar Microphone Works well with DSLR Camera", 890.36, 1, loadImage("microphones.jpeg"));
