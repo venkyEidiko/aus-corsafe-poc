@@ -40,7 +40,7 @@ public class SecurityConfig {
                         "/getAllSecurityQuestion","/refreshToken/**","getquestionByUserId/{userId}",
                         "/getAllproducts","/password/**","findEmail/**","/cart/**",
                         "/cart/updateQuantity/{cartId}","/get-token/**", "/orderdetails/createOrder",
-                        "/cart/placeorder").permitAll()
+                        "/cart/placeorder","/api/payments/**").permitAll()
 
                 //.authorizeHttpRequests(req -> req.requestMatchers("/register", "/login", "/getAllSecurityQuestion", "/refreshToken/**").permitAll()
 
