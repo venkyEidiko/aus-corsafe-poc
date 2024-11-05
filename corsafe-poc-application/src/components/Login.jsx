@@ -19,12 +19,16 @@ const Login = () => {
     e.preventDefault();
     const resultAction = await dispatch(loginUser({ email, password }));
     if (loginUser.fulfilled.match(resultAction)) {
-      toast.success('Login successful!');
-      navigate('/business-profile');
-    } else if (loginUser.rejected.match(resultAction)) {
-      toast.error('Invalid credentials. Please try again.');
-    }
-  };
+
+        toast.success('Login successful!');
+        navigate('/allProducts/addTocart'); 
+      } else if (loginUser.rejected.match(resultAction)) {
+        toast.error('Invalid credentials. Please try again.');
+      }
+};
+
+    
+  
 
   const handleGoogleLogin = async () => {
     window.location.href = 'http://localhost:8086/user';
@@ -32,6 +36,7 @@ const Login = () => {
   const handleRegister=()=>{
     navigate("/");
   }
+
 
 
   return (

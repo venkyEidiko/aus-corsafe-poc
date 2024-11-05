@@ -7,8 +7,10 @@ spring:
   datasource:
     url: jdbc:oracle:thin:@localhost:1521:XE
 
+
     username: system
     password: root
+
   jpa:
     hibernate:
       ddl-auto: update

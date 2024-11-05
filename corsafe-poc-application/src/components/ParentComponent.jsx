@@ -5,13 +5,16 @@ import Company from './Company';
 import { useDispatch, useSelector } from 'react-redux';
 import { registerUser } from '../actions/registerActions';
 import Grid from '@mui/material/Grid2';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import SecurityQuestions from './securityQuestions';
 
 const RegistrationForm = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
+
   const {data, error } = useSelector((state) => state.register);
+
   const location = useLocation();
   const validateCompanyRef = useRef(null);
 
@@ -80,6 +83,7 @@ const RegistrationForm = () => {
         securityQuestionList: formData.securityQuestionList,
       };
       dispatch(registerUser(combinedData));
+      navigate("/login")
     }
   };
 

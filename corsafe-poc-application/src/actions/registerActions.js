@@ -27,7 +27,6 @@ export const registerUser = (registrationData) => {
     return (dispatch) => {
         dispatch(registerUserRequest());
         fetch('http://localhost:8086/register', {
-
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -50,7 +49,6 @@ export const registerUser = (registrationData) => {
                         answer: registrationData.answer,
                     };
                     console.log("RESPONSE DATA",data);
-                    // const combinedData = data.result; 
                     dispatch(registerUserSuccess(combinedData));
                     console.log("dispatched data", combinedData);
                 } else {

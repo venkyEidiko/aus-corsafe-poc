@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Box, Typography, Button, Card, CardContent, FormControlLabel, Checkbox, TextField } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate ,Link} from 'react-router-dom';
 import Grid from '@mui/material/Grid2';
+
 
 const Register = ({ userData, onUserChange }) => {
   const navigate = useNavigate();
@@ -176,7 +177,7 @@ const Register = ({ userData, onUserChange }) => {
 
             <Typography variant="body2" align="center">
               Already have an account?{' '}
-              <span style={{ color: '#141069', fontWeight: 'bold', cursor:"pointer"}} onClick={handleLogin} >Log In</span>
+              <Link to='/login' style={{ color: '#141069', fontWeight: 'bold' }}>Log In</Link>
             </Typography>
             
 

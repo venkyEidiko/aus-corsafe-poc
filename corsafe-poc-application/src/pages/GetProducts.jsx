@@ -1,26 +1,44 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchProducts } from '../slice/ProductSlice';
-
 import { Card, CardContent, Tooltip } from '@mui/material';
 import '../assets/styles/getproducts.css';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { Outlet } from 'react-router-dom';
-import { addToCart } from '../slice/CartSlice';
+import {addToCart} from '../slice/CartSlice';
+import { postAddtocart } from '../slice/AddToCartSlice';
 import Grid from '@mui/material/Grid2';
+
 
 const GetProducts = () => {
     const dispatch = useDispatch();
     const { products, status, error } = useSelector((state) => state.products);
+    const userId = useSelector((state) => state.auth.userDetails?.userId);
+    const token = useSelector((state) => state.auth.jwtToken);
+    console.log("token: ",token);
+    
 
     useEffect(() => {
         if (status === 'idle') {
             dispatch(fetchProducts());
         }
     }, [dispatch, status]);
+    useEffect(() => {
+        console.log("User ID:", userId);
+    }, [userId]);
 
     const handleAddToCart = (product) => {
-        dispatch(addToCart(product));
+
+        const { productId,price,name,stockQuantity } = product;
+        if (!productId || !userId || !token ) {
+            console.error("Product ID or User ID or token is missing!");
+            return;
+        }
+    
+        console.log("Adding to cart - User ID:", userId, "Product ID:", productId , "token: ",token,price,name,stockQuantity); 
+      
+        dispatch(addToCart(product));     
+        dispatch(postAddtocart({ userId, productId,token,price,name ,stockQuantity}));
 
     };
     if (status === 'loading') {

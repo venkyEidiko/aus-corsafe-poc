@@ -1,34 +1,40 @@
-const express = require('express');
-const { createProxyMiddleware } = require('http-proxy-middleware');
-const app = express();
+// const express = require('express');
+// const { createProxyMiddleware } = require('http-proxy-middleware');
+// const app = express();
 
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+// app.use((req, res, next) => {
+//   res.header("Access-Control-Allow-Origin", "*");
+//   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+//   res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
   
 
-  if (req.method === 'OPTIONS') {
-    return res.status(200).json({});
-  }
+//   if (req.method === 'OPTIONS') {
+//     return res.status(200).json({});
+//   }
 
-  next();
-});
+//   next();
+// });
+
+// app.use(
+//   '/api', 
+//   createProxyMiddleware({
+//     target: 'https://jfk-1.connectors.camunda.io/', 
+//     changeOrigin: true,
+//     pathRewrite: {
+//       '^/api': '',
+//     },
+//   })
+// );
 
 app.use(
   '/api', 
   createProxyMiddleware({
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 
     target: 'https://jfk-1.connectors.camunda.io/', 
 
-=======
-    target: 'https://jfk-1.connectors.camunda.io/', 
->>>>>>> 2b5b62dabd3750227f4e6d62f4365297ad24b860
-=======
-    target: 'https://jfk-1.connectors.camunda.io/', 
->>>>>>> 2b5b62dabd3750227f4e6d62f4365297ad24b860
+
+
     changeOrigin: true,
     pathRewrite: {
       '^/api': '',
@@ -36,6 +42,7 @@ app.use(
   })
 );
 
-app.listen(5000, () => {
-  console.log('Proxy server is running on http://localhost:5000');
-});
+
+// app.listen(5000, () => {
+//   console.log('Proxy server is running on http://localhost:5000');
+// });
