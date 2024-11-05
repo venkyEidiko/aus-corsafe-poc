@@ -24,6 +24,8 @@ function App() {
   <ToastContainer/>
       <Routes>
         <Route path="/" element={<RegistrationForm />} />
+        <Route path="/company" element={<RegistrationForm />} />
+        <Route path='/security' element={<RegistrationForm/>}/>
         <Route path="/login" element={<Login />} />
         <Route path="/business-profile" element={<BusinessProfile />} />
         
@@ -38,17 +40,6 @@ function App() {
     </BrowserRouter>
    
 
-<BrowserRouter>
-<ToastContainer />
-     <Routes>
-    <Route path="/" element={<RegistrationForm/>}></Route>
-    <Route path="/login" element={<Login/>}></Route>
-    <Route path="/company" element={<RegistrationForm/>}></Route>
-    <Route path="/security" element={<RegistrationForm/>}/>
-     <Route path='/business-profile' element={<BusinessProfile/>}></Route>
-
-     </Routes>
-     </BrowserRouter>
 
 
 

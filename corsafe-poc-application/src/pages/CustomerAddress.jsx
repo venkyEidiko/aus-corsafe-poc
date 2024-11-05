@@ -1,12 +1,12 @@
 import { Button, Card, CardContent, TextField } from '@mui/material';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { postCustomerAddress } from '../actions/customerAddresAction';
+// import { useDispatch } from 'react-redux';
+
 
 const CustomerAddress = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     fullName: '',
     phoneNumber: '',
@@ -26,7 +26,7 @@ const CustomerAddress = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(postCustomerAddress(formData)); 
+    // dispatch(postCustomerAddress(formData)); 
     navigate('/allProducts/payment'); 
   };
 

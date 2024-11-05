@@ -22,3 +22,17 @@
     white-space: nowrap;
     max-width: 250px; 
 }
+.img-container{
+    display: flex;
+    flex-direction: column;
+
+}
+.quantity{
+    display: flex;
+    flex-direction: row;
+    gap:10px;
+}
+.quantity-number{
+    font-size: 18px;
+    font-weight: 800;
+}

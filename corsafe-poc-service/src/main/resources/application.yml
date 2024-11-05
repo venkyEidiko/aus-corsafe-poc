@@ -7,9 +7,9 @@ spring:
     name: CoRSafe-poc
   datasource:
 
-    url: jdbc:oracle:thin:@10.0.0.56:1521:XE
-    username: secondary_user
-    password: root123
+    url: jdbc:oracle:thin:@localhost:1521:XE
+    username: system
+    password: root
  
   jpa:
     hibernate:

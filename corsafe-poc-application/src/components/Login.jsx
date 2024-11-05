@@ -21,7 +21,7 @@ const Login = () => {
    
     if (loginUser.fulfilled.match(resultAction)) {
         toast.success('Login successful!');
-        navigate('/business-profile'); 
+        navigate('/allProducts/addTocart'); 
       } else if (loginUser.rejected.match(resultAction)) {
         toast.error('Invalid credentials. Please try again.');
       }
