@@ -18,7 +18,7 @@ function App() {
     <div className="App">
      
 
-  <BrowserRouter>
+     <BrowserRouter>
   <ToastContainer/>
       <Routes>
         <Route path="/" element={<RegistrationForm />} />
@@ -33,13 +33,8 @@ function App() {
        
       </Routes>
     </BrowserRouter>
-   
 
-
-
-
-
-
+    
     </div>
   );
 }

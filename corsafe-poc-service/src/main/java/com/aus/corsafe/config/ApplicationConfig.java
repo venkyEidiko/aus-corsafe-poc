@@ -29,6 +29,11 @@ public class ApplicationConfig {
     public static final String USER_NOT_FOUND_MESSAGE = "User not found with this email ID";
     public static final String EMAIL_NOT_REGISTERED_MESSAGE = "Email not registered with : ";
     public static final String PASSWORD_UPDATE_SUCCESS = "Password updated successfully";
-
+    public static final String USER_OR_CART_NOT_FOUND="User or Cart not found";
+    public static final String PRODUCT_NOT_FOUND="Product not found with ID: ";
+    public static final String NO_ITEMS_FOUND="No items found in the cart";
+    public static final String INTERNAL_SERVER_ERROR="Internal server error";
+    public static final String ORDER_CREATE_SUCCESS="Order created successfully";
+    public static final String PAYMENT_NOT_FOUND="Payment not found with ID: ";
 
 }

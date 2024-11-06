@@ -1,6 +1,8 @@
 package com.aus.corsafe.exception_handling;
 
+
 import com.aus.corsafe.exceptions.BadCrediantialsCls;
+import com.aus.corsafe.exceptions.ProductNotFoundException;
 import com.aus.corsafe.exceptions.UnAuthorizedExceptionCls;
 import com.aus.corsafe.exceptions.UserNotFoundExceptionCls;
 import com.aus.corsafe.response.CommonResponse;
@@ -30,4 +32,12 @@ public class GlobalExceptionHandling {
         return new ResponseEntity<>(ex.getErrorMessage(), HttpStatus.UNAUTHORIZED);
 
     }
+
+    @ExceptionHandler(ProductNotFoundException.class)
+    public ResponseEntity<String> handleProductNotFound(ProductNotFoundException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+
+    }
+
+
 }

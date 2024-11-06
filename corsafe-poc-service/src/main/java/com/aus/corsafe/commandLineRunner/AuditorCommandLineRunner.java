@@ -1,4 +1,4 @@
-package com.aus.corsafe.commandLineRunner;
+package com.aus.corsafe.commandlinerunner;
 
 import java.util.ArrayList;
 import java.util.Arrays;
