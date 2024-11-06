@@ -23,7 +23,7 @@ import java.util.Optional;
 @Slf4j
 @RestController
 @RequestMapping("/cart")
-//@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin(origins = "http://localhost:3000/**" , allowCredentials = "true")
 public class CartController {
 
 
