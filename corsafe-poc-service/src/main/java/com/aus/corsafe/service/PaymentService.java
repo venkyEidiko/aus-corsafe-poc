@@ -99,44 +99,6 @@ public class PaymentService {
     }
 
 
-
-
-    public Payment updatePaymentDetails(Integer paymentId, Payment updatedPayment) throws Exception {
-        // Find the payment by ID in the database
-        Payment existingPayment = paymentRepo.findById(paymentId)
-                .orElseThrow(() -> new Exception(ApplicationConfig.PAYMENT_NOT_FOUND + paymentId));
-
-        // Update fields if they are provided
-        if (updatedPayment.getAmount() != null) {
-            existingPayment.setAmount(updatedPayment.getAmount());
-        }
-        if (updatedPayment.getStatus() != null) {
-            existingPayment.setStatus(updatedPayment.getStatus());
-        }
-        if (updatedPayment.getPaymentMethod() != null) {
-            existingPayment.setPaymentMethod(updatedPayment.getPaymentMethod());
-        }
-        if (updatedPayment.getBank() != null) {
-            existingPayment.setBank(updatedPayment.getBank());
-        }
-        if (updatedPayment.getWallet() != null) {
-            existingPayment.setWallet(updatedPayment.getWallet());
-        }
-        if (updatedPayment.getCurrency() != null) {
-            existingPayment.setCurrency(updatedPayment.getCurrency());
-        }
-        if (updatedPayment.getPaymentDate() != null) {
-            existingPayment.setPaymentDate(updatedPayment.getPaymentDate());
-        }
-        if (updatedPayment.getRazorPayOrderId() != null) {
-            existingPayment.setRazorPayOrderId(updatedPayment.getRazorPayOrderId());
-        }
-
-        // Save updated payment details
-        return paymentRepo.save(existingPayment);
-    }
-
-
     public Payment getPaymentById(Integer paymentId) throws Exception {
         // Find the payment by ID in the database
         return paymentRepo.findById(paymentId)

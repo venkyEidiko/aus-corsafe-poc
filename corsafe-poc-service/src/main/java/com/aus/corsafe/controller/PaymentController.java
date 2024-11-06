@@ -62,19 +62,6 @@ public class PaymentController {
     }
 
 
-    @PutMapping("/update/{paymentId}")
-    public ResponseEntity<?> updatePaymentDetails(
-            @PathVariable Integer paymentId,
-            @RequestBody Payment updatedPayment) {
-        try {
-            Payment payment = paymentService.updatePaymentDetails(paymentId, updatedPayment);
-            return ResponseEntity.ok(payment);
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body("Error: " + e.getMessage());
-        }
-    }
-
-
 
     @GetMapping("/{paymentId}")
     public ResponseEntity<?> getPaymentDetails(@PathVariable Integer paymentId) {
