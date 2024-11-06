@@ -21,16 +21,16 @@ const AddToCart = () => {
   };
 
   const deleteToCart = (item) => {
-    const { productId, stockQuantity ,id} = item;
+    const { productId, quantity } = item;
     if (!productId || !userId || !token) {
       console.error("Product ID, User ID, or token is missing!");
       return;
     }
 
     
-    console.log("Deleting from cart - User ID:", userId, "Product ID:", productId, "Stock Quantity:", stockQuantity, "Token:", token);
-    dispatch(deleteCartItem({ userId, productId, stockQuantity, token }));
-    dispatch(deleteFromCart(id));
+    console.log("Deleting from cart - User ID:", userId, "Product ID:", productId, "Stock Quantity:", quantity, "Token:", token);
+    dispatch(deleteCartItem({ userId, productId, quantity, token }));
+    dispatch(deleteFromCart( {id: item.id}));
   };
 
   return (
@@ -51,7 +51,7 @@ const AddToCart = () => {
                           <img src={`data:image/jpeg;base64,${item.productImage}`} alt={item.title} className='cart-img' />
                           <div className='quantity'>
                             <span><RemoveSharpIcon /></span>
-                            <span className='quantity-number'>{item.stockQuantity}</span>
+                            <span className='quantity-number'>{item.quantity}</span>
                             <span><AddSharpIcon/></span>
                           </div>
                         </div>
