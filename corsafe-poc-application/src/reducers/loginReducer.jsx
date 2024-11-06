@@ -4,12 +4,11 @@ import axios from 'axios';
 export const loginUser = createAsyncThunk(
   'auth/loginUser',
   async (loginData, { rejectWithValue }) => {
-    try {
+    try { 
       const response = await axios.post('http://localhost:8086/login', loginData);
       const { jwtToken, refreshToken, userDetails } = response.data.result[0];
       const { userId, firstName, lastName, email, phoneNumber, abn, companyName, companyAddress, state, postalCode } = userDetails;
       console.log("login response: ", response);      
-      
       localStorage.setItem('jwtToken', jwtToken);
       localStorage.setItem('refreshToken', refreshToken);
       localStorage.setItem('userDetails', JSON.stringify({ userId, firstName, lastName, email, phoneNumber, abn, companyName, companyAddress, state, postalCode }));

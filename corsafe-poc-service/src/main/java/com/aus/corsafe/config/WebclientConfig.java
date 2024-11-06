@@ -28,11 +28,12 @@ public class WebclientConfig {
 
     @Bean
     public WebClient webClient() {
-        return WebClient.builder()
-                .baseUrl(ApplicationConfig.BASE_URL)
+        return WebClient
+                .builder().baseUrl(ApplicationConfig.BASE_URL)
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + ApplicationConfig.TASKLIST_ACCESS_TOKEN)
 
                 .build();
+
     }
 }

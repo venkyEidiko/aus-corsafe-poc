@@ -23,6 +23,9 @@ public class SecurityConfig {
     private MyUserDetailasService myUserDetailasService;
 
     @Autowired
+    RequestIntercept requestIntercept;
+
+    @Autowired
     private JwtAuthenticationFilter jwtAuthenticationFilter;
     
     @Autowired
@@ -36,15 +39,21 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain config(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity.csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(req -> req.requestMatchers("/register","/login","/googlelogin", "/getAllSecurityQuestion", "/refreshToken/**").permitAll()
+
+                .authorizeHttpRequests(req->req.requestMatchers("/register","/login",
+                        "/getAllSecurityQuestion","/refreshToken/**","getquestionByUserId/{userId}",
+                        "/getAllproducts","/password/**","findEmail/**","/cart/**",
+                        "/cart/updateQuantity/{cartId}","/get-token/**", "/orderdetails/createOrder",
+                        "/cart/placeorder","/api/payments/**").permitAll()
+
+
+//                .authorizeHttpRequests(req -> req.requestMatchers("/register","/login","/googlelogin", "/getAllSecurityQuestion", "/refreshToken/**").permitAll()
                         .anyRequest().authenticated())
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-
-                .oauth2Login(oauth2 -> { 
-                    oauth2.successHandler(handler);
-                })
-
-               
+//                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+//
+//                .oauth2Login(oauth2 -> {
+//                    oauth2.successHandler(handler);
+//                })
                 .build();
     }
 

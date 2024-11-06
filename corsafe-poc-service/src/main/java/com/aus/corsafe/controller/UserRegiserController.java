@@ -30,9 +30,8 @@ import lombok.extern.slf4j.Slf4j;
 
 
 @RestController
-
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 @Slf4j
+@CrossOrigin(origins = "http://localhost:3000/**" , allowCredentials = "true")
 public class UserRegiserController {
 
 
