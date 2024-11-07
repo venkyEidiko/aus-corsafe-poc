@@ -1,4 +1,4 @@
-package com.aus.corsafe.commandlinerunner;
+package com.aus.corsafe.commandlineRunner;
 
 import com.aus.corsafe.entity.Products;
 import com.aus.corsafe.repository.ProductRepository;
