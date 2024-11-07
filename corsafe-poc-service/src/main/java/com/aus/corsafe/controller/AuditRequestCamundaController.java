@@ -5,6 +5,7 @@ import com.aus.corsafe.dto.CompleteTaskModel;
 import com.aus.corsafe.model.AssignTask;
 import com.aus.corsafe.model.SearchTask;
 import com.aus.corsafe.service.bpmnservice.AuditRequestService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +13,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/auditRequest")
+@Slf4j
 public class AuditRequestCamundaController {
 
     @Autowired
@@ -43,7 +45,7 @@ public class AuditRequestCamundaController {
     @GetMapping("/searchTask")
 
     public Object searchTask(@RequestBody SearchTask searchTask) {
-
+        log.info("search task controller entered");
         return auditRequestService.getSearchTask(searchTask);
     }
 

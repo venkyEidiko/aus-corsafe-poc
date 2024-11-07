@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1oijv2f" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.27.0" modeler:executionPlatform="Camunda Cloud" modeler:executionPlatformVersion="8.5.0">
-  <bpmn:process id="Audit" isExecutable="true">
+  <bpmn:process id="Audit" name="camunda_8" isExecutable="true">
     <bpmn:extensionElements>
       <zeebe:userTaskForm id="UserTaskForm_224qg60">{
   "components": [
@@ -87,7 +87,7 @@
     <bpmn:sequenceFlow id="Flow_12qw1og" sourceRef="auditorlist" targetRef="Activity_13mrqed" />
     <bpmn:serviceTask id="auditorlist" name="auditorList">
       <bpmn:extensionElements>
-        <zeebe:taskDefinition type="ok" />
+        <zeebe:taskDefinition type="ok1" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_01fyv6b</bpmn:incoming>
       <bpmn:outgoing>Flow_12qw1og</bpmn:outgoing>

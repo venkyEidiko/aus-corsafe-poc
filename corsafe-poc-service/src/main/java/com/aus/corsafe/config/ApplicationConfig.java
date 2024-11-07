@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ApplicationConfig {
 
-    public static  String BASE_URL="https://jfk-1.tasklist.camunda.io/c4765f54-b30c-4eba-b09f-2914741db450/v1";
+    public static  String BASE_URL="https://dsm-1.tasklist.camunda.io/6feae57c-2f49-4861-a383-7c43f82db777/v1";
 
     public static String BASE_URL_CAMUNDA_TOKEN = "https://login.cloud.camunda.io";
 

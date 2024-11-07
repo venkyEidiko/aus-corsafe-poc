@@ -186,6 +186,7 @@ public class AuditRequestService {
     public List<Object> getSearchTask(SearchTask searchTask) {
         List<Object> list = new ArrayList<>();
 
+        log.info("search task service class entered");
         webClient.post()
                 .uri("/tasks/search")
                 .body(Mono.just(searchTask), searchTask.getClass())
@@ -193,7 +194,7 @@ public class AuditRequestService {
                 .bodyToFlux(Object.class)
                 .doOnNext(list::add) // Add each received object to the list
                 .blockLast(); // Wait for the Flux to complete
-
+        log.info("search task service class end ...");
         return list;
 
     }
