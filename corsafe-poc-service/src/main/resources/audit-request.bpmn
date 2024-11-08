@@ -123,7 +123,7 @@
         <zeebe:ioMapping>
           <zeebe:input target="apiKey" />
           <zeebe:input source="junaid" target="from.name" />
-          <zeebe:input target="from.email" />
+          <zeebe:input source="junaidkhatri102@gmail.com" target="from.email" />
           <zeebe:input source="=firstName+&#34; &#34;+lastName" target="to.name" />
           <zeebe:input source="=email" target="to.email" />
           <zeebe:input source="mail" target="unMappedFieldNotUseInModel.mailType" />
