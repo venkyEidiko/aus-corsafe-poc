@@ -1,6 +1,5 @@
 package com.aus.corsafe;
 
-<<<<<<< HEAD
 import com.aus.corsafe.entity.SecurityQuestion;
 import com.aus.corsafe.repository.SecurityQuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,19 +18,10 @@ public class CoRSafePocApplication implements CommandLineRunner {
 	public CoRSafePocApplication(SecurityQuestionRepository securityQuestionRepository){
 		this.securityQuestionRepository=securityQuestionRepository;
 	}
-=======
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-@SpringBootApplication
-public class CoRSafePocApplication {
-
->>>>>>> 37e21b9 (initial commit)
 	public static void main(String[] args) {
 		SpringApplication.run(CoRSafePocApplication.class, args);
 	}
 
-<<<<<<< HEAD
 	private final List<String> securityQuestions = List.of(
 			"What was the name of your favorite childhood pet?",
 			"What is your favorite sport?",
@@ -62,6 +52,4 @@ public class CoRSafePocApplication {
 			e.printStackTrace();
 		}
 	}
-=======
->>>>>>> 37e21b9 (initial commit)
 }

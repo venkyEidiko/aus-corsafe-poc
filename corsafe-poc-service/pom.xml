@@ -30,14 +30,11 @@
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
-<<<<<<< HEAD
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-oauth2-client</artifactId>
 		</dependency>
-=======
->>>>>>> 37e21b9 (initial commit)
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -57,10 +54,7 @@
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
-<<<<<<< HEAD
 
-=======
->>>>>>> 37e21b9 (initial commit)
 		<dependency>
 			<groupId>com.oracle.database.jdbc</groupId>
 			<artifactId>ojdbc11</artifactId>
@@ -81,7 +75,6 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-<<<<<<< HEAD
 <!--		<dependency>-->
 <!--			<groupId>io.camunda</groupId>-->
 <!--			<artifactId>zeebe-client-java</artifactId>-->
@@ -140,8 +133,6 @@
 			<version>1.4.3</version>
 		</dependency>
 
-=======
->>>>>>> 37e21b9 (initial commit)
 	</dependencies>
 
 	<build>
