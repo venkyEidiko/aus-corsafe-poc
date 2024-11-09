@@ -2,15 +2,15 @@ import axios from 'axios';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 export const deleteCartItem = createAsyncThunk(
     'cart/deleteCartItem',
-    async ({ userId, productId,token,stockQuantity}, { rejectWithValue }) => {
+    async ({ userId, productId,token,quantity}, { rejectWithValue }) => {
         try {
-            console.log("Sending to API:", {userId,productId,stockQuantity,token}); 
+            console.log("Sending to API:", {userId,productId,quantity,token}); 
           
             const response = await axios.post('http://localhost:8086/cart/removeItem',
                 {
                     userId,
                     productId,
-                    quantity:stockQuantity
+                    quantity
                 },
                 {
                     headers: {
@@ -30,16 +30,24 @@ export const deleteCartItem = createAsyncThunk(
 )
 
 const initialState1 = {
-    deleteItem: null,
+    items: [],
+    cartId: null,
+    loading: false,
     error: null,
-    status: 'idle' 
+    status: 'idle',
 };
 
 
 export const cartSlice2 = createSlice({
     name: 'cart',
     initialState1,
-    reducers: {},
+    reducers: {
+        
+        deleteFromCart: (state, action) => {
+            const itemId = action.payload.id;
+            state.items = state.items.filter(item => item.cartItemId !== itemId);
+        },
+    },
     extraReducers: (builder) => {
         builder
             .addCase(deleteCartItem.pending, (state) => {
@@ -47,8 +55,11 @@ export const cartSlice2 = createSlice({
             })
             .addCase(deleteCartItem.fulfilled, (state, action) => {
                 state.status = 'succeeded';
-                state.addTocart = action.payload;
+                const { cartId, items } = action.payload; 
+                state.cartId = cartId;
+                state.items = items; 
                 state.error = null;
+                
             })
             .addCase(deleteCartItem.rejected, (state, action) => {
                 state.status = 'failed';

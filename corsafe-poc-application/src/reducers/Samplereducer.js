@@ -1,74 +1,64 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { fetchProducts } from '../slice/ProductSlice';
-import { Card, CardContent, Tooltip } from '@mui/material';
-import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-import { Outlet } from 'react-router-dom';
-import { addToCart } from '../slice/CartSlice';
-import { postAddtocart } from '../slice/AddToCartSlice';
-import Grid from '@mui/material/Grid2';
-
-const GetProducts = () => {
-    const dispatch = useDispatch();
-    const { products, status, error } = useSelector((state) => state.products);
-
-    useEffect(() => {
-        if (status === 'idle') {
-            dispatch(fetchProducts());
+export const fetchTotalPrice = createAsyncThunk(
+    'cart/fetchTotalPrice',
+    async ({ userId }, { rejectWithValue }) => {
+      try {
+        const res = await axios.get(`http://localhost:8086/cart/getTotalPrice/${userId}`);
+        console.log("TotalPrice data: ", res);
+  
+        // Assuming the total price is in result[0] based on your response
+        if (res.data.statusCode === 200 && res.data.result && res.data.result.length > 0) {
+          return res.data.result[0]; // Return the first item in the result array
+        } else {
+          return rejectWithValue('No total price available or invalid response.');
         }
-    }, [dispatch, status]);
-
-    if (status === 'loading') {
-        return <p>Loading...</p>;
+      } catch (error) {
+        console.log("TotalPrice error: ", error);
+        return rejectWithValue(error.response?.data || 'Failed to fetch total price');
+      }
     }
+  );
 
-    if (status === 'failed') {
-        return <p>Error: {error}</p>;
+  
+
+  export const displayTotalpriceSlice = createSlice({
+    name: 'priceCart',
+    initialState: {
+      totalPrice: null,
+      loading: false,
+      error: null,
+    },
+    reducers: {},
+    extraReducers: (builder) => {
+      builder
+        .addCase(fetchTotalPrice.pending, (state) => {
+          state.loading = true;
+          state.error = null;
+        })
+        .addCase(fetchTotalPrice.fulfilled, (state, action) => {
+          state.loading = false;
+          state.totalPrice = action.payload; // Store the fetched total price here
+        })
+        .addCase(fetchTotalPrice.rejected, (state, action) => {
+          state.loading = false;
+          state.error = action.payload || 'Failed to fetch total price';
+        });
     }
+  });
 
-    return (
-        <div className="product-container">
-            <Grid container spacing={2}>
-                <Grid item xs={12} lg={8} className="grid-scroll">
-                    <p className="title">List of Products</p>
-                    <Grid container spacing={2} sx={{ padding: 5 }}>
-                        {products.map((product, index) => (
-                            <Grid item xs={12} sm={6} md={4} key={index}>
-                                <Card className="products-cards" elevation={0}>
-                                    <CardContent sx={{ padding: 0 }}>
-                                        <div className="image-container">
-                                            <img
-                                                src={`data:image/jpeg;base64,${product.productImage}`}
-                                                alt={product.name}
-                                            />
-                                            <span
-                                                className="cart-icon"
-                                                style={{ color: 'black' }}
-                                                onClick={() => handleAddToCart(product)}
-                                            >
-                                                <Tooltip title="Add to Cart">
-                                                    <ShoppingCartOutlinedIcon />
-                                                </Tooltip>
-                                            </span>
-                                        </div>
-                                        <hr />
-                                        <p>{product.name}</p>
-                                        <h4>{`Rs. ${product.price}`}
-                                            <span>&nbsp;</span>
-                                            <span style={{ color: "#689f38" }}>(25% off)</span>
-                                        </h4>
-                                    </CardContent>
-                                </Card>
-                            </Grid>
-                        ))}
-                    </Grid>
-                </Grid>
-                <Grid item xs={12} lg={4}>
-                    <Outlet />
-                </Grid>
-            </Grid>
-        </div>
-    );
-};
+  
 
-export default GetProducts;
+  const { totalPrice, loading, error } = useSelector((state) => state.priceCart);
+
+return (
+  <div>
+    {loading ? (
+      <p>Loading ....</p>
+    ) : error ? (
+      <p>{error}</p>
+    ) : totalPrice !== null ? (
+      <span>{totalPrice}</span> // Display the total price
+    ) : (
+      <p>No total price available</p> // Handle case where no price is available
+    )}
+  </div>
+);
