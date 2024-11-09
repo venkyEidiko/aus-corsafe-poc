@@ -1,25 +1,32 @@
 package com.aus.corsafe.controller;
 
 
+import com.aus.corsafe.dto.PaymentStatusDto;
+import com.aus.corsafe.entity.Order;
 import com.aus.corsafe.entity.Payment;
+import com.aus.corsafe.entity.ResponseModel;
 import com.aus.corsafe.repository.PaymentRepo;
+import com.aus.corsafe.response.CommonResponse;
 import com.aus.corsafe.service.PaymentService;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
-
+@Slf4j
 @RestController
 @RequestMapping("/api/payments")
-@CrossOrigin(origins = "http://localhost:3000/**" , allowCredentials = "true")
+@CrossOrigin(origins = "http://localhost:3000/**")
 public class PaymentController {
 
 
     @Autowired
     private PaymentService paymentService;
+
 
     @Autowired
     private PaymentRepo paymentRepo;
@@ -100,6 +107,54 @@ public class PaymentController {
         }
     }
 
+//    @PostMapping("/updatePaymentStatus")
+//    public ResponseEntity<ResponseModel<Object>> updatePaymentStatus(
+//            @RequestParam String razorPayOrderId,
+//            @RequestParam String razorpayPaymentId,
+//            @RequestParam String status) {
+//        log.info("updatePaymentStatus controller entered");
+//
+//        try {
+//            Order updatedOrder = paymentService.updatePaymentStatus(razorPayOrderId, razorpayPaymentId, status);
+//            return new CommonResponse<>().prepareSuccessResponseObject(updatedOrder, HttpStatus.OK);
+//        } catch (IllegalArgumentException e) {
+//            return new CommonResponse<>().prepareErrorResponseObject(e.getMessage(), HttpStatus.NOT_FOUND);
+//        }
+//    }
+
+
+    @PostMapping("/updatePaymentStatus")
+    public ResponseEntity<ResponseModel<Object>> updatePaymentStatus(@RequestBody PaymentStatusDto dto) {
+        log.info("updatePaymentStatus controller entered");
+
+        try {
+            Order updatedOrder = paymentService.updatePaymentStatus(dto);
+            log.info("Received updatePaymentStatus request: razorPayOrderId={}, paymentId={}, status={}", dto.getRazorPayOrderId(), dto.getRazorpayPaymentId(), dto.getStatus());
+            return new CommonResponse<>().prepareSuccessResponseObject(updatedOrder, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new CommonResponse<>().prepareErrorResponseObject(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+
+
+//    @PostMapping("/handleWebhook")
+//    public ResponseEntity<String> handleRazorpayWebhook(@RequestBody String payload,
+//                                                        @RequestHeader("X-Razorpay-Signature") String signature) {
+//        try {
+//            // Verify the webhook payload
+//            boolean isVerified = paymentService.verifyWebhookSignature(payload, signature);
+//            if (isVerified) {
+//                // Process and save payment details
+//                paymentService.savePaymentDetails(payload);
+//                return ResponseEntity.ok("Payment details saved successfully.");
+//            } else {
+//                return ResponseEntity.status(400).body("Webhook signature verification failed.");
+//            }
+//        } catch (Exception e) {
+//            return ResponseEntity.status(500).body("Error processing webhook: " + e.getMessage());
+//        }
+//    }
 
 
 }

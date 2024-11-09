@@ -2,6 +2,7 @@ package com.aus.corsafe.controller;
 
 import com.aus.corsafe.config.ApplicationConfig;
 import com.aus.corsafe.dto.OrderDto;
+import com.aus.corsafe.dto.PaymentStatusDto;
 import com.aus.corsafe.entity.Cart;
 import com.aus.corsafe.entity.Order;
 import com.aus.corsafe.entity.ResponseModel;
@@ -50,13 +51,30 @@ public class OrderController {
             log.info("placeOrder controller if block");
 
             Order order = orderService.placeOrder(cart, user, dto.getAdress(), dto.getCity(), dto.getPostalcode(), dto.getArea());
-            return new CommonResponse<>().prepareSuccessResponseObject(ApplicationConfig.ORDER_CREATE_SUCCESS, HttpStatus.OK);
+            return new CommonResponse<>().prepareSuccessResponseObject(order, HttpStatus.OK);
         } else {
             log.info("placeOrder controller else block");
             // If either the user or cart is not found, return an error response
             return new CommonResponse<>().prepareErrorResponseObject(ApplicationConfig.USER_OR_CART_NOT_FOUND, HttpStatus.NOT_FOUND);
         }
     }
+
+
+//    @PostMapping("/updatePaymentStatus")
+//    public ResponseEntity<ResponseModel<Object>> updatePaymentStatus(@RequestBody PaymentStatusDto dto) {
+//        log.info("updatePaymentStatus controller entered");
+//
+//        try {
+//            Order updatedOrder = orderService.updatePaymentStatus(dto.getRazorPayOrderId(), dto.getRazorpayPaymentId(), dto.getStatus());
+//            log.info("Received updatePaymentStatus request: razorPayOrderId={}, paymentId={}, status={}", dto.getRazorPayOrderId(), dto.getRazorpayPaymentId(), dto.getStatus());
+//            return new CommonResponse<>().prepareSuccessResponseObject(updatedOrder, HttpStatus.OK);
+//        } catch (IllegalArgumentException e) {
+//            return new CommonResponse<>().prepareErrorResponseObject(e.getMessage(), HttpStatus.NOT_FOUND);
+//        }
+//    }
+
+
+
 
 
 }

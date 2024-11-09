@@ -1,5 +1,6 @@
 package com.aus.corsafe.config;
 
+import java.util.Arrays;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +15,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+
 
 @Configuration
 @EnableWebSecurity
@@ -30,6 +35,9 @@ public class SecurityConfig {
     
     @Autowired
     private OAuthAuthenticationSuccessHandler handler;
+
+    @Autowired
+    private WebCorsConfig webCorsConfig;
     
    @Bean
     public PasswordEncoder passwordEncoder() {
@@ -44,7 +52,7 @@ public class SecurityConfig {
                         "/getAllSecurityQuestion","/refreshToken/**","getquestionByUserId/{userId}",
                         "/getAllproducts","/password/**","findEmail/**","/cart/**",
                         "/cart/updateQuantity/{cartId}","/get-token/**", "/orderdetails/createOrder",
-                        "/cart/placeorder","/api/payments/**").permitAll()
+                        "/cart/placeorder","/api/payments/**","/cart/updatePaymentStatus").permitAll()
 
 
 //                .authorizeHttpRequests(req -> req.requestMatchers("/register","/login","/googlelogin", "/getAllSecurityQuestion", "/refreshToken/**").permitAll()
@@ -58,6 +66,20 @@ public class SecurityConfig {
     }
 
 //     Authentication provider
+
+    UrlBasedCorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000/", "http://10.0.0.97:3000/"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+
+
+
 
 
     @Bean

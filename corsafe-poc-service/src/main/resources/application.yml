@@ -27,9 +27,9 @@ zeebe.client:
 #    clientId: 7JkeeCp4l93e8M.Imb1Ega0UsZg1Ylpw
 #    clientSecret: SU4090ik7ZphDfrIL3pO8dyOLWpSAts2M3jN0ENC_YnA3Iatjc0YV1ZwijT6T6hj
     region: dsm-1
-    clusterId: 5a77a8d1-e277-4669-9186-610ffd4ffcdd
-    clientId: hPO~HhQ1TfKFCr4smfa.tl1MaiYGZCL3
-    clientSecret: 7mqFCMzLTxztC.4mxvb8SvxEC-PSsjWWXejM.DVbGXSM6xTrkspnZoX~HG1IeaBv
+    clusterId: 6feae57c-2f49-4861-a383-7c43f82db777
+    clientId: Ugi1JUkRFbFh~fvgVLvvSj3dOCW-eZyq
+    clientSecret: LlNJVxsa.wCdUH0RHJ1wKyfIoLXiR-RlP0B~oo0WzkiRvbwRjO_b.AQzX638zFfz
 
 
     # WebClient properties

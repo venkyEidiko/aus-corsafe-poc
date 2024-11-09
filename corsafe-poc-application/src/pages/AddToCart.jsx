@@ -33,6 +33,7 @@ const AddToCart = () => {
     dispatch(deleteFromCart( {id: item.id}));
   };
 
+
   return (
     <div className='addTocart-container'>
       <Card sx={{ height: '100vh', backgroundColor: '#f5f5f5' }}>

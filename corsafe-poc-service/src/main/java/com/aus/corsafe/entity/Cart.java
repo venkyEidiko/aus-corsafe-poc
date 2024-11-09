@@ -14,7 +14,6 @@ import java.util.List;
 @Data
 @Entity
 @Table(name="cart_info")
-@ToString
 public class Cart {
 
     @Id

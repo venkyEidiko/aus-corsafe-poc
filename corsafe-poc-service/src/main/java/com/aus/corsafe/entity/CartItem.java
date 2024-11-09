@@ -1,16 +1,19 @@
 package com.aus.corsafe.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@ToString(exclude = "order")
 public class CartItem {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -35,6 +38,7 @@ public class CartItem {
 
     @ManyToOne
     @JoinColumn(name = "order_id")
+    @JsonBackReference
     private Order order;
 
     // Calculated price  based on quantity * price

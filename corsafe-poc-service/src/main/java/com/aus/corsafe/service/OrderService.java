@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -34,9 +35,6 @@ public class OrderService {
     private CartItemRepo cartItemRepo;
 
     private RazorpayClient client;
-
-//    @Autowired
-//    Order order;
 
     @Autowired
     OrderRepo orderRepo;
@@ -59,27 +57,12 @@ public class OrderService {
         order.setUserId(user.getUserId());
         order.setOrderStatus("Pending");
 
-//        // Add CartItems to the Order and assign the order reference in each CartItem
-//        List<CartItem> orderItems = new ArrayList<>();
-//        for (CartItem item : cart.getItems()) {
-//            CartItem orderItem = new CartItem();
-//            orderItem.setProduct(item.getProduct());
-//            orderItem.setQuantity(item.getQuantity());
-//            orderItem.setPrice(item.getPrice());
-//            orderItem.setOrder(order); // Set the order reference
-//            orderItem.setCart(cart);   // Set the cart reference to avoid null constraint violation
-//            orderItems.add(orderItem);
-//        }
-//        order.setCartItems(orderItems);
-
-
-
         List<CartItem> cartItems = cart.getItems();
 
         // Manually update each cart item’s ORDERID
         for (CartItem item : cartItems) {
             item.setOrder(order);
-            cartItemRepo.save(item); // Explicitly update each CartItem
+            cartItemRepo.save(item);
         }
 
 
