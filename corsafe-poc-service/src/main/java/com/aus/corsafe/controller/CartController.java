@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
@@ -121,5 +122,16 @@ public class CartController {
             log.error("Error retrieving cart items for cartId {}: {}", cartId, e.getMessage());
             return new CommonResponse<>().prepareErrorResponseObject(ApplicationConfig.INTERNAL_SERVER_ERROR, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+        @GetMapping("/getTotalPrice/{userId}")
+    public ResponseEntity<ResponseModel<Object>> getTotalPriceFromCart(@PathVariable Integer userId) {
+        try {
+            Map<String, Object> cartDetails = cartService.getTotalPrice(userId);
+            return new CommonResponse<>().prepareSuccessResponseObject(cartDetails, HttpStatus.OK);
+        } catch (Exception e) {
+            return new CommonResponse<>().prepareErrorResponseObject(ApplicationConfig.USER_OR_CART_NOT_FOUND, HttpStatus.BAD_REQUEST);
+        }
+
     }
 }

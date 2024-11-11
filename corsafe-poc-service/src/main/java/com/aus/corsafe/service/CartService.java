@@ -14,9 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 
 @Service
@@ -195,5 +193,24 @@ public class CartService {
         Cart cart = cartRepository.findById(cartId)
                 .orElseThrow(() -> new ProductNotFoundException("Cart not found with ID: " + cartId));
         return cart.getItems();
+    }
+
+    //get total price from cart table
+    public Map<String, Object> getTotalPrice(Integer userId) {
+
+        Optional<Cart> byUserId = cartRepository.findByUserId(userId);
+
+        if (!byUserId.isPresent()) {
+            throw new UserNotFoundExceptionCls("Cart not found for user ID: " + userId);
+        }
+        Cart cart = byUserId.get();
+
+        Map<String, Object> cartDetails = new HashMap<>();
+        cartDetails.put("totalPrice", cart.getTotalPrice());
+        cartDetails.put("cartId", cart.getCartId());
+
+        return cartDetails;
+
+
     }
 }
