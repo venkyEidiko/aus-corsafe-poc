@@ -7,15 +7,13 @@ import { useNavigate } from 'react-router-dom';
 
 const CustomerAddress = () => {
   const navigate = useNavigate();
- 
-  // const userId = useSelector((state) => state.auth.userDetails?.userId);
+
   const token = useSelector((state) => state.auth.jwtToken);
   const userId = useSelector((state) => state.auth.userDetails?.userId);
   const cartId = useSelector((state) => state.totalprice?.cartId);
 
   const [formData, setFormData] = useState({
-    // userId:userId,
-    // cartId:cartId,
+   
     state: '',
     pincode: '',
     city: '',
@@ -29,6 +27,45 @@ const CustomerAddress = () => {
       [e.target.name]: e.target.value
     });
   };
+  const savePayment = (payment_id) => {
+    return axios.post(
+      `http://localhost:8086/api/payments/save/${payment_id}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    )
+    .then((response) => {
+      console.log("Payment saved successfully:", response.data);
+    })
+    .catch((error) => {
+      console.error("Error saving payment:", error.response ? error.response.data : error.message);
+    });
+  };
+  const updatePaymentStatus = (order_id, payment_id) => {
+    return axios.post(
+      'http://localhost:8086/api/payments/updatePaymentStatus',
+      {
+        razorPayOrderId: order_id,
+        razorpayPaymentId: payment_id,
+        status: 'Paid',
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    ).then((response) => {
+      console.log('Order status updated to Success.');
+      
+      return savePayment(payment_id);
+    }).catch((error) => {
+      console.error('Failed to update order status', error);
+    });
+  };
+
   const placeOrder = async (orderData) => {
     try {
       const response = await axios.post(
@@ -52,10 +89,13 @@ const CustomerAddress = () => {
           name: 'Your Company Name',
           description: 'Order Payment',
           order_id: response.data.result[0].razorPayOrderId,
-          handler: function (response) {
-              console.log(response);
-              // Handle success
-              navigate("/allProducts/payment")
+          handler: function (paymentResponse) {
+            console.log("Payment response: ", paymentResponse);
+          
+            updatePaymentStatus(options.order_id, paymentResponse.razorpay_payment_id)
+            .then(() => {
+              navigate("/allProducts");
+            });
           },
           prefill: {
               // name: user.firstName,
