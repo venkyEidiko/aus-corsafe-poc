@@ -14,7 +14,7 @@ public class ApplicationConfig {
     public static final String USER_NOT_FOUND_MESSAGE = "User not found with this email ID";
 
     public static final String EMAIL_NOT_REGISTERED_MESSAGE = "Email not registered with : ";
-
+    public static final String AREA_NOT_FOUND ="area not found !! ";
 
     public static String TASKLIST_ACCESS_TOKEN = "eyJhbGciOiJSUzI1NiIsIn" +
             "R5cCI6IkpXVCIsImtpZCI6IlFVVXdPVFpDUTBVM01qZEVRME0wTkRFelJrUkJORFk0T0RZeE1FRT" +
