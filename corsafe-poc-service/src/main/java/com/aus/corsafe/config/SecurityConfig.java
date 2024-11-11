@@ -19,12 +19,12 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-	
-	@Autowired
+
+
+    @Autowired
     private MyUserDetailasService myUserDetailasService;
 
     @Autowired
@@ -32,15 +32,15 @@ public class SecurityConfig {
 
     @Autowired
     private JwtAuthenticationFilter jwtAuthenticationFilter;
-    
+
     @Autowired
     private OAuthAuthenticationSuccessHandler handler;
 
     @Autowired
     private WebCorsConfig webCorsConfig;
-    
-   @Bean
-    public PasswordEncoder passwordEncoder() {
+
+
+    @Bean public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -54,14 +54,17 @@ public class SecurityConfig {
                         "/cart/updateQuantity/{cartId}","/get-token/**", "/orderdetails/createOrder",
                         "/cart/placeorder","/api/payments/**","/cart/updatePaymentStatus").permitAll()
 
+                       //.authorizeHttpRequests(req -> req.requestMatchers("/register","/login","/googlelogin", "/getAllSecurityQuestion", "/refreshToken/**").permitAll()
 
-//                .authorizeHttpRequests(req -> req.requestMatchers("/register","/login","/googlelogin", "/getAllSecurityQuestion", "/refreshToken/**").permitAll()
                         .anyRequest().authenticated())
-//                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-//
-//                .oauth2Login(oauth2 -> {
-//                    oauth2.successHandler(handler);
-//                })
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+
+
+//                .oauth2Login(oauth2 -> oauth2
+//                        .userInfoEndpoint(userInfo -> userInfo.userService(requestIntercept)) // OAuth2 user service
+//                )
+
+
                 .build();
     }
 
@@ -79,9 +82,7 @@ public class SecurityConfig {
     }
 
 
-
-
-
+    //Authentication provider
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
@@ -96,8 +97,7 @@ public class SecurityConfig {
     }
 
     @Bean
-
-    public ModelMapper modelMapper(){
+    public ModelMapper modelMapper() {
         return new ModelMapper();
     }
 

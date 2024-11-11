@@ -35,9 +35,9 @@ public class Cart {
     public Cart() {
     }
 
-
     // Method to update the total price
     public void updateTotalPrice() {
         this.totalPrice = items.stream().mapToDouble(CartItem::calculateTotalPrice).sum();
     }
+
 }

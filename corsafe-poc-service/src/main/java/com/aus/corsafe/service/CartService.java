@@ -14,9 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 
 @Service
@@ -37,8 +35,8 @@ public class CartService {
 
         log.info("addProductToUserCart entered, userId is: {}", userId);
 
-        if(userId==null){
-            throw new UserNotFoundExceptionCls("usernot found"+userId);
+        if (userId == null) {
+            throw new UserNotFoundExceptionCls("usernot found" + userId);
         }
 
 
@@ -81,7 +79,6 @@ public class CartService {
     }
 
 
-
     public Cart removeItemFromUserCart(Integer userId, Integer productId, Integer quantityToRemove) throws ProductNotFoundException {
         log.info("removeItemFromUserCart entered, userId: {}, productId: {}, quantityToRemove: {}", userId, productId, quantityToRemove);
 
@@ -118,7 +115,6 @@ public class CartService {
             throw new ProductNotFoundException("Product not found in the cart");
         }
     }
-
 
 
     public Cart addQuantityToUserCart(Integer userId, Integer productId, Integer quantityToAdd) throws ProductNotFoundException {
@@ -197,17 +193,35 @@ public class CartService {
         return cart.getItems();
     }
 
+    //get total price from cart table
+    public Map<String, Object> getTotalPrice(Integer userId) {
 
-    public List<CartItem> getCartItemsByUserId(Integer userId) throws UserNotFoundExceptionCls, ProductNotFoundException {
-        // Validate user existence
-        userRegisterRepo.findByUserId(userId)
-                .orElseThrow(() -> new UserNotFoundExceptionCls("User not found with ID: " + userId));
+        Optional<Cart> byUserId = cartRepository.findByUserId(userId);
 
-        // Retrieve the user's cart
-        Cart cart = cartRepository.findByUserId(userId)
-                .orElseThrow(() -> new ProductNotFoundException("Cart not found for user ID: " + userId));
+        if (!byUserId.isPresent()) {
+            throw new UserNotFoundExceptionCls("Cart not found for user ID: " + userId);
+        }
+        Cart cart = byUserId.get();
 
-        // Return the list of cart items
-        return cart.getItems();
+        Map<String, Object> cartDetails = new HashMap<>();
+        cartDetails.put("totalPrice", cart.getTotalPrice());
+        cartDetails.put("cartId", cart.getCartId());
+
+        return cartDetails;
     }
+
+
+        public List<CartItem> getCartItemsByUserId(Integer userId) throws UserNotFoundExceptionCls, ProductNotFoundException {
+            // Validate user existence
+            userRegisterRepo.findByUserId(userId)
+                    .orElseThrow(() -> new UserNotFoundExceptionCls("User not found with ID: " + userId));
+
+            // Retrieve the user's cart
+            Cart cart = cartRepository.findByUserId(userId)
+                    .orElseThrow(() -> new ProductNotFoundException("Cart not found for user ID: " + userId));
+
+            // Return the list of cart items
+            return cart.getItems();
+        }
 }
+

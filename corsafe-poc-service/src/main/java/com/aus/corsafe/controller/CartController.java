@@ -18,12 +18,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
 @RestController
 @RequestMapping("/cart")
-@CrossOrigin(origins = "http://localhost:3000/**" , allowCredentials = "true")
+@CrossOrigin(origins = "http://localhost:3000/**", allowCredentials = "true")
 public class CartController {
 
 
@@ -136,5 +137,17 @@ public class CartController {
             log.info("UserNotFoundException: {}", e.getMessage());
             return new CommonResponse<>().prepareErrorResponseObject("user not found : ", HttpStatus.NOT_FOUND);
         }
+    }
+
+
+        @GetMapping("/getTotalPrice/{userId}")
+    public ResponseEntity<ResponseModel<Object>> getTotalPriceFromCart(@PathVariable Integer userId) {
+        try {
+            Map<String, Object> cartDetails = cartService.getTotalPrice(userId);
+            return new CommonResponse<>().prepareSuccessResponseObject(cartDetails, HttpStatus.OK);
+        } catch (Exception e) {
+            return new CommonResponse<>().prepareErrorResponseObject(ApplicationConfig.USER_OR_CART_NOT_FOUND, HttpStatus.BAD_REQUEST);
+        }
+
     }
 }

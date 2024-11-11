@@ -21,3 +21,4 @@ public class Auditor {
     @Convert(converter = ListConverter.class)
     List<String> nearByArea;
 }
+

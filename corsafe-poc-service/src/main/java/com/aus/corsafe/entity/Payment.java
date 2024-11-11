@@ -14,7 +14,8 @@ import java.util.Date;
 @NoArgsConstructor
 @Entity
 @Table(name = "payment")
-public class Payment {
+public class
+Payment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

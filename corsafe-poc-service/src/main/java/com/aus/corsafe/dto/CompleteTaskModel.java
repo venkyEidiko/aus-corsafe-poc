@@ -15,4 +15,5 @@ public class CompleteTaskModel {
 
     long taskId;
     Map<String, Object> variables;
+
 }

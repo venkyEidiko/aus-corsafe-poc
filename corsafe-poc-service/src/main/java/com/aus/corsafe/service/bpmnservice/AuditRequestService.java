@@ -1,14 +1,12 @@
 package com.aus.corsafe.service.bpmnservice;
 
+import com.aus.corsafe.dto.CompleteTaskDto;
 import com.aus.corsafe.dto.CompleteTaskModel;
 import com.aus.corsafe.entity.UserRegister;
-
 import com.aus.corsafe.entity.auditrequest.ProcessDetails;
 import com.aus.corsafe.repository.ProcessDetailsRepository;
-
 import com.aus.corsafe.model.AssignTask;
 import com.aus.corsafe.model.SearchTask;
-
 import com.aus.corsafe.repository.UserRegisterRepo;
 import io.camunda.zeebe.client.ZeebeClient;
 import io.camunda.zeebe.client.api.response.ActivatedJob;
@@ -18,13 +16,12 @@ import org.springframework.stereotype.Service;
 import io.camunda.zeebe.spring.client.annotation.JobWorker;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
+
 
 
 @Slf4j
@@ -33,10 +30,6 @@ public class AuditRequestService {
 
     @Autowired
     private WebClient webClient;
-
-//    public AuditRequestService(WebClient webClient) {
-//        this.webClient = webClient;
-//    }
 
 
     @Autowired
@@ -51,8 +44,6 @@ public class AuditRequestService {
 
     @JobWorker(type = "userDetailsVerifier", autoComplete = true)
     public void GettingVariableAndSettingVariable(ActivatedJob job) {
-
-
         log.info("strted userDetailsVerifier");
         System.out.println("strted userDetailsVerifier");
         boolean knowMe = true;
@@ -100,14 +91,47 @@ public class AuditRequestService {
     }
 
 
+    /**
+     * it call getuserststus camunds task for save detials
+     */
+    @JobWorker(type = "saveDataInDb", autoComplete = true)
+    public void handleGetUserStatusCamundaTask(ActivatedJob job) {
+        log.info("entered handejob", job.getVariable("email"));
+
+        ProcessDetails processDetails = ProcessDetails.builder()
+                .firstName((String) job.getVariable("firstName"))
+                .lastName((String) job.getVariable("lastName"))
+                .abn((String) job.getVariable("abn"))
+                .email((String) job.getVariable("email"))
+                .companyName((String) job.getVariable("companyName"))
+                .companyAddress((String) job.getVariable("companyAddress"))
+                .state((String) job.getVariable("state"))
+                .postalCode((String) job.getVariable("postalCode"))
+                .phoneNumber((Long) job.getVariable("phoneNumber"))
+                .processInstanceKey(job.getProcessInstanceKey())
+                .taskId(job.getKey())
+                .createdAt(new Date())
+                .assignee(job.getCustomHeaders().get("assignee"))
+                .implementation(job.getType())
+                .build();
+        log.info("All value setted ");
+        processDetailsRepository.save(processDetails);
+        log.info("saved");
+
+
+    }
+
+
     @JobWorker(type = "auditChargeCalculation", autoComplete = true)
     public void chargeCalculation(ActivatedJob job) {
         System.out.println("Calculating charges");
     }
 
 
-    public String completeTask(CompleteTaskModel completeTask) {
-
+    /**
+     * for complete the task with using zeebe client
+     */
+    public String completeTaskWithZeebe(CompleteTaskModel completeTask) {
         client.newCompleteCommand(completeTask.getTaskId())
                 .variables(completeTask.getVariables())
                 .send()
@@ -117,13 +141,29 @@ public class AuditRequestService {
 
     }
 
+
+
+    /**
+     * complete the task with rest api
+     */
+    public Object completeTask(CompleteTaskDto completeTask) {
+        String url = "/tasks/" + completeTask.getTaskId() + "/complete";
+
+        return webClient.patch()
+                .uri(url)
+                .body(Mono.just(completeTask), CompleteTaskDto.class)
+                .retrieve()
+                .bodyToMono(Object.class)
+                .block();
+    }
+
     /**
      * for assign the task
      */
     public Object getAssignTask(AssignTask assignTask) {
+        String url = "/tasks/" + assignTask.getTaskId() + "/assign";
         Object claimed = webClient.patch()
-
-                .uri("/tasks/6755399441234580/assign")
+                .uri(url)
                 .body(Mono.just(assignTask), assignTask.getClass())
                 .retrieve()
                 .bodyToMono(Object.class)
@@ -132,11 +172,12 @@ public class AuditRequestService {
     }
 
     /**
-     * get get-assigned tasks and get-unassigned tasks based on body (true ,false
+     * get get-assigned tasks and get-unassigned tasks based on body (true ,false)
      */
     public List<Object> getSearchTask(SearchTask searchTask) {
-        List<Object> list = new ArrayList<>();
 
+        List<Object> list = new ArrayList<>();
+        log.info("search task service class entered");
         webClient.post()
                 .uri("/tasks/search")
                 .body(Mono.just(searchTask), searchTask.getClass())
@@ -145,7 +186,7 @@ public class AuditRequestService {
                 .doOnNext(list::add) // Add each received object to the list
                 .blockLast(); // Wait for the Flux to complete
 
+        log.info("search task service class end ...");
         return list;
-
     }
 }
