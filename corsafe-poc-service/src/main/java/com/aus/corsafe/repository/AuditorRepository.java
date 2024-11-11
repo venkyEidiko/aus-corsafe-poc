@@ -16,4 +16,5 @@ public interface AuditorRepository extends JpaRepository<Auditor,Integer> {
     List<Auditor> findByNearByAreaContaining(@Param("area") String area);
 
     Optional<Auditor> findByName(String Name);
+    Optional<Auditor> findById(Integer id);
 }

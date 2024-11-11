@@ -19,7 +19,7 @@ public class CartItem {
     @ManyToOne
     @JoinColumn(name = "cart_id", nullable = false)
     @JsonIgnore
-    private Cart  cart;
+    private Cart cart;
 
     @ManyToOne
     @JoinColumn(name = "product_id", referencedColumnName = "productId", nullable = false)
@@ -41,8 +41,5 @@ public class CartItem {
     public Double calculateTotalPrice() {
         return quantity * price;
     }
-
-
-
 
 }
