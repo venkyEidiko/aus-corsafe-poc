@@ -122,4 +122,19 @@ public class CartController {
             return new CommonResponse<>().prepareErrorResponseObject(ApplicationConfig.INTERNAL_SERVER_ERROR, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<ResponseModel<Object>> getCartItemsByUserId(@PathVariable Integer userId) {
+        try {
+            List<CartItem> cartItems = cartService.getCartItemsByUserId(userId);
+            if (cartItems.isEmpty()) {
+                return new CommonResponse<>().prepareErrorResponseObject(ApplicationConfig.NO_ITEMS_FOUND, HttpStatus.NO_CONTENT);
+            }
+            return new CommonResponse<>().prepareSuccessResponseObject(cartItems, HttpStatus.OK);
+        } catch (Exception e) {
+            log.info("UserNotFoundException: {}", e.getMessage());
+            return new CommonResponse<>().prepareErrorResponseObject("user not found : ", HttpStatus.NOT_FOUND);
+        }
+    }
 }

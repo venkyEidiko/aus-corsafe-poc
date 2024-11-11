@@ -40,11 +40,4 @@ public class Cart {
     public void updateTotalPrice() {
         this.totalPrice = items.stream().mapToDouble(CartItem::calculateTotalPrice).sum();
     }
-
-
-/*
-    @ManyToOne
-    @JoinColumn(name = "order_id", referencedColumnName = "orderId")
-    private Orders order;
- */
 }

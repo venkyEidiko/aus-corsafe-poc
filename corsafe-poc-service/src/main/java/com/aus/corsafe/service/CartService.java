@@ -198,46 +198,16 @@ public class CartService {
     }
 
 
+    public List<CartItem> getCartItemsByUserId(Integer userId) throws UserNotFoundExceptionCls, ProductNotFoundException {
+        // Validate user existence
+        userRegisterRepo.findByUserId(userId)
+                .orElseThrow(() -> new UserNotFoundExceptionCls("User not found with ID: " + userId));
 
+        // Retrieve the user's cart
+        Cart cart = cartRepository.findByUserId(userId)
+                .orElseThrow(() -> new ProductNotFoundException("Cart not found for user ID: " + userId));
 
-
-
-
-
-/**
- public Cart updateCartItemQuantity(Long cartId, Integer newQuantity) {
- // Check if the cart item exists
- Optional<Cart> cartOptional = cartRepository.findById(cartId);
- if (!cartOptional.isPresent()) {
- throw new RuntimeException("Cart item not found with ID: " + cartId);
- }
-
- Cart cart = cartOptional.get();
-
- // Update the quantity and recalculate the total price
- cart.setQuantity(newQuantity);
- cart.setTotalPrice(cart.getPrice() * newQuantity);
-
- // Save the updated cart item
- return cartRepository.save(cart);
- }
-
-
- public List<Cart> getCartItems(Integer userId) {
- return cartRepository.findByUserId(userId);
- }
-
- public void removeCartItem(Long cartId) {
- cartRepository.deleteById(cartId);
- }
-
- public boolean userExists(Integer userId) {
- return userRegisterRepo.existsById(userId);
- }
-
- public boolean cartItemExists(Long cartId) {
- return cartRepository.existsById(cartId);
- }
- */
-
+        // Return the list of cart items
+        return cart.getItems();
+    }
 }

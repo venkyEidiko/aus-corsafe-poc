@@ -107,22 +107,6 @@ public class PaymentController {
         }
     }
 
-//    @PostMapping("/updatePaymentStatus")
-//    public ResponseEntity<ResponseModel<Object>> updatePaymentStatus(
-//            @RequestParam String razorPayOrderId,
-//            @RequestParam String razorpayPaymentId,
-//            @RequestParam String status) {
-//        log.info("updatePaymentStatus controller entered");
-//
-//        try {
-//            Order updatedOrder = paymentService.updatePaymentStatus(razorPayOrderId, razorpayPaymentId, status);
-//            return new CommonResponse<>().prepareSuccessResponseObject(updatedOrder, HttpStatus.OK);
-//        } catch (IllegalArgumentException e) {
-//            return new CommonResponse<>().prepareErrorResponseObject(e.getMessage(), HttpStatus.NOT_FOUND);
-//        }
-//    }
-
-
     @PostMapping("/updatePaymentStatus")
     public ResponseEntity<ResponseModel<Object>> updatePaymentStatus(@RequestBody PaymentStatusDto dto) {
         log.info("updatePaymentStatus controller entered");
