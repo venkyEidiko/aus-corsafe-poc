@@ -28,7 +28,6 @@ const AddToCart = () => {
     navigate('/allProducts/address');
   };
 
-  // Fetch Cart Items and Total Price when userId or token changes
   useEffect(() => {
     if (userId && token) {
       console.log("userId for user: ", userId, "token for user: ", token);
@@ -38,6 +37,7 @@ const AddToCart = () => {
   }, [userId, token, dispatch]);
 
   const deleteToCart = (item) => {
+
     const { productId } = item.product;
     const { cartItemId } = item;
     const { quantity } = item;
@@ -61,10 +61,13 @@ const AddToCart = () => {
 
   const increaseQuantity = (qty) => {
     const productId = qty.product.productId;
+
+
     if (!productId || !userId || !token) {
       console.error("Product ID, User ID, or token is missing!");
       return;
     }
+
 
     dispatch(changeQuantity({ productId, userId, token }))
       .then(() => {
@@ -92,6 +95,9 @@ const AddToCart = () => {
     } catch (error) {
       console.log("Failed to update quantity:", error);
     }
+
+
+
   };
 
   return (
@@ -111,6 +117,7 @@ const AddToCart = () => {
                 <Grid item xs={12} sm={6} md={4} key={index}>
                   <Card sx={{ width: '440px', height: '100px' }}>
                     <CardContent>
+
                       <div className="cart-container">
                         <div className="img-container">
                           <img
@@ -126,6 +133,7 @@ const AddToCart = () => {
                             <span onClick={() => increaseQuantity(item)}>
                               <AddSharpIcon />
                             </span>
+
                           </div>
                         </div>
                         <div className="headings">

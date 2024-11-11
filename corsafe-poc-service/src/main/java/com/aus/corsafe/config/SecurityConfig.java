@@ -14,21 +14,30 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-	
-	@Autowired
+
+
+    @Autowired
     private MyUserDetailasService myUserDetailasService;
 
     @Autowired
+    RequestIntercept requestIntercept;
+
+    @Autowired
     private JwtAuthenticationFilter jwtAuthenticationFilter;
-    
+
     @Autowired
     private OAuthAuthenticationSuccessHandler handler;
-    
-   @Bean
+
+
+    @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
@@ -36,21 +45,28 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain config(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity.csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(req -> req.requestMatchers("/register","/login","/googlelogin", "/getAllSecurityQuestion", "/refreshToken/**").permitAll()
+
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .authorizeHttpRequests(req -> req.requestMatchers("/register", "/login",
+                                "/getAllSecurityQuestion", "/refreshToken/**", "getquestionByUserId/{userId}",
+                                "/getAllproducts", "/password/**", "findEmail/**",
+                                "/get-token/**", "/refreshToken/getToken", "/assignTask").permitAll()
+
+
                         .anyRequest().authenticated())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 
-                .oauth2Login(oauth2 -> { 
-                    oauth2.successHandler(handler);
-                })
 
-               
+//                .oauth2Login(oauth2 -> oauth2
+//                        .userInfoEndpoint(userInfo -> userInfo.userService(requestIntercept)) // OAuth2 user service
+//                )
+
+
                 .build();
     }
 
-//     Authentication provider
 
-
+    //Authentication provider
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
@@ -65,9 +81,21 @@ public class SecurityConfig {
     }
 
     @Bean
-
-    public ModelMapper modelMapper(){
+    public ModelMapper modelMapper() {
         return new ModelMapper();
+    }
+
+
+    //central cors configuration's
+    UrlBasedCorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000/", "http://10.0.0.97:3000/"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 
 }

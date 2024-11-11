@@ -1,5 +1,6 @@
 package com.aus.corsafe.commandLineRunner;
 
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -25,7 +26,7 @@ public class AuditorCommandLineRunner implements CommandLineRunner {
         List<Auditor> auditors = new ArrayList<>();
         Auditor auditor1 = new Auditor();
         auditor1.setName("Auditor A");
-        auditor1.setCurrentTaskCount(3);
+        auditor1.setCurrentTaskCount(2);
         auditor1.setLocation("Location A");
         auditor1.setNearByArea(Arrays.asList("Area 1", "Area 2", "Area 3"));
         auditors.add(auditor1);

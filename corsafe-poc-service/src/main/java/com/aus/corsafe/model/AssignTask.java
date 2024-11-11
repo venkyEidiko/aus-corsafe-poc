@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class AssignTask {
-
+     long taskId;
      public String assignee;
      public Boolean allowOverrideAssignment;
 
