@@ -2,8 +2,12 @@ package com.aus.corsafe.service.bpmnservice;
 
 import com.aus.corsafe.dto.CompleteTaskDto;
 import com.aus.corsafe.dto.CompleteTaskModel;
+import com.aus.corsafe.dto.StartCamundadto;
+import com.aus.corsafe.entity.Order;
 import com.aus.corsafe.entity.UserRegister;
 import com.aus.corsafe.entity.auditrequest.ProcessDetails;
+import com.aus.corsafe.exceptions.UserNotFoundExceptionCls;
+import com.aus.corsafe.repository.OrderRepo;
 import com.aus.corsafe.repository.ProcessDetailsRepository;
 import com.aus.corsafe.model.AssignTask;
 import com.aus.corsafe.model.SearchTask;
@@ -16,12 +20,12 @@ import org.springframework.stereotype.Service;
 import io.camunda.zeebe.spring.client.annotation.JobWorker;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.*;
-
 
 
 @Slf4j
@@ -31,6 +35,8 @@ public class AuditRequestService {
     @Autowired
     private WebClient webClient;
 
+    @Autowired
+    private WebClient webClientConnectors;
 
     @Autowired
     ZeebeClient client;
@@ -38,6 +44,8 @@ public class AuditRequestService {
     @Autowired
     UserRegisterRepo userRegisterRepo;
 
+    @Autowired
+    OrderRepo orderRepo;
 
     @Autowired
     ProcessDetailsRepository processDetailsRepository;
@@ -96,9 +104,12 @@ public class AuditRequestService {
      */
     @JobWorker(type = "saveDataInDb", autoComplete = true)
     public void handleGetUserStatusCamundaTask(ActivatedJob job) {
-        log.info("entered handejob", job.getVariable("email"));
+        log.info("entered saveDeatils {} ", job.getVariable("email"));
+        log.info("entered saveDetails {} ", job.getVariable("orderId"));
 
+        long processInstanceKey = job.getProcessInstanceKey();
         ProcessDetails processDetails = ProcessDetails.builder()
+                .orderId ((Integer) job.getVariable("orderId"))
                 .firstName((String) job.getVariable("firstName"))
                 .lastName((String) job.getVariable("lastName"))
                 .abn((String) job.getVariable("abn"))
@@ -141,7 +152,15 @@ public class AuditRequestService {
 
     }
 
+    public Object startCamunda(StartCamundadto dto) {
+        log.info("start camunda service entered :{}", dto);
+        return webClientConnectors.post()
+                .bodyValue(dto)
+                .retrieve()
+                .bodyToMono(Object.class)
+                .block();
 
+    }
 
     /**
      * complete the task with rest api

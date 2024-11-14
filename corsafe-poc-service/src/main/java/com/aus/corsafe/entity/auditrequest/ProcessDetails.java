@@ -32,5 +32,7 @@ public class ProcessDetails {
     private Date updatedAt;
     private String assignee;
     private String implementation;
+    private Integer orderId;
+
 
 }
