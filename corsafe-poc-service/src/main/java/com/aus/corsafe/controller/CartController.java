@@ -125,7 +125,7 @@ public class CartController {
         }
     }
 
-        @GetMapping("/getTotalPrice/{userId}")
+    @GetMapping("/getTotalPrice/{userId}")
     public ResponseEntity<ResponseModel<Object>> getTotalPriceFromCart(@PathVariable Integer userId) {
         try {
             Map<String, Object> cartDetails = cartService.getTotalPrice(userId);
