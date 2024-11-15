@@ -15,8 +15,13 @@ import com.aus.corsafe.service.bpmnservice.AuditRequestService;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,6 +48,7 @@ public class AuditRequestCamundaController {
     //complete the task with rest api
     @PostMapping("/completeTask1")
     public Object completeTask1(@RequestBody CompleteTaskDto cm) {
+
         return auditRequestService.completeTask(cm);
     }
 
@@ -60,58 +66,45 @@ public class AuditRequestCamundaController {
         return auditRequestService.getSearchTask(searchTask);
     }
 
-//    @PostMapping("/startTask")
-//    public Object startCamunda(@RequestBody StartCamundadto dto){
-//
-//
-//        log.info("start camunda controller entered");
-//        return auditRequestService.startCamunda(dto);
-//    }
-
-
+    //to start camunda along with checking conditions
     @PostMapping("/startTask")
-    public Object startCamunda(@RequestBody StartCamundadto dto) {
-        log.info("start camunda controller entered");
+    public ResponseEntity<Object> startCamunda(@RequestBody StartCamundadto dto) {
+        log.info("Entered startCamunda controller for user ID: {}", dto.getUserId());
 
         List<Order> orders = orderRepo.findByUserId(dto.getUserId());
-        log.info("orders {}",orders);
+
         if (orders.isEmpty()) {
-            throw new UserNotFoundExceptionCls("Order not found for user with ID: " + dto.getUserId());
+            throw new UserNotFoundExceptionCls("No orders found for user ID: " + dto.getUserId());
         }
+
+        boolean processStartedForAny = false;
 
         for (Order order : orders) {
             Integer orderId = order.getOrderId();
-            log.info("Processing order id: {}", order);
-            ProcessDetails details = processDetailsRepo.findAllByOrderId(orderId).orElse(null);
-            log.info("Process Details : {}",details);
-            if (details != null && details.getProcessInstanceKey() != 0) {
-                continue;
-            }
-            // Create a new DTO instance for each order to avoid overwriting
-            StartCamundadto orderSpecificDto = new StartCamundadto(
-                    dto.getUserId(),
-                    dto.getFirstName(),
-                    dto.getLastName(),
-                    dto.getEmail(),
-                    dto.getPhoneNumber(),
-                    dto.getAbn(),
-                    dto.getCompanyName(),
-                    dto.getCompanyAddress(),
-                    dto.getState(),
-                    dto.getPostalCode(),
-                    orderId // Set specific order ID here
-            );
 
-            log.info("calling start service from controller ");
-            auditRequestService.startCamunda(orderSpecificDto);
-//            try {
-//                Thread.sleep(2000);
-//            } catch (InterruptedException e) {
-//                throw new RuntimeException(e);
-//            }
+            Optional<ProcessDetails> detailsOpt = processDetailsRepo.findAllByOrderId(orderId);
+
+            if (detailsOpt.isPresent()) {
+                log.info("Order ID {} is already in processDetails. Skipping service call.", orderId);
+                continue; // Skip this order
+            }
+            if ("paid".equalsIgnoreCase(order.getOrderStatus())) {
+                dto.setOrderId(orderId);
+                log.info("Order ID {} is eligible. Starting Camunda process.", orderId);
+
+                Object response = auditRequestService.startCamunda(dto);
+                log.info("Camunda process started for order ID: {}", orderId);
+                processStartedForAny = true;
+            } else {
+                log.info("Order ID {} is not eligible (status is not 'paid'). Skipping.", orderId);
+            }
         }
 
-        return "Processed " + orders.size() + " orders for user ID: " + dto.getUserId();
+        if (processStartedForAny) {
+            return ResponseEntity.ok("Camunda processes started for eligible orders.");
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No eligible orders found to start processes.");
+        }
     }
 
 

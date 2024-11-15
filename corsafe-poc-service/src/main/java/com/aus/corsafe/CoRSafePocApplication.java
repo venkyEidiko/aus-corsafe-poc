@@ -19,6 +19,7 @@ public class CoRSafePocApplication implements CommandLineRunner {
 		this.securityQuestionRepository=securityQuestionRepository;
 	}
 	public static void main(String[] args) {
+
 		SpringApplication.run(CoRSafePocApplication.class, args);
 	}
 

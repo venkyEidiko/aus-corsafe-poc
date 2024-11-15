@@ -52,6 +52,7 @@ public class AuditRequestService {
 
     @JobWorker(type = "userDetailsVerifier", autoComplete = true)
     public void GettingVariableAndSettingVariable(ActivatedJob job) {
+        /*
         log.info("strted userDetailsVerifier");
         System.out.println("strted userDetailsVerifier");
         boolean knowMe = true;
@@ -95,13 +96,15 @@ public class AuditRequestService {
                 .join();
 
         log.info("exists from userDetailsVerifier");
-        System.out.println("exits from userDetailsVerifier");
+        System.out.println("exits from userDetailsVerifier");*/
+        log.info("second task");
     }
 
 
     /**
      * it call getuserststus camunds task for save detials
      */
+    /*
     @JobWorker(type = "saveDataInDb", autoComplete = true)
     public void handleGetUserStatusCamundaTask(ActivatedJob job) {
         log.info("entered saveDeatils {} ", job.getVariable("email"));
@@ -131,6 +134,37 @@ public class AuditRequestService {
 
 
     }
+*/
+    @JobWorker(type = "saveDataInDb", autoComplete = true)
+    public void handleGetUserStatusCamundaTask(ActivatedJob job) {
+
+        log.info("Entered saveDetails task for order ID: {} and processIntanceIs : {}", job.getVariable("orderId"),job.getProcessInstanceKey());
+
+        ProcessDetails processDetails = ProcessDetails.builder()
+                .orderId((Integer) job.getVariable("orderId"))
+                .firstName((String) job.getVariable("firstName"))
+                .lastName((String) job.getVariable("lastName"))
+                .abn((String) job.getVariable("abn"))
+                .email((String) job.getVariable("email"))
+                .companyName((String) job.getVariable("companyName"))
+                .companyAddress((String) job.getVariable("companyAddress"))
+                .state((String) job.getVariable("state"))
+                .postalCode((String) job.getVariable("postalCode"))
+                .phoneNumber((Long) job.getVariable("phoneNumber"))
+                .processInstanceKey(job.getProcessInstanceKey())
+               // .taskId(job.getKey())
+                .createdAt(new Date())
+                .assignee(job.getCustomHeaders().get("assignee"))
+                .implementation(job.getType())
+                .build();
+
+        processDetailsRepository.save(processDetails);
+        log.info("Saved process details for order ID: {}", job.getVariable("orderId"));
+
+
+
+
+    }
 
 
     @JobWorker(type = "auditChargeCalculation", autoComplete = true)
@@ -152,6 +186,7 @@ public class AuditRequestService {
 
     }
 
+    //to start camunda
     public Object startCamunda(StartCamundadto dto) {
         log.info("start camunda service entered :{}", dto);
         return webClientConnectors.post()
@@ -159,8 +194,9 @@ public class AuditRequestService {
                 .retrieve()
                 .bodyToMono(Object.class)
                 .block();
-
     }
+
+
 
     /**
      * complete the task with rest api

@@ -15,7 +15,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
+@ToString(exclude = "cartItems")
 @Table(name = "ORDER_TABLE")
 public class Order {
 

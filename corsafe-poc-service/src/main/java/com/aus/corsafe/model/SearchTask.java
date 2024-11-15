@@ -11,4 +11,9 @@ import lombok.NoArgsConstructor;
 public class SearchTask {
 
     private boolean assigned;
+
+
+    private String processInstanceKey;
+
+
 }
