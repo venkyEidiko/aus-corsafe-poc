@@ -2,10 +2,15 @@ package com.aus.corsafe.service;
 
 
 import com.aus.corsafe.config.ApplicationConfig;
+import com.aus.corsafe.dto.PaymentStatusDto;
+import com.aus.corsafe.entity.Order;
 import com.aus.corsafe.entity.Payment;
+import com.aus.corsafe.exceptions.BadCrediantialsCls;
+import com.aus.corsafe.repository.OrderRepo;
 import com.aus.corsafe.repository.PaymentRepo;
 import com.razorpay.RazorpayClient;
 import com.razorpay.Refund;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +34,9 @@ public class PaymentService {
 
     @Autowired
     private PaymentRepo paymentRepo;
+
+    @Autowired
+    private OrderRepo orderRepo;
 
     private RazorpayClient client;
 
@@ -143,5 +151,23 @@ public class PaymentService {
     }
 
 
+    @Transactional
+    public Order updatePaymentStatus(PaymentStatusDto paymentStatusDto) {
+        log.info("entered updatePaymentStatus :{}", paymentStatusDto);
+
+        // Safely get the order
+        Order order = orderRepo.findByRazorPayOrderId(paymentStatusDto.getRazorPayOrderId())
+                .orElseThrow(() -> new BadCrediantialsCls("Order not found for RazorPay Order ID: " + paymentStatusDto.getRazorPayOrderId()));
+
+        log.info("order data: {}", order);
+
+        // Set Razorpay Payment ID and status
+        order.setRazorpayPaymentId(paymentStatusDto.getRazorpayPaymentId());  // Set the Razorpay payment ID
+        order.setOrderStatus(paymentStatusDto.getStatus());  // Update status, e.g., "Success" or "Failed"
+        System.out.println(order);
+
+        // Save the updated order
+        return orderRepo.save(order);
+    }
 
 }

@@ -5,9 +5,9 @@ import { Card, CardContent, Tooltip,Grid } from '@mui/material';
 import '../assets/styles/getproducts.css';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { Outlet } from 'react-router-dom';
-import {addToCart} from '../slice/CartSlice';
 import { postAddtocart } from '../slice/AddToCartSlice';
-
+import { fetchCartItems } from '../slice/DisplayCartItemsSlice';
+import { fetchTotalPrice } from '../slice/TotalPriceSlice';
 
 const GetProducts = () => {
     const dispatch = useDispatch();
@@ -27,7 +27,7 @@ const GetProducts = () => {
     }, [userId]);
 
     const handleAddToCart = (product) => {
-        console.log("djfhgddfg : ", product);
+       
         
         const { productId,price,name,stockQuantity } = product;
         if (!productId || !userId || !token ) {
@@ -36,11 +36,17 @@ const GetProducts = () => {
         }
     
         console.log("Adding to cart - User ID:", userId, "Product ID:", productId , "token: ",token,price,name); 
+             
       
-        dispatch(addToCart(product));
+        dispatch(postAddtocart({ userId, productId,token,stockQuantity })).then(() => {
+           
+            dispatch(fetchCartItems({ userId, token }));
+            dispatch(fetchTotalPrice({userId,token}));
+        })
+        .catch((error) => {
+            console.log("Failed to delete item:", error);
+        });
         
-      
-        dispatch(postAddtocart({ userId, productId,token,stockQuantity }));
     };
     if (status === 'loading') {
         return <p>Loading...</p>;

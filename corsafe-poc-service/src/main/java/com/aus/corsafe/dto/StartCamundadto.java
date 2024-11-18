@@ -21,5 +21,4 @@ public class StartCamundadto {
     private String state;
     private String postalCode;
     private Integer orderId;
-
 }

@@ -1,6 +1,6 @@
 package com.aus.corsafe.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,12 +33,11 @@ public class Order {
     private String orderStatus;  // "Pending" initially, "Success" after payment
     private Double amount;
     private Date orderDate;
-
+    private String razorpayPaymentId;
     private String razorPayOrderId;
     private Integer userId;
-
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonBackReference
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<CartItem> cartItems = new ArrayList<>();
 
 

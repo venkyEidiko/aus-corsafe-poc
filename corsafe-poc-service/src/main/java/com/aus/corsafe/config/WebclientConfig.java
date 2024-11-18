@@ -75,7 +75,6 @@ public class WebclientConfig {
 
 
 
-
     /**
      * used for to add authorization header with token
      */
@@ -90,7 +89,6 @@ public class WebclientConfig {
             );
         };
     }
-
 
     private String getToken() {
         if (token == null || isExpired(token)) {

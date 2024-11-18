@@ -50,7 +50,7 @@ public class OrderController {
             log.info("placeOrder controller if block");
 
             Order order = orderService.placeOrder(cart, user, dto.getAdress(), dto.getCity(), dto.getPostalcode(), dto.getArea());
-            return new CommonResponse<>().prepareSuccessResponseObject(ApplicationConfig.ORDER_CREATE_SUCCESS, HttpStatus.OK);
+            return new CommonResponse<>().prepareSuccessResponseObject(order, HttpStatus.OK);
         } else {
             log.info("placeOrder controller else block");
             // If either the user or cart is not found, return an error response

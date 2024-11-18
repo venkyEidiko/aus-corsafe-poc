@@ -104,37 +104,7 @@ public class AuditRequestService {
     /**
      * it call getuserststus camunds task for save detials
      */
-    /*
-    @JobWorker(type = "saveDataInDb", autoComplete = true)
-    public void handleGetUserStatusCamundaTask(ActivatedJob job) {
-        log.info("entered saveDeatils {} ", job.getVariable("email"));
-        log.info("entered saveDetails {} ", job.getVariable("orderId"));
 
-        long processInstanceKey = job.getProcessInstanceKey();
-        ProcessDetails processDetails = ProcessDetails.builder()
-                .orderId ((Integer) job.getVariable("orderId"))
-                .firstName((String) job.getVariable("firstName"))
-                .lastName((String) job.getVariable("lastName"))
-                .abn((String) job.getVariable("abn"))
-                .email((String) job.getVariable("email"))
-                .companyName((String) job.getVariable("companyName"))
-                .companyAddress((String) job.getVariable("companyAddress"))
-                .state((String) job.getVariable("state"))
-                .postalCode((String) job.getVariable("postalCode"))
-                .phoneNumber((Long) job.getVariable("phoneNumber"))
-                .processInstanceKey(job.getProcessInstanceKey())
-                .taskId(job.getKey())
-                .createdAt(new Date())
-                .assignee(job.getCustomHeaders().get("assignee"))
-                .implementation(job.getType())
-                .build();
-        log.info("All value setted ");
-        processDetailsRepository.save(processDetails);
-        log.info("saved");
-
-
-    }
-*/
     @JobWorker(type = "saveDataInDb", autoComplete = true)
     public void handleGetUserStatusCamundaTask(ActivatedJob job) {
 
@@ -166,6 +136,15 @@ public class AuditRequestService {
 
     }
 
+    //for start the camunda
+    public Object startCamunda(StartCamundadto dto) {
+        log.info("start camunda service entered :{}",dto);
+        return webClientConnectors.post()
+                .bodyValue(dto)
+                .retrieve()
+                .bodyToMono(Object.class)
+                .block();
+    }
 
     @JobWorker(type = "auditChargeCalculation", autoComplete = true)
     public void chargeCalculation(ActivatedJob job) {
@@ -185,18 +164,6 @@ public class AuditRequestService {
         return "Task Completed with jobKey: " + completeTask.getTaskId();
 
     }
-
-    //to start camunda
-    public Object startCamunda(StartCamundadto dto) {
-        log.info("start camunda service entered :{}", dto);
-        return webClientConnectors.post()
-                .bodyValue(dto)
-                .retrieve()
-                .bodyToMono(Object.class)
-                .block();
-    }
-
-
 
     /**
      * complete the task with rest api

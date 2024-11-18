@@ -1,20 +1,26 @@
 package com.aus.corsafe.controller;
 
 
+import com.aus.corsafe.dto.PaymentStatusDto;
+import com.aus.corsafe.entity.Order;
 import com.aus.corsafe.entity.Payment;
+import com.aus.corsafe.entity.ResponseModel;
 import com.aus.corsafe.repository.PaymentRepo;
+import com.aus.corsafe.response.CommonResponse;
 import com.aus.corsafe.service.PaymentService;
+import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
-
+@Slf4j
 @RestController
 @RequestMapping("/api/payments")
-@CrossOrigin(origins = "http://localhost:3000/**" , allowCredentials = "true")
+//@CrossOrigin(origins = "http://localhost:3000/**" , allowCredentials = "true")
 public class PaymentController {
 
 
@@ -99,7 +105,19 @@ public class PaymentController {
             return ResponseEntity.status(500).body("Error: " + e.getMessage());
         }
     }
+    //for update payment status in order table
+    @PostMapping("/updatePaymentStatus")
+    public ResponseEntity<ResponseModel<Object>> updatePaymentStatus(@RequestBody PaymentStatusDto dto) {
+        log.info("updatePaymentStatus controller entered");
 
+        try {
+            Order updatedOrder = paymentService.updatePaymentStatus(dto);
+            log.info("Received updatePaymentStatus request: razorPayOrderId={}, paymentId={}, status={}", dto.getRazorPayOrderId(), dto.getRazorpayPaymentId(), dto.getStatus());
+            return new CommonResponse<>().prepareSuccessResponseObject(updatedOrder, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new CommonResponse<>().prepareErrorResponseObject(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
 
 
 }

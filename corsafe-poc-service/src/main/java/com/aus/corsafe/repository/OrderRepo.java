@@ -12,4 +12,7 @@ public interface OrderRepo extends JpaRepository<Order,Integer> {
 
     List<Order> findByUserId(Integer userId);
 
+    Optional<Order> findByRazorPayOrderId(String razorPayOrderId);
+
 }
+

@@ -14,7 +14,6 @@ import java.util.List;
 @Data
 @Entity
 @Table(name="cart_info")
-@ToString
 public class Cart {
 
     @Id
@@ -40,4 +39,5 @@ public class Cart {
     public void updateTotalPrice() {
         this.totalPrice = items.stream().mapToDouble(CartItem::calculateTotalPrice).sum();
     }
+
 }
