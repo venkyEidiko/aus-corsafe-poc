@@ -2,6 +2,7 @@ package com.aus.corsafe.service.bpmnservice;
 
 import com.aus.corsafe.dto.CompleteTaskDto;
 import com.aus.corsafe.dto.CompleteTaskModel;
+import com.aus.corsafe.dto.StartCamundadto;
 import com.aus.corsafe.entity.UserRegister;
 import com.aus.corsafe.entity.auditrequest.ProcessDetails;
 import com.aus.corsafe.repository.ProcessDetailsRepository;
@@ -30,6 +31,10 @@ public class AuditRequestService {
 
     @Autowired
     private WebClient webClient;
+
+
+    @Autowired
+    private WebClient webClientConnectors;
 
 
     @Autowired
@@ -188,5 +193,14 @@ public class AuditRequestService {
 
         log.info("search task service class end ...");
         return list;
+    }
+
+    public Object  startCamunda(StartCamundadto dto) {
+        log.info("start camunda service entered :{}",dto);
+        return webClientConnectors.post()
+                .bodyValue(dto)
+                .retrieve()
+                .bodyToMono(Object.class)
+                .block();
     }
 }

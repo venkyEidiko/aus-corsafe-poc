@@ -19,6 +19,8 @@ import java.util.Date;
 @Slf4j
 public class WebclientConfig {
 
+    public static final String BASE_URL_CAMUNDA_CONNECTORS = "https://dsm-1.connectors.camunda.io/6feae57c-2f49-4861-a383-7c43f82db777/inbound/audit-request";
+
     @Value("${zeebe.client.cloud.clientId}")
     String clientId;
 
@@ -112,6 +114,15 @@ public class WebclientConfig {
                 .bodyToMono(AccessTokenModel.class)
                 .block();
         return token;
+    }
+
+    // WebClient for connectors API (no authorization needed)
+    @Bean
+    public WebClient webClientConnectors() {
+        return WebClient.builder()
+                .baseUrl(BASE_URL_CAMUNDA_CONNECTORS)
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .build();
     }
 
 }

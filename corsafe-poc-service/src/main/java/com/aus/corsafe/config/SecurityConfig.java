@@ -47,6 +47,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain config(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity.csrf(csrf -> csrf.disable())
+                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Add CORS configuration here
 
                 .authorizeHttpRequests(req->req.requestMatchers("/register","/login",
                         "/getAllSecurityQuestion","/refreshToken/**","getquestionByUserId/{userId}",

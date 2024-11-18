@@ -46,6 +46,30 @@
   "schemaVersion": 16
 }</zeebe:userTaskForm>
       <zeebe:userTaskForm id="UserTaskForm_0koa7an">{}</zeebe:userTaskForm>
+      <zeebe:userTaskForm id="UserTaskForm_0pgqj6i">{
+  "components": [
+    {
+      "label": "Text field",
+      "type": "textfield",
+      "layout": {
+        "row": "Row_1yu7qst",
+        "columns": null
+      },
+      "id": "Field_1qz1e64",
+      "key": "id",
+      "description": "auditor id"
+    }
+  ],
+  "type": "default",
+  "id": "select_auditor_form",
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.5.0",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.27.0"
+  },
+  "schemaVersion": 16
+}</zeebe:userTaskForm>
     </bpmn:extensionElements>
     <bpmn:startEvent id="StartEvent_1" zeebe:modelerTemplate="io.camunda.connectors.webhook.WebhookConnector.v1" zeebe:modelerTemplateVersion="10" zeebe:modelerTemplateIcon="data:image/svg+xml;base64,PHN2ZyBpZD0naWNvbicgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJyB3aWR0aD0nMTgnIGhlaWdodD0nMTgnIHZpZXdCb3g9JzAgMCAzMiAzMic+CiAgPGRlZnM+CiAgICA8c3R5bGU+LmNscy0xIHsgZmlsbDogbm9uZTsgfTwvc3R5bGU+CiAgPC9kZWZzPgogIDxwYXRoCiAgICBkPSdNMjQsMjZhMywzLDAsMSwwLTIuODE2NC00SDEzdjFhNSw1LDAsMSwxLTUtNVYxNmE3LDcsMCwxLDAsNi45Mjg3LDhoNi4yNTQ5QTIuOTkxNCwyLjk5MTQsMCwwLDAsMjQsMjZaJy8+CiAgPHBhdGgKICAgIGQ9J00yNCwxNmE3LjAyNCw3LjAyNCwwLDAsMC0yLjU3LjQ4NzNsLTMuMTY1Ni01LjUzOTVhMy4wNDY5LDMuMDQ2OSwwLDEsMC0xLjczMjYuOTk4NWw0LjExODksNy4yMDg1Ljg2ODYtLjQ5NzZhNS4wMDA2LDUuMDAwNiwwLDEsMS0xLjg1MSw2Ljg0MThMMTcuOTM3LDI2LjUwMUE3LjAwMDUsNy4wMDA1LDAsMSwwLDI0LDE2WicvPgogIDxwYXRoCiAgICBkPSdNOC41MzIsMjAuMDUzN2EzLjAzLDMuMDMsMCwxLDAsMS43MzI2Ljk5ODVDMTEuNzQsMTguNDcsMTMuODYsMTQuNzYwNywxMy44OSwxNC43MDhsLjQ5NzYtLjg2ODItLjg2NzctLjQ5N2E1LDUsMCwxLDEsNi44MTItMS44NDM4bDEuNzMxNSwxLjAwMmE3LjAwMDgsNy4wMDA4LDAsMSwwLTEwLjM0NjIsMi4wMzU2Yy0uNDU3Ljc0MjctMS4xMDIxLDEuODcxNi0yLjA3MzcsMy41NzI4WicvPgogIDxyZWN0IGlkPSdfVHJhbnNwYXJlbnRfUmVjdGFuZ2xlXycgZGF0YS1uYW1lPScmbHQ7VHJhbnNwYXJlbnQgUmVjdGFuZ2xlJmd0OycgY2xhc3M9J2Nscy0xJwogICAgd2lkdGg9JzMyJyBoZWlnaHQ9JzMyJy8+Cjwvc3ZnPg==">
       <bpmn:extensionElements>
@@ -71,7 +95,10 @@
       <bpmn:incoming>Flow_0udr285</bpmn:incoming>
       <bpmn:outgoing>Flow_01fyv6b</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:userTask id="Activity_13mrqed" name="Select Auditor">
+    <bpmn:userTask id="selectauditor" name="Select Auditor">
+      <bpmn:extensionElements>
+        <zeebe:formDefinition formKey="camunda-forms:bpmn:UserTaskForm_0pgqj6i" />
+      </bpmn:extensionElements>
       <bpmn:incoming>Flow_12qw1og</bpmn:incoming>
       <bpmn:outgoing>Flow_0nju4lc</bpmn:outgoing>
     </bpmn:userTask>
@@ -84,7 +111,7 @@
       <bpmn:incoming>Flow_0lmbaxh</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_06x53m1" sourceRef="knowMe" targetRef="mailsend" />
-    <bpmn:sequenceFlow id="Flow_12qw1og" sourceRef="auditorlist" targetRef="Activity_13mrqed" />
+    <bpmn:sequenceFlow id="Flow_12qw1og" sourceRef="auditorlist" targetRef="selectauditor" />
     <bpmn:serviceTask id="auditorlist" name="auditorList">
       <bpmn:extensionElements>
         <zeebe:taskDefinition type="ok1" />
@@ -92,15 +119,15 @@
       <bpmn:incoming>Flow_01fyv6b</bpmn:incoming>
       <bpmn:outgoing>Flow_12qw1og</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="Flow_0v0xmzp" sourceRef="Activity_1xkzlzp" targetRef="Activity_1qyqdco" />
-    <bpmn:serviceTask id="Activity_1xkzlzp" name="auditor updation">
+    <bpmn:sequenceFlow id="Flow_0v0xmzp" sourceRef="update_auditor_data" targetRef="Activity_1qyqdco" />
+    <bpmn:serviceTask id="update_auditor_data" name="auditor updation">
       <bpmn:extensionElements>
-        <zeebe:taskDefinition type="ok" />
+        <zeebe:taskDefinition type="ok2" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_0nju4lc</bpmn:incoming>
       <bpmn:outgoing>Flow_0v0xmzp</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:sequenceFlow id="Flow_0nju4lc" sourceRef="Activity_13mrqed" targetRef="Activity_1xkzlzp" />
+    <bpmn:sequenceFlow id="Flow_0nju4lc" sourceRef="selectauditor" targetRef="update_auditor_data" />
     <bpmn:businessRuleTask id="knowMe" name="Get User Status">
       <bpmn:extensionElements>
         <zeebe:taskDefinition type="saveDataInDb" />
@@ -148,7 +175,7 @@
       <bpmndi:BPMNShape id="Activity_1rpjxu3_di" bpmnElement="Activity_0q1m9sc">
         <dc:Bounds x="460" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1qfluyk_di" bpmnElement="Activity_13mrqed">
+      <bpmndi:BPMNShape id="Activity_1qfluyk_di" bpmnElement="selectauditor">
         <dc:Bounds x="760" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Activity_0uw0oja_di" bpmnElement="Activity_1qyqdco">
@@ -161,7 +188,7 @@
         <dc:Bounds x="602" y="80" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0jdnemw_di" bpmnElement="Activity_1xkzlzp">
+      <bpmndi:BPMNShape id="Activity_0jdnemw_di" bpmnElement="update_auditor_data">
         <dc:Bounds x="930" y="80" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>

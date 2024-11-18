@@ -11,6 +11,7 @@ import GetProducts from './pages/GetProducts';
 import AddToCart from './pages/AddToCart';
 import CustomerAddress from './pages/CustomerAddress';
 import Payment from './pages/Payment';
+import ReviewAudit from './pages/ReviewAudit';
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
           <Route path="/security" element={<RegistrationForm />} />
           <Route path="/login" element={<Login />} />
           <Route path="/auth/callback" element={<AuthCallback />} />
+          <Route path="/reviewAudit" element={<ReviewAudit />} />
    
           <Route path="/allProducts" element={<GetProducts />}>
             <Route path="addTocart" element={<AddToCart />} />

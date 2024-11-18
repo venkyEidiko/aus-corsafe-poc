@@ -2,6 +2,7 @@ package com.aus.corsafe.controller;
 
 import com.aus.corsafe.dto.CompleteTaskDto;
 import com.aus.corsafe.dto.CompleteTaskModel;
+import com.aus.corsafe.dto.StartCamundadto;
 import com.aus.corsafe.model.AssignTask;
 import com.aus.corsafe.model.SearchTask;
 import com.aus.corsafe.service.bpmnservice.AuditRequestService;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/auditRequest")
 @Slf4j
+@CrossOrigin(origins = "http://localhost:3000/**", allowCredentials = "true")
 public class AuditRequestCamundaController {
 
     @Autowired
@@ -41,6 +43,12 @@ public class AuditRequestCamundaController {
         log.info("search task controller entered");
 
         return auditRequestService.getSearchTask(searchTask);
+    }
+
+    @PostMapping("/startTask")
+    public Object startCamunda(@RequestBody StartCamundadto dto){
+        log.info("start camunda controller entered");
+        return auditRequestService.startCamunda(dto);
     }
 
 }

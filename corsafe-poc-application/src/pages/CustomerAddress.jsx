@@ -99,7 +99,7 @@ const CustomerAddress = () => {
               // After successful payment, update the order status to "Success" and set the payment ID
               updatePaymentStatus(options.order_id, paymentResponse.razorpay_payment_id)
               .then(() => {
-                navigate("/allProducts");
+                navigate("/reviewAudit");
               });
             
               
