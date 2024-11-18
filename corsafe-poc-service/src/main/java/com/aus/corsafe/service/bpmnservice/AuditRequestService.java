@@ -97,7 +97,7 @@ public class AuditRequestService {
     /**
      * it call getuserststus camunds task for save detials
      */
-    @JobWorker(type = "saveDataInDb", autoComplete = true)
+    //@JobWorker(type = "saveDataInDb", autoComplete = true)
     public void handleGetUserStatusCamundaTask(ActivatedJob job) {
         log.info("entered handejob", job.getVariable("email"));
 

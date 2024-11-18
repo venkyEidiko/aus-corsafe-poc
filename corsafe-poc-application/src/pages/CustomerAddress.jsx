@@ -97,7 +97,7 @@ const CustomerAddress = () => {
           
             updatePaymentStatus(options.order_id, paymentResponse.razorpay_payment_id)
             .then(() => {
-              navigate("/allProducts/addTocart");
+              navigate("/reviewAudit");
             });
           },
           prefill: {
@@ -166,7 +166,7 @@ const CustomerAddress = () => {
     
     placeOrder(orderData);
     handlestartProcess();
-    navigate('/allProducts');
+   
   };
 
   return (

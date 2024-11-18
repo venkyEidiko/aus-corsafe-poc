@@ -9,6 +9,7 @@ import GetProducts from './pages/GetProducts';
 import AddToCart from './pages/AddToCart';
 import CustomerAddress from './pages/CustomerAddress';
 import Payment from './pages/Payment';
+import ReviewAudit from './pages/ReviewAudit';
 
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
             <Route path="address" element={<CustomerAddress />} />
             <Route path="payment" element={<Payment />} />
           </Route>
+          <Route path='/reviewAudit' element={<ReviewAudit/>}/>
         </Routes>
       </BrowserRouter>
 
