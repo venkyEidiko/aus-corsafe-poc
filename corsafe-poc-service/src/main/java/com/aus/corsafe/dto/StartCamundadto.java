@@ -10,16 +10,16 @@ import org.springframework.stereotype.Component;
 @Data
 @Component
 public class StartCamundadto {
+    private Integer userId;
     private String firstName;
     private String lastName;
     private String email;
     private Long phoneNumber;
-    // private String password;
     private String abn;
     private String companyName;
     private String companyAddress;
     private String state;
     private String postalCode;
-
+    private Integer orderId;
 
 }
