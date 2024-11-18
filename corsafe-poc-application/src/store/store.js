@@ -4,13 +4,20 @@ import {thunk} from 'redux-thunk';
 import { combineReducers } from 'redux';
 import registerReducer from '../reducers/registerReducer';
 import loginReducer from '../reducers/loginReducer';
-import productReducer from '../slice/ProductSlice';
-import cartReducer from '../slice/CartSlice';
+import productReducer from '../slice/ProductSlice'
+
+import { counterReducer } from '../slice/QuantitySlice';
+import cartItemReducer from '../slice/DisplayCartItemsSlice';
+import addcartReducer from '../slice/AddToCartSlice';
+import TotalPriceReducer from '../slice/TotalPriceSlice';
 const rootReducer = combineReducers({
   register: registerReducer,
   auth: loginReducer,
   products:productReducer,
-  cart:cartReducer,
+  carts:cartItemReducer,
+  addcart:addcartReducer,
+  totalprice:TotalPriceReducer,
+  counter:counterReducer
   
 });
 

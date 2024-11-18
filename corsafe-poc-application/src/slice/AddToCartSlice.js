@@ -33,6 +33,7 @@ export const postAddtocart = createAsyncThunk(
 
 const initialState = {
     addTocart: null,
+    cartId:null,
     error: null,
     status: 'idle' 
 };
@@ -50,6 +51,8 @@ const cartSlice = createSlice({
             .addCase(postAddtocart.fulfilled, (state, action) => {
                 state.status = 'succeeded';
                 state.addTocart = action.payload;
+                console.log("Response result:", action.payload.result[0]?.cartId);
+                state.cartId = action.payload.result[0]?.cartId || null; 
                 state.error = null;
             })
             .addCase(postAddtocart.rejected, (state, action) => {

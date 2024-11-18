@@ -24,7 +24,7 @@ import java.util.Optional;
 @Slf4j
 @RestController
 @RequestMapping("/cart")
-@CrossOrigin(origins = "http://localhost:3000/**", allowCredentials = "true")
+//@CrossOrigin(origins = "http://localhost:3000/**", allowCredentials = "true")
 public class CartController {
 
 
@@ -110,16 +110,17 @@ public class CartController {
         }
     }
 
-    @GetMapping("/cartitems/{cartId}")
-    public ResponseEntity<ResponseModel<Object>> getCartItems(@PathVariable Long cartId) {
+
+    @GetMapping("/cartitems/{userId}")
+    public ResponseEntity<ResponseModel<Object>> getCartItems(@PathVariable int userId) {
         try {
-            List<CartItem> cartItems = cartService.getCartItemsByCartId(cartId);
+            List<CartItem> cartItems = cartService.getCartItemsByCartId(userId);
             if (cartItems.isEmpty()) {
                 return new CommonResponse<>().prepareErrorResponseObject(ApplicationConfig.NO_ITEMS_FOUND, HttpStatus.NO_CONTENT);
             }
             return new CommonResponse<>().prepareSuccessResponseObject(cartItems, HttpStatus.OK);
         } catch (Exception e) {
-            log.error("Error retrieving cart items for cartId {}: {}", cartId, e.getMessage());
+            log.error("Error retrieving cart items for cartId {}: {}", userId, e.getMessage());
             return new CommonResponse<>().prepareErrorResponseObject(ApplicationConfig.INTERNAL_SERVER_ERROR, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -140,7 +141,7 @@ public class CartController {
     }
 
 
-        @GetMapping("/getTotalPrice/{userId}")
+    @GetMapping("/getTotalPrice/{userId}")
     public ResponseEntity<ResponseModel<Object>> getTotalPriceFromCart(@PathVariable Integer userId) {
         try {
             Map<String, Object> cartDetails = cartService.getTotalPrice(userId);

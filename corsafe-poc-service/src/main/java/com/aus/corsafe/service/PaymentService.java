@@ -12,6 +12,7 @@ import com.razorpay.RazorpayClient;
 import com.razorpay.RazorpayException;
 import com.razorpay.Refund;
 import com.razorpay.Utils;
+
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Hex;
@@ -186,12 +187,9 @@ public class PaymentService {
     }
 
 
-
-
     @Transactional
     public Order updatePaymentStatus(PaymentStatusDto paymentStatusDto) {
         log.info("entered updatePaymentStatus :{}", paymentStatusDto);
-
         // Safely get the order
         Order order = orderRepo.findByRazorPayOrderId(paymentStatusDto.getRazorPayOrderId())
                 .orElseThrow(() -> new BadCrediantialsCls("Order not found for RazorPay Order ID: " + paymentStatusDto.getRazorPayOrderId()));
@@ -206,5 +204,6 @@ public class PaymentService {
         // Save the updated order
         return orderRepo.save(order);
     }
+
 
 }

@@ -1,4 +1,5 @@
 package com.aus.corsafe.dto;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

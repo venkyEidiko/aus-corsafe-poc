@@ -106,11 +106,10 @@ public class PaymentController {
             return ResponseEntity.status(500).body("Error: " + e.getMessage());
         }
     }
-
+    //for update payment status in order table
     @PostMapping("/updatePaymentStatus")
     public ResponseEntity<ResponseModel<Object>> updatePaymentStatus(@RequestBody PaymentStatusDto dto) {
         log.info("updatePaymentStatus controller entered");
-
         try {
             Order updatedOrder = paymentService.updatePaymentStatus(dto);
             log.info("Received updatePaymentStatus request: razorPayOrderId={}, paymentId={}, status={}", dto.getRazorPayOrderId(), dto.getRazorpayPaymentId(), dto.getStatus());

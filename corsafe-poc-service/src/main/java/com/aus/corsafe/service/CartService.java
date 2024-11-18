@@ -187,12 +187,11 @@ public class CartService {
     }
 
 
-    public List<CartItem> getCartItemsByCartId(Long cartId) throws ProductNotFoundException {
-        Cart cart = cartRepository.findById(cartId)
-                .orElseThrow(() -> new ProductNotFoundException("Cart not found with ID: " + cartId));
+    public List<CartItem> getCartItemsByCartId(int userId) throws ProductNotFoundException {
+        Cart cart = cartRepository.findByUserId(userId)
+                .orElseThrow(() -> new ProductNotFoundException("Cart not found with ID: " + userId));
         return cart.getItems();
     }
-
     //get total price from cart table
     public Map<String, Object> getTotalPrice(Integer userId) {
 

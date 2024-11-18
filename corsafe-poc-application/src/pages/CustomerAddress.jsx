@@ -5,15 +5,18 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 // import { useDispatch } from 'react-redux';
 
-
 const CustomerAddress = () => {
   const navigate = useNavigate();
-  // const dispatch = useDispatch();
-  const user = useSelector((state) => state.auth.userDetails);
+
   const token = useSelector((state) => state.auth.jwtToken);
+  const userId = useSelector((state) => state.auth.userDetails?.userId);
+  const cartId = useSelector((state) => state.totalprice?.cartId);
+  const userdetails = useSelector((state)=>state.auth.userDetails);
+  console.log(" startProcess userDetails : ", userdetails);
+  
+
   const [formData, setFormData] = useState({
-    fullName: '',
-    phoneNumber: '',
+   
     state: '',
     pincode: '',
     city: '',
@@ -27,8 +30,6 @@ const CustomerAddress = () => {
       [e.target.name]: e.target.value
     });
   };
-
-  // Function to save payment
   const savePayment = (payment_id) => {
     return axios.post(
       `http://localhost:8086/api/payments/save/${payment_id}`,
@@ -46,9 +47,6 @@ const CustomerAddress = () => {
       console.error("Error saving payment:", error.response ? error.response.data : error.message);
     });
   };
-
-
-
   const updatePaymentStatus = (order_id, payment_id) => {
     return axios.post(
       'http://localhost:8086/api/payments/updatePaymentStatus',
@@ -64,7 +62,7 @@ const CustomerAddress = () => {
       }
     ).then((response) => {
       console.log('Order status updated to Success.');
-      // Call savePayment after updating status
+      
       return savePayment(payment_id);
     }).catch((error) => {
       console.error('Failed to update order status', error);
@@ -78,7 +76,7 @@ const CustomerAddress = () => {
         orderData,
         {
           headers: {
-            Authorization: `Bearer ${token}`  // Passing token in Authorization header
+            Authorization: `Bearer ${token}`  
           }
         }
       );
@@ -94,20 +92,18 @@ const CustomerAddress = () => {
           name: 'Your Company Name',
           description: 'Order Payment',
           order_id: response.data.result[0].razorPayOrderId,
-           handler: function (paymentResponse) {
-          console.log("Payment response: ", paymentResponse);
-              // After successful payment, update the order status to "Success" and set the payment ID
-              updatePaymentStatus(options.order_id, paymentResponse.razorpay_payment_id)
-              .then(() => {
-                navigate("/reviewAudit");
-              });
-            
-              
+          handler: function (paymentResponse) {
+            console.log("Payment response: ", paymentResponse);
+          
+            updatePaymentStatus(options.order_id, paymentResponse.razorpay_payment_id)
+            .then(() => {
+              navigate("/reviewAudit");
+            });
           },
           prefill: {
-              name: user.firstName,
-              email: user.email,
-              contact: user.phoneNumber,
+              // name: user.firstName,
+              // email: user.email,
+              // contact: user.phoneNumber,
           },
           theme: {
               color: '#F37254',
@@ -123,13 +119,44 @@ const CustomerAddress = () => {
     }
   };
   
+  const handlestartProcess = async() =>{
+    try{
+      const processResponse = axios.post('http://localhost:8086/auditRequest/startTask',
+        {
+          
+            firstName:userdetails.firstName,
+            lastName:userdetails.lastName,
+            email:userdetails.email,
+            phoneNumber:userdetails.phoneNumber,
+             abn:userdetails.abn,
+             companyName:userdetails.abn,
+             companyAddress:userdetails.companyAddress,
+             state:userdetails.state,
+             postalCode:userdetails.postalCode
+        
+        },
+       
+        
+        {
+          headers:{
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+      console.log("startProcess : ",processResponse);
+      
+    }catch(error){
+      console.log("failed to start : ",error);
+      
+    }
+  }
   const handleSubmit = (e) => {
     e.preventDefault();
     //  dispatch(postCustomerAddress(formData)); 
     console.log("address details : ", formData);
     const orderData = {
-      userId: user.userId,
-      cartId: 6952,
+      userId: userId,
+      cartId: cartId,
       adress: formData.houseNumber + formData.street,
       city: formData.city,
       postalcode: formData.pincode,
@@ -138,7 +165,8 @@ const CustomerAddress = () => {
     console.log("order data request ",orderData);
     
     placeOrder(orderData);
-    //navigate('/allProducts/payment');
+    handlestartProcess();
+   
   };
 
   return (
@@ -147,23 +175,8 @@ const CustomerAddress = () => {
         <CardContent>
           <p style={{ fontSize: '24px', margin: '20px' }}>Please fill in all details</p>
           <form onSubmit={handleSubmit}>
-            <TextField
-              label="Full Name"
-              name="fullName"
-              value={formData.fullName}
-              onChange={handleChange}
-              fullWidth
-              variant="standard"
-            />
-            <TextField
-              label="Phone Number"
-              name="phoneNumber"
-              value={formData.phoneNumber}
-              onChange={handleChange}
-              fullWidth
-              variant="standard"
-            />
-            <div style={{ display: 'flex', flexDirection: 'row', gap: 20 }}>
+          
+              <div style={{ display: 'flex', flexDirection: 'row', gap: 20 }}>
               <TextField
                 label="State"
                 name="state"

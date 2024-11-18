@@ -1,95 +1,97 @@
+import Checkbox from '@mui/material/Checkbox';
+import { Button, Card, CardContent, FormControlLabel } from '@mui/material';
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import '../assets/styles/reviewAudits.css';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
-function ReviewAudit() {
+const ReviewAudit = () => {
   const token = useSelector((state) => state.auth.jwtToken);
-  const [agreements, setAgreements] = useState({
-    framework: false,
-    profileAccess: false,
-    termsAndConditions: false
-  });
+  console.log("review token : ",token);
+  
+  
+  const data = [
+    {
+      "text": "Please agree to framework"
+    },
+    {
+      "text": "Agree to access your profile by auditor"
+    },
+    {
+      "text": "Agree to ts&cs"
+    }
+  ];
 
-  const handleChange = (event) => {
-    const { name, checked } = event.target;
-    setAgreements((prev) => ({ ...prev, [name]: checked }));
+  const [variables, setVariables] = useState([
+    {
+      "name": "agreeToFrameWork",
+      "value": false 
+    },
+    {
+      "name": "agreeToProfileAccess",
+      "value": false
+    },
+    {
+      "name": "agreeToTC",
+      "value": false
+    }
+  ]);
+
+ 
+  const handleCheckboxChange = (event, index) => {
+    const updatedVariables = [...variables];
+    updatedVariables[index].value = event.target.checked;
+    setVariables(updatedVariables);
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    // Ensure all checkboxes are checked
-    if (!Object.values(agreements).every(Boolean)) {
-      alert('Please agree to all terms before submitting.');
-      return;
-    }
-
-    if (!token) {
-      alert('Authorization token is missing. Please log in again.');
-      return;
-    }
-
-    // Prepare the data for the API request
-    const requestData = {
-      taskId: 6755399442995549,
-      variables: [
-        { name: "agreeToFrameWork", value: agreements.framework },
-        { name: "agreeToProfileAccess", value: agreements.profileAccess },
-        { name: "agreeToTC", value: agreements.termsAndConditions }
-      ]
-    };
-
+  
+  const handleSubmit = async () => {
     try {
-      // Send POST request using axios
-      const response = await axios.post(
-        "http://localhost:8086/auditRequest/completeTask1",
-        requestData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
-          }
+      console.log("datataaaaaa: ",variables);
+      
+      const response = await axios.post('http://loaclhost:8086/auditRequest/completeTask1', { variables }, {
+        headers: {
+          Authorization: `Bearer ${token}`
         }
-      );
-
-      // Handle successful response
-      alert("Form submitted successfully!");
-      console.log("Response:", response.data);
-
+      });
+      console.log("Data audit response: ", response);
     } catch (error) {
-      // Handle error response
-      console.error("Error submitting form:", error);
-      alert("Failed to submit form. Please try again.");
+      console.error("Failed to post data:", error);
     }
   };
 
   return (
-    <div style={{ maxWidth: '400px', margin: '0 auto', padding: '20px', border: '1px solid #ddd', borderRadius: '8px', boxShadow: '0px 0px 8px rgba(0,0,0,0.1)' }}>
-      <h3>Terms and Conditions</h3>
-      <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: '10px' }}>
-          <label>
-            <input type="checkbox" name="framework" checked={agreements.framework} onChange={handleChange} />
-            Please agree to framework
-          </label>
-        </div>
-
-        <div style={{ marginBottom: '10px' }}>
-          <label>
-            <input type="checkbox" name="profileAccess" checked={agreements.profileAccess} onChange={handleChange} />
-            Agree to access your profile by auditor
-          </label>
-        </div>
-
-        <div style={{ marginBottom: '10px' }}>
-          <label>
-            <input type="checkbox" name="termsAndConditions" checked={agreements.termsAndConditions} onChange={handleChange} />
-            Agree to Terms & Conditions
-          </label>
-        </div>
-
-        <button type="submit" style={{ padding: '8px 16px', background: '#4CAF50', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}>Submit</button>
-      </form>
+    <div className="card-container">
+      <p className="heading">Please tick the checkboxes to confirm your preferences.</p>
+      <Card elevation={6} style={{ backgroundColor: '#bdbdbd', width: '500px', maxHeight: '80vh' }}>
+        <CardContent>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', marginLeft: '70px', marginRight: '50px' }}>
+            {
+              data.map((message, i) => (
+                <FormControlLabel
+                  key={i}
+                  control={
+                    <Checkbox
+                      checked={variables[i].value}
+                      onChange={(event) => handleCheckboxChange(event, i)}
+                    />
+                  }
+                  label={message.text}
+                />
+              ))
+            }
+          </div>
+        </CardContent>
+      </Card>
+      <Button
+        style={{
+          backgroundColor: '#1e88e5',
+          color: 'white'
+        }}
+        onClick={handleSubmit}
+      >
+        Submit
+      </Button>
     </div>
   );
 }

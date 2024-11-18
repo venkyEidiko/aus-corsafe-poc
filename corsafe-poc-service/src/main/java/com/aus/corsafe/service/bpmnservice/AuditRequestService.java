@@ -32,10 +32,8 @@ public class AuditRequestService {
     @Autowired
     private WebClient webClient;
 
-
     @Autowired
     private WebClient webClientConnectors;
-
 
     @Autowired
     ZeebeClient client;
@@ -99,7 +97,7 @@ public class AuditRequestService {
     /**
      * it call getuserststus camunds task for save detials
      */
-    @JobWorker(type = "saveDataInDb", autoComplete = true)
+    //@JobWorker(type = "saveDataInDb", autoComplete = true)
     public void handleGetUserStatusCamundaTask(ActivatedJob job) {
         log.info("entered handejob", job.getVariable("email"));
 
@@ -126,6 +124,15 @@ public class AuditRequestService {
 
     }
 
+    //for start the camunda
+    public Object startCamunda(StartCamundadto dto) {
+        log.info("start camunda service entered :{}",dto);
+        return webClientConnectors.post()
+                .bodyValue(dto)
+                .retrieve()
+                .bodyToMono(Object.class)
+                .block();
+    }
 
     @JobWorker(type = "auditChargeCalculation", autoComplete = true)
     public void chargeCalculation(ActivatedJob job) {
@@ -195,12 +202,4 @@ public class AuditRequestService {
         return list;
     }
 
-    public Object  startCamunda(StartCamundadto dto) {
-        log.info("start camunda service entered :{}",dto);
-        return webClientConnectors.post()
-                .bodyValue(dto)
-                .retrieve()
-                .bodyToMono(Object.class)
-                .block();
-    }
 }
